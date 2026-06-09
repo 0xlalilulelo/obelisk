@@ -6,9 +6,22 @@ import sys
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+from slowapi.errors import RateLimitExceeded
+from slowapi.middleware import SlowAPIMiddleware
+from starlette.requests import Request
 
 from obelisk_api.config import get_settings
-from obelisk_api.routes import athlete, blocks, health
+from obelisk_api.ratelimit import limiter
+from obelisk_api.routes import athlete, blocks, health, log, wearable
+
+
+def _rate_limit_handler(request: Request, exc: Exception) -> JSONResponse:
+    detail = getattr(exc, "detail", "too many requests")
+    return JSONResponse(
+        status_code=429,
+        content={"detail": f"Rate limit exceeded: {detail}"},
+    )
 
 
 def _ensure_utf8_streams() -> None:
@@ -39,6 +52,12 @@ def create_app() -> FastAPI:
         description="AI-native performance coaching — the Block Coach as a service.",
     )
 
+    # Per-user rate limiting (slowapi). Disabled in unit tests via settings.
+    limiter.enabled = settings.rate_limit_enabled
+    app.state.limiter = limiter
+    app.add_exception_handler(RateLimitExceeded, _rate_limit_handler)
+    app.add_middleware(SlowAPIMiddleware)
+
     app.add_middleware(
         CORSMiddleware,
         allow_origins=settings.cors_origins,
@@ -51,6 +70,8 @@ def create_app() -> FastAPI:
     app.include_router(health.router, prefix=v1_prefix)
     app.include_router(athlete.router, prefix=v1_prefix)
     app.include_router(blocks.router, prefix=v1_prefix)
+    app.include_router(log.router, prefix=v1_prefix)
+    app.include_router(wearable.router, prefix=v1_prefix)
 
     return app
 

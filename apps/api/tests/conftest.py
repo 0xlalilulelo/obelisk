@@ -7,6 +7,12 @@ api.yml CI green without secrets or services.
 
 from __future__ import annotations
 
+import os
+
+# Unit tests exercise route contracts, not throughput — disable per-user rate
+# limiting so a fast-looping test can't trip the limiter. Set before app import.
+os.environ.setdefault("RATE_LIMIT_ENABLED", "false")
+
 from collections.abc import Callable, Iterator
 from types import SimpleNamespace
 from typing import Any

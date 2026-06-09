@@ -45,6 +45,9 @@ class Settings(BaseSettings):
     sentry_dsn: str = ""
     environment: str = "development"
 
+    # --- Rate limiting (slowapi; PRD security checklist) ---
+    rate_limit_enabled: bool = True
+
     # --- CORS (desktop dev server + Tauri origin) ---
     cors_origins: list[str] = [
         "http://localhost:1420",

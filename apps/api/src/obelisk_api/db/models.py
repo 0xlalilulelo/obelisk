@@ -73,6 +73,15 @@ class AthleteProfile(Base):
     days_per_week: Mapped[int] = mapped_column(Integer, default=3)
     injuries: Mapped[list[Any]] = mapped_column(JSONType, default=list)
     primary_modality: Mapped[str] = mapped_column(String, default="hybrid")
+    # --- Notification preferences (PRD §2.3) ---
+    apns_device_token: Mapped[str | None] = mapped_column(String, nullable=True)
+    timezone: Mapped[str] = mapped_column(String, default="America/New_York")
+    morning_ping_enabled: Mapped[bool] = mapped_column(Boolean, default=True)
+    morning_ping_time: Mapped[str] = mapped_column(String, default="07:00")  # local HH:MM
+    weekly_recap_enabled: Mapped[bool] = mapped_column(Boolean, default=True)
+    event_notifications_enabled: Mapped[bool] = mapped_column(Boolean, default=True)
+    quiet_hours_start: Mapped[str] = mapped_column(String, default="22:00")
+    quiet_hours_end: Mapped[str] = mapped_column(String, default="06:00")
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
@@ -189,6 +198,65 @@ class Artifact(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
     block: Mapped[Block] = relationship(back_populates="artifacts")
+
+
+class WearableSample(Base):
+    """A single sample ingested from a wearable source (PRD §2.2).
+
+    Treated as PHI-adjacent: never logged in plaintext. Deduplicated on
+    ``dedup_key`` = "{athlete}:{source}:{sample_uuid}" so re-syncing HealthKit's
+    rolling window is idempotent.
+    """
+
+    __tablename__ = "wearable_samples"
+
+    id: Mapped[uuid.UUID] = _uuid_pk()
+    athlete_id: Mapped[uuid.UUID] = mapped_column(
+        Uuid(as_uuid=True), ForeignKey("athlete_profiles.id"), index=True
+    )
+    source: Mapped[str] = mapped_column(String)  # "healthkit" | "strava" | …
+    sample_type: Mapped[str] = mapped_column(String)  # bodyweight|sleep|hr|rhr|hrv|workout
+    occurred_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), index=True)
+    duration_sec: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    value: Mapped[float | None] = mapped_column(Float, nullable=True)
+    unit: Mapped[str | None] = mapped_column(String, nullable=True)
+    raw: Mapped[Any] = mapped_column(JSONType, default=dict)
+    dedup_key: Mapped[str] = mapped_column(String, unique=True, index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+    __table_args__ = (
+        Index("ix_wearable_athlete_type_occurred", "athlete_id", "sample_type", "occurred_at"),
+    )
+
+
+class Subscription(Base):
+    """Billing state — single source of truth across iOS (StoreKit) and desktop
+    (Stripe). The athlete's tier is read from here on every authenticated request
+    (PRD §2.6)."""
+
+    __tablename__ = "subscriptions"
+
+    id: Mapped[uuid.UUID] = _uuid_pk()
+    user_id: Mapped[uuid.UUID] = mapped_column(
+        Uuid(as_uuid=True), ForeignKey("users.id"), unique=True, index=True
+    )
+    tier: Mapped[str] = mapped_column(String, default="free")  # "free" | "plus"
+    source: Mapped[str] = mapped_column(String, default="free")  # apple|stripe|promo|free
+    apple_original_transaction_id: Mapped[str | None] = mapped_column(
+        String, nullable=True, index=True
+    )
+    stripe_customer_id: Mapped[str | None] = mapped_column(String, nullable=True, index=True)
+    stripe_subscription_id: Mapped[str | None] = mapped_column(String, nullable=True, index=True)
+    status: Mapped[str] = mapped_column(
+        String, default="active"
+    )  # active|canceled|expired|in_grace
+    period_start: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    period_end: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    canceled_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
+    )
 
 
 class PlanEdit(Base):

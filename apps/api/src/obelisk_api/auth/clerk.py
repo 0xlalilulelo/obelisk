@@ -14,7 +14,7 @@ from functools import lru_cache
 from typing import Any
 
 import jwt
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException, Request, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -78,6 +78,7 @@ def get_token_claims(
 
 
 def require_user(
+    request: Request,
     claims: dict[str, Any] = Depends(get_token_claims),
     db: Session = Depends(get_db),
 ) -> User:
@@ -93,6 +94,8 @@ def require_user(
         user = User(clerk_user_id=clerk_user_id, email=email)
         db.add(user)
         db.flush()  # assign PK without ending the request transaction
+    # Stash the user id so the slowapi key_func can rate-limit per athlete.
+    request.state.rate_limit_user = str(user.id)
     return user
 
 
