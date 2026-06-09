@@ -1,0 +1,13 @@
+{
+  "name": "Mara",
+  "age": 28,
+  "sex": "female",
+  "bodyweight_lb": 145,
+  "height_in": 65,
+  "training_age_months": 18,
+  "estimated_1rm": {"back_squat": 135, "deadlift": 175, "bench_press": 85, "strict_press": 65},
+  "days_per_week": 4,
+  "equipment": "full_gym",
+  "primary_goals": ["lose weight for wedding"],
+  "injuries": []
+}

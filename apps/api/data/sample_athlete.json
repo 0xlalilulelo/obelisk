@@ -1,0 +1,28 @@
+{
+  "name": "Josh",
+  "age": 34,
+  "bodyweight_lb": 175,
+  "height_in": 74,
+  "resting_hr_bpm": 59,
+  "estimated_1rm": {
+    "back_squat": 259,
+    "deadlift": 336,
+    "bench_press": 182,
+    "strict_press": 123,
+    "front_squat": 248,
+    "power_clean": 182
+  },
+  "max_strict_pullups": 10,
+  "weighted_pullup_3rm_total_lb": 190,
+  "lattice_20mm_load_pct_bw": 108.5,
+  "max_bw_hang_sec": 12,
+  "maf_test_distance_mi": 2.26,
+  "maf_pace_min_per_mi": "13:43",
+  "row_2k_time": "8:04",
+  "ruck_60min_distance_mi_at_35lb": 4.38,
+  "mobility_screen_all_pass": true,
+  "primary_goals": ["tactical readiness", "climbing"],
+  "equipment": "full_gym",
+  "days_per_week": 6,
+  "injuries": []
+}

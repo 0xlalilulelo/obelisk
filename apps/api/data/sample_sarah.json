@@ -1,0 +1,30 @@
+{
+  "name": "Sarah",
+  "age": 32,
+  "sex": "female",
+  "bodyweight_lb": 165,
+  "height_in": 67,
+  "resting_hr_bpm": 68,
+  "training_age_months": 6,
+  "estimated_1rm": null,
+  "rep_max_known": {
+    "goblet_squat_8rm_lb": 35,
+    "kb_deadlift_5rm_lb": 70,
+    "incline_db_press_8rm_each": 25,
+    "lat_pulldown_10rm_lb": 100
+  },
+  "max_strict_pullups": 5,
+  "max_pushups_unbroken": 18,
+  "max_plank_sec": 95,
+  "maf_test_distance_mi": null,
+  "estimated_2mi_run_time": "20:00",
+  "ruck_experience": "none",
+  "mobility_screen_passed": true,
+  "primary_goals": ["finish Tough Mudder in 6 months", "general fitness", "lose ~10 lb"],
+  "named_objective": "Tough Mudder",
+  "objective_date_weeks_out": 26,
+  "equipment": "full_gym",
+  "days_per_week": 3,
+  "injuries": [],
+  "preferences": ["doesn't enjoy lifting heavy yet", "willing to learn", "morning trainer"]
+}

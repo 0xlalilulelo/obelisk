@@ -1,0 +1,31 @@
+{
+  "name": "Marcus",
+  "age": 28,
+  "sex": "male",
+  "bodyweight_lb": 145,
+  "height_in": 70,
+  "resting_hr_bpm": 48,
+  "training_age_months": 60,
+  "estimated_1rm": {
+    "back_squat": 245,
+    "deadlift": 305,
+    "bench_press": 175,
+    "strict_press": 115
+  },
+  "max_strict_pullups": 14,
+  "maf_test_distance_mi": 3.45,
+  "maf_pace_min_per_mi": "9:15",
+  "marathon_pr": "3:08:42",
+  "current_weekly_mileage": 50,
+  "estimated_5k": "18:45",
+  "estimated_10k": "39:20",
+  "longest_recent_run_mi": 18,
+  "vO2max_estimate": 58,
+  "primary_goals": ["sub-3 marathon"],
+  "named_objective": "Boston-qualifying marathon",
+  "objective_date_weeks_out": 16,
+  "equipment": "full_gym + treadmill + outdoor",
+  "days_per_week": 6,
+  "injuries": [],
+  "preferences": ["AM long runs", "willing to drop lifting if needed for the goal"]
+}
