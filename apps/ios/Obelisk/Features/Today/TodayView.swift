@@ -1,0 +1,128 @@
+import SwiftUI
+
+/// The gym-morning home: readiness composite with visible inputs, plus today's
+/// session card and the Start Session entry to the workhorse (PRD §2.1/§2.4).
+struct TodayView: View {
+    @State private var readiness: ReadinessDTO?
+    @State private var session: SessionDTO?
+    @State private var loadError: String?
+    @State private var presentingSession = false
+
+    private var todayString: String {
+        String(ISO8601DateFormatter().string(from: Date()).prefix(10))
+    }
+
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                VStack(spacing: 16) {
+                    readinessCard
+                    sessionCard
+                }
+                .padding(16)
+            }
+            .background(Theme.background)
+            .navigationTitle("Today")
+            .toolbarColorScheme(.dark, for: .navigationBar)
+            .task { await load() }
+            .fullScreenCover(isPresented: $presentingSession) {
+                InSessionView(session: session ?? SampleData.session())
+            }
+        }
+    }
+
+    // MARK: Readiness
+
+    private var readinessCard: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            Text("READINESS")
+                .font(Theme.mono(11, weight: .semibold)).tracking(2)
+                .foregroundStyle(Theme.foregroundMuted)
+            HStack(alignment: .firstTextBaseline, spacing: 12) {
+                Text(readiness?.score.map(String.init) ?? "—")
+                    .font(Theme.mono(56, weight: .semibold))
+                    .foregroundStyle(scoreColor)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(readiness?.band.capitalized ?? "No data")
+                        .font(.system(size: 15, weight: .semibold))
+                        .foregroundStyle(Theme.foreground)
+                    Text(readiness?.guidance ?? "Connect Apple Health to see readiness.")
+                        .font(.system(size: 12))
+                        .foregroundStyle(Theme.foregroundMuted)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+            if let factors = readiness?.factors, !factors.isEmpty {
+                Divider().overlay(Theme.borderSubtle)
+                ForEach(factors) { f in
+                    HStack {
+                        Text(f.label).font(.system(size: 13)).foregroundStyle(Theme.foreground)
+                        Spacer()
+                        Text(f.value).font(Theme.mono(12)).foregroundStyle(Theme.foregroundMuted)
+                    }
+                }
+            }
+        }
+        .padding(16)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Theme.surface)
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+    }
+
+    private var scoreColor: Color {
+        switch readiness?.score ?? -1 {
+        case 80...: return Theme.primaryAccent
+        case 60..<80: return Theme.foreground
+        case 0..<40: return Theme.error
+        case 40..<60: return Theme.copper
+        default: return Theme.foregroundMuted
+        }
+    }
+
+    // MARK: Session
+
+    private var sessionCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("TODAY'S SESSION")
+                .font(Theme.mono(11, weight: .semibold)).tracking(2)
+                .foregroundStyle(Theme.foregroundMuted)
+            Text(session?.sessionTitle ?? "Strength A")
+                .font(.system(size: 22, weight: .semibold))
+                .foregroundStyle(Theme.foreground)
+            let exercises = session?.exercises ?? SampleData.session().exercises
+            ForEach(exercises.prefix(4)) { e in
+                HStack {
+                    Text(e.label).font(.system(size: 13)).foregroundStyle(Theme.foregroundMuted)
+                    Spacer()
+                    if !e.sets.isEmpty {
+                        Text("\(e.sets.count) sets").font(Theme.mono(11))
+                            .foregroundStyle(Theme.foregroundMuted)
+                    }
+                }
+            }
+            Button { presentingSession = true } label: {
+                Text("Start Session")
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundStyle(Theme.background)
+                    .frame(maxWidth: .infinity).frame(height: 52)
+                    .background(Theme.primaryAccent)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+            }
+            .padding(.top, 4)
+        }
+        .padding(16)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Theme.surface)
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+    }
+
+    // MARK: Load
+
+    private func load() async {
+        // Readiness is athlete-scoped, so it works as soon as auth is wired.
+        readiness = try? await NetworkClient.shared.readiness(date: todayString)
+        if let blockId = AppConfig.devBlockId {
+            session = try? await NetworkClient.shared.session(blockId: blockId, date: todayString)
+        }
+    }
+}
