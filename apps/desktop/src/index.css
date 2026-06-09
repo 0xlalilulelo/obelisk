@@ -1,0 +1,42 @@
+/* Fonts: Inter (UI) + JetBrains Mono (all numeric/technical data). */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-size: 14px;
+    line-height: 20px;
+    overflow: hidden; /* the shell manages its own scroll regions */
+  }
+  /* Tabular numbers everywhere mono is used — for clean vertical scanning. */
+  .font-mono {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer components {
+  /* The label-caps treatment from the design system. */
+  .label-caps {
+    @apply text-label-caps uppercase text-foreground-muted;
+  }
+  /* 1px structural separators (no shadows — tonal layering only). */
+  .rule {
+    @apply border-border-subtle;
+  }
+  /* Flat input: surface fill, 1px border, blue border on focus (design system). */
+  .input {
+    @apply w-full rounded border border-border-subtle bg-background px-3 py-2 text-body-base text-foreground placeholder:text-foreground-muted/60 focus:border-primary-accent focus:outline-none;
+  }
+}

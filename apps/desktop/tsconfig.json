@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "useDefineForClassFields": true,
+    "types": ["node", "vite/client", "vitest/globals", "@testing-library/jest-dom"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@obelisk/types": ["../../packages/types/src/index.ts"],
+      "@obelisk/api-client": ["../../packages/api-client/src/index.ts"],
+      "@obelisk/design-tokens": ["../../packages/design-tokens/src/index.ts"]
+    }
+  },
+  "include": ["src", "vite.config.ts"]
+}
