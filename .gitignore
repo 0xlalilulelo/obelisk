@@ -1,0 +1,48 @@
+# --- Secrets ---
+.env
+.env.*
+!.env.example
+*.pem
+
+# --- Python (apps/api) ---
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+*.egg-info/
+dist/
+build/
+runs/
+
+# --- Node / TypeScript (apps/desktop, packages) ---
+node_modules/
+.turbo/
+*.tsbuildinfo
+.vite/
+coverage/
+
+# --- Tauri / Rust ---
+target/
+apps/desktop/src-tauri/gen/
+
+# --- Swift / Xcode (apps/ios) ---
+.build/
+DerivedData/
+*.xcuserstate
+xcuserdata/
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+
+# --- Scratch ---
+_*.txt
+_extract.py

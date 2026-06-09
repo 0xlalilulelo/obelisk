@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Today - Technical Dashboard</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: 300;
+            font-style: normal;
+            font-size: 24px;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        
+        /* Custom scrollbar for technical feel */
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #343539; border-radius: 2px; }
+    </style>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#e5e2e3",
+                        "on-tertiary-fixed": "#301400",
+                        "on-secondary-container": "#8eb8ea",
+                        "inverse-primary": "#5f5e5f",
+                        "tertiary-container": "#160600",
+                        "on-background": "#e3e2e7",
+                        "surface-container-lowest": "#0d0e12",
+                        "outline": "#919094",
+                        "secondary": "#a0cafc",
+                        "error": "#ffb4ab",
+                        "tertiary-fixed": "#ffdcc6",
+                        "surface-bright": "#38393d",
+                        "surface-tint": "#c8c6c7",
+                        "tertiary": "#ffb784",
+                        "error-container": "#93000a",
+                        "on-tertiary": "#4f2500",
+                        "on-tertiary-fixed-variant": "#713700",
+                        "on-error": "#690005",
+                        "on-primary-fixed-variant": "#474647",
+                        "on-error-container": "#ffdad6",
+                        "on-surface": "#e3e2e7",
+                        "on-primary-fixed": "#1c1b1c",
+                        "surface-container-highest": "#343539",
+                        "on-secondary": "#003257",
+                        "secondary-fixed-dim": "#a0cafc",
+                        "tertiary-fixed-dim": "#ffb784",
+                        "primary-container": "#0a0a0b",
+                        "surface": "#121317",
+                        "on-surface-variant": "#c7c6ca",
+                        "inverse-on-surface": "#2f3034",
+                        "surface-dim": "#121317",
+                        "on-primary-container": "#7a797a",
+                        "surface-container": "#1e1f23",
+                        "on-secondary-fixed": "#001d35",
+                        "surface-container-high": "#292a2e",
+                        "on-tertiary-container": "#b0672d",
+                        "primary-fixed-dim": "#c8c6c7",
+                        "secondary-fixed": "#d1e4ff",
+                        "on-primary": "#313031",
+                        "primary": "#c8c6c7",
+                        "inverse-surface": "#e3e2e7",
+                        "secondary-container": "#184974",
+                        "surface-variant": "#343539",
+                        "surface-container-low": "#1a1b1f",
+                        "outline-variant": "#46464a",
+                        "on-secondary-fixed-variant": "#184974",
+                        "background": "#121317"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "safe-margin": "16px",
+                        "section-gap": "32px",
+                        "stack-lg": "16px",
+                        "stack-md": "8px",
+                        "stack-sm": "4px",
+                        "gutter": "12px"
+                    },
+                    "fontFamily": {
+                        "page-title": ["Inter"],
+                        "section-label": ["Inter"],
+                        "hero-num": ["JetBrains Mono"],
+                        "body": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "dense-mono": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "page-title": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "section-label": ["13px", { "lineHeight": "16px", "letterSpacing": "0.06em", "fontWeight": "600" }],
+                        "hero-num": ["64px", { "lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "dense-mono": ["15px", { "lineHeight": "20px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background antialiased font-body min-h-screen pt-[88px] pb-[96px] overflow-x-hidden selection:bg-secondary/30">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex items-center justify-between px-safe-margin pt-12 pb-4 bg-background/80 backdrop-blur-md border-b border-outline-variant">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center border border-outline-variant overflow-hidden">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">JD</span>
+</div>
+<h1 class="font-page-title text-page-title font-bold text-on-background">Today</h1>
+<button class="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:opacity-80 transition-opacity active:scale-95 duration-100">
+<span class="material-symbols-outlined" style="font-variation-settings: 'wght' 300, 'FILL' 0;">settings</span>
+</button>
+</header>
+<!-- Main Canvas -->
+<main class="px-safe-margin flex flex-col gap-section-gap w-full max-w-md mx-auto">
+<!-- Readiness Hero -->
+<section class="flex flex-col items-center justify-center pt-stack-lg relative w-full">
+<h2 class="font-section-label text-section-label text-on-surface-variant uppercase tracking-widest mb-2">Readiness</h2>
+<div class="flex items-baseline gap-2 relative">
+<span class="font-hero-num text-hero-num text-on-background tabular-nums tracking-tighter">73</span>
+<span class="font-dense-mono text-dense-mono text-on-surface-variant">/100</span>
+</div>
+<!-- 14-day sparkline -->
+<div class="w-full h-12 mt-6 opacity-60">
+<svg class="overflow-visible" height="100%" preserveaspectratio="none" viewbox="0 0 300 48" width="100%">
+<defs>
+<lineargradient id="sparkline-grad" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#a0cafc" stop-opacity="0.3"></stop>
+<stop offset="100%" stop-color="#a0cafc" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<path d="M0 40 L20 35 L40 45 L60 25 L80 30 L100 15 L120 20 L140 10 L160 25 L180 5 L200 15 L220 25 L240 10 L260 20 L280 5 L300 12" fill="none" stroke="#a0cafc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" vector-effect="non-scaling-stroke"></path>
+<path d="M0 40 L20 35 L40 45 L60 25 L80 30 L100 15 L120 20 L140 10 L160 25 L180 5 L200 15 L220 25 L240 10 L260 20 L280 5 L300 12 L300 48 L0 48 Z" fill="url(#sparkline-grad)"></path>
+<!-- Today Marker -->
+<circle cx="300" cy="12" fill="#a0cafc" r="3"></circle>
+</svg>
+</div>
+</section>
+<!-- Input Chips Grid -->
+<section class="grid grid-cols-2 gap-stack-md w-full">
+<div class="bg-surface-container-high border border-outline-variant rounded p-3 flex flex-col gap-1 relative overflow-hidden">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">HRV</span>
+<div class="flex items-end gap-1">
+<span class="font-dense-mono text-dense-mono text-on-surface">47</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant mb-0.5">ms</span>
+</div>
+</div>
+<div class="bg-surface-container-high border border-outline-variant rounded p-3 flex flex-col gap-1 relative overflow-hidden">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Sleep</span>
+<div class="flex items-end gap-1">
+<span class="font-dense-mono text-dense-mono text-on-surface">7.2</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant mb-0.5">h</span>
+</div>
+</div>
+<div class="bg-surface-container-high border border-outline-variant rounded p-3 flex flex-col gap-1 relative overflow-hidden">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">RHR</span>
+<div class="flex items-end gap-1">
+<span class="font-dense-mono text-dense-mono text-on-surface">59</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant mb-0.5">bpm</span>
+</div>
+</div>
+<div class="bg-surface-container-high border border-outline-variant rounded p-3 flex flex-col gap-1 relative overflow-hidden">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">RPE</span>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-secondary" style="font-size: 16px;">trending_up</span>
+<span class="font-dense-mono text-dense-mono text-on-surface">Elevated</span>
+</div>
+</div>
+</section>
+<!-- Primary Session Card -->
+<section class="w-full">
+<div class="bg-surface-container border border-outline-variant rounded-lg flex flex-col overflow-hidden">
+<div class="p-4 flex flex-col gap-4">
+<div class="flex justify-between items-center w-full">
+<span class="font-section-label text-section-label text-on-surface-variant uppercase">Primary Session</span>
+<span class="font-dense-mono text-[12px] text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined" style="font-size: 14px;">schedule</span>
+                            ≈ 60 min
+                        </span>
+</div>
+<div class="flex flex-col gap-1">
+<h3 class="font-body text-body font-semibold text-on-background">Wave 1 — Week 2 — Strength A</h3>
+<p class="font-dense-mono text-[13px] text-on-surface-variant mt-1 leading-relaxed">BS 5×5 @ 185<br/>SP 3×8 @ 75</p>
+</div>
+<button class="mt-2 w-full py-3 bg-secondary text-on-secondary font-label-sm text-label-sm font-semibold rounded hover:opacity-90 active:scale-[0.98] transition-all flex justify-center items-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1; font-size: 18px;">play_arrow</span>
+                        Start Session
+                    </button>
+</div>
+</div>
+</section>
+<!-- Macros -->
+<section class="w-full flex flex-col gap-4 mb-4">
+<h3 class="font-section-label text-section-label text-on-surface-variant uppercase">Nutrition Target</h3>
+<div class="flex flex-col gap-3">
+<!-- Protein -->
+<div class="flex flex-col gap-1.5">
+<div class="flex justify-between items-end">
+<span class="font-label-sm text-label-sm text-on-surface">Protein</span>
+<span class="font-dense-mono text-[12px] text-on-surface-variant"><span class="text-on-background">120</span> / 180g</span>
+</div>
+<div class="h-1 w-full bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-secondary rounded-full" style="width: 66%;"></div>
+</div>
+</div>
+<!-- Carbs -->
+<div class="flex flex-col gap-1.5">
+<div class="flex justify-between items-end">
+<span class="font-label-sm text-label-sm text-on-surface">Carbs</span>
+<span class="font-dense-mono text-[12px] text-on-surface-variant"><span class="text-on-background">210</span> / 350g</span>
+</div>
+<div class="h-1 w-full bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-secondary rounded-full" style="width: 60%;"></div>
+</div>
+</div>
+<!-- Fat -->
+<div class="flex flex-col gap-1.5">
+<div class="flex justify-between items-end">
+<span class="font-label-sm text-label-sm text-on-surface">Fat</span>
+<span class="font-dense-mono text-[12px] text-on-surface-variant"><span class="text-on-background">45</span> / 80g</span>
+</div>
+<div class="h-1 w-full bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-secondary rounded-full" style="width: 56%;"></div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-safe-margin pb-8 pt-2 bg-surface/90 backdrop-blur-md border-t border-outline-variant md:hidden">
+<button class="flex flex-col items-center justify-center text-secondary hover:text-secondary-fixed-dim transition-colors active:scale-90 duration-150 w-16 group">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">calendar_today</span>
+<span class="font-label-sm text-[10px] font-medium">Today</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-secondary-fixed-dim transition-colors active:scale-90 duration-150 w-16 group">
+<span class="material-symbols-outlined mb-1">event_note</span>
+<span class="font-label-sm text-[10px] font-medium">Plan</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-secondary-fixed-dim transition-colors active:scale-90 duration-150 w-16 group">
+<span class="material-symbols-outlined mb-1">fitness_center</span>
+<span class="font-label-sm text-[10px] font-medium">Coach</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-secondary-fixed-dim transition-colors active:scale-90 duration-150 w-16 group">
+<span class="material-symbols-outlined mb-1">history_edu</span>
+<span class="font-label-sm text-[10px] font-medium">Log</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-secondary-fixed-dim transition-colors active:scale-90 duration-150 w-16 group">
+<span class="material-symbols-outlined mb-1">person</span>
+<span class="font-label-sm text-[10px] font-medium">Profile</span>
+</button>
+</nav>
+</body></html>

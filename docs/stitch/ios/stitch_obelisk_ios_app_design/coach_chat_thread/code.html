@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Coach - Crucible-25</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#e5e2e3",
+                        "on-tertiary-fixed": "#301400",
+                        "on-secondary-container": "#8eb8ea",
+                        "inverse-primary": "#5f5e5f",
+                        "tertiary-container": "#160600",
+                        "on-background": "#e3e2e7",
+                        "surface-container-lowest": "#0d0e12",
+                        "outline": "#919094",
+                        "secondary": "#a0cafc",
+                        "error": "#ffb4ab",
+                        "tertiary-fixed": "#ffdcc6",
+                        "surface-bright": "#38393d",
+                        "surface-tint": "#c8c6c7",
+                        "tertiary": "#ffb784",
+                        "error-container": "#93000a",
+                        "on-tertiary": "#4f2500",
+                        "on-tertiary-fixed-variant": "#713700",
+                        "on-error": "#690005",
+                        "on-primary-fixed-variant": "#474647",
+                        "on-error-container": "#ffdad6",
+                        "on-surface": "#e3e2e7",
+                        "on-primary-fixed": "#1c1b1c",
+                        "surface-container-highest": "#343539",
+                        "on-secondary": "#003257",
+                        "secondary-fixed-dim": "#a0cafc",
+                        "tertiary-fixed-dim": "#ffb784",
+                        "primary-container": "#0a0a0b",
+                        "surface": "#121317",
+                        "on-surface-variant": "#c7c6ca",
+                        "inverse-on-surface": "#2f3034",
+                        "surface-dim": "#121317",
+                        "on-primary-container": "#7a797a",
+                        "surface-container": "#1e1f23",
+                        "on-secondary-fixed": "#001d35",
+                        "surface-container-high": "#292a2e",
+                        "on-tertiary-container": "#b0672d",
+                        "primary-fixed-dim": "#c8c6c7",
+                        "secondary-fixed": "#d1e4ff",
+                        "on-primary": "#313031",
+                        "primary": "#c8c6c7",
+                        "inverse-surface": "#e3e2e7",
+                        "secondary-container": "#184974",
+                        "surface-variant": "#343539",
+                        "surface-container-low": "#1a1b1f",
+                        "outline-variant": "#46464a",
+                        "on-secondary-fixed-variant": "#184974",
+                        "background": "#121317",
+                        "obelisk-blue": "#0A84FF",
+                        "intensity-copper": "#C97B3F"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "safe-margin": "16px",
+                        "section-gap": "32px",
+                        "stack-lg": "16px",
+                        "stack-md": "8px",
+                        "stack-sm": "4px",
+                        "gutter": "12px"
+                    },
+                    "fontFamily": {
+                        "page-title": ["Inter", "sans-serif"],
+                        "section-label": ["Inter", "sans-serif"],
+                        "hero-num": ["JetBrains Mono", "monospace"],
+                        "body": ["Inter", "sans-serif"],
+                        "label-sm": ["Inter", "sans-serif"],
+                        "dense-mono": ["JetBrains Mono", "monospace"]
+                    },
+                    "fontSize": {
+                        "page-title": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "page-title-mobile": ["24px", { "lineHeight": "30px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "section-label": ["13px", { "lineHeight": "16px", "letterSpacing": "0.06em", "fontWeight": "600" }],
+                        "hero-num": ["64px", { "lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "dense-mono": ["15px", { "lineHeight": "20px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #000000;
+            color: #e3e2e7;
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body text-body bg-background min-h-screen flex flex-col pt-16 pb-32 md:pb-0">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex items-center justify-between px-safe-margin pt-12 pb-4 bg-background/80 backdrop-blur-md dark:bg-background/80 border-b border-outline-variant">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center overflow-hidden">
+<span class="material-symbols-outlined text-[20px] text-on-surface">person</span>
+</div>
+<h1 class="font-page-title text-page-title-mobile font-bold text-on-background">Coach</h1>
+</div>
+<button aria-label="Settings" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-on-background">settings</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col px-safe-margin pt-6 overflow-y-auto">
+<!-- Context Header -->
+<div class="flex items-center gap-2 mb-stack-lg self-center bg-surface-container-low px-4 py-2 rounded-full border border-outline-variant">
+<span class="material-symbols-outlined text-[16px] text-secondary">model_training</span>
+<span class="font-section-label text-section-label text-on-surface-variant">Block Coach — Crucible-25</span>
+</div>
+<!-- Chat Thread -->
+<div class="flex flex-col gap-6 w-full max-w-2xl mx-auto">
+<!-- System/Coach Message -->
+<div class="flex flex-col items-start gap-2 max-w-[85%]">
+<div class="bg-[#1C1C1E] rounded-xl rounded-tl-sm p-4 border border-[#38383A] text-on-surface">
+<p class="mb-3">Your recent squat performance indicates central nervous system fatigue. Deviation from prescribed RPE is unacceptable during phase two of Crucible-25.</p>
+<div class="bg-[#2C2C2E] p-3 rounded-lg border border-[#38383A] flex flex-col gap-1 mb-3">
+<div class="flex items-center gap-2 text-on-surface-variant mb-1">
+<span class="material-symbols-outlined text-[14px]">menu_book</span>
+<span class="font-section-label text-[11px] uppercase tracking-wider">Reference</span>
+</div>
+<p class="text-sm font-medium">"5/3/1 BBB" — Wendler, J.</p>
+<p class="text-xs text-on-surface-variant mt-1 italic">Deload protocol mandates strict adherence to 40/50/60% TM on week 4.</p>
+</div>
+<p>I am adjusting tomorrow's session to align with required recovery metrics. RPE must remain below 7.</p>
+</div>
+<!-- Structured Action Buttons -->
+<div class="flex flex-wrap gap-2 mt-1">
+<button class="bg-[#0A84FF] hover:bg-blue-600 text-white font-medium text-sm py-2 px-4 rounded-lg transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">done</span>
+                        Apply this change
+                    </button>
+<button class="bg-[#2C2C2E] hover:bg-[#343539] text-on-surface font-medium text-sm py-2 px-4 rounded-lg transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">help</span>
+                        Explain why
+                    </button>
+</div>
+</div>
+<!-- User Message -->
+<div class="flex flex-col items-end gap-1 max-w-[85%] self-end">
+<div class="bg-[#2C2C2E] text-on-surface rounded-xl rounded-tr-sm p-4">
+<p>Understood. But my grip felt solid, so I pushed the deadlift volume instead.</p>
+</div>
+<span class="text-xs text-on-surface-variant font-dense-mono text-dense-mono">14:22</span>
+</div>
+<!-- Coach Response -->
+<div class="flex flex-col items-start gap-2 max-w-[85%]">
+<div class="bg-[#1C1C1E] rounded-xl rounded-tl-sm p-4 border border-[#38383A] text-on-surface">
+<p>Grip strength is not a reliable proxy for systemic recovery. Proceeding with increased volume against protocol jeopardizes the peak block scheduled for next week.</p>
+<div class="w-full h-px bg-[#38383A] my-3"></div>
+<div class="flex items-center justify-between">
+<span class="font-dense-mono text-dense-mono text-intensity-copper">WARN_FATIGUE_RISK</span>
+<span class="material-symbols-outlined text-intensity-copper">warning</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Input Area (Fixed above Tab Bar on mobile) -->
+<div class="fixed bottom-[88px] md:bottom-0 w-full bg-background/95 backdrop-blur-lg border-t border-[#38383A] p-safe-margin z-40">
+<div class="max-w-2xl mx-auto flex items-center gap-3">
+<button class="w-10 h-10 rounded-full bg-[#1C1C1E] border border-[#38383A] flex items-center justify-center text-on-surface hover:bg-[#2C2C2E] transition-colors flex-shrink-0">
+<span class="material-symbols-outlined fill text-obelisk-blue">mic</span>
+</button>
+<div class="flex-1 relative">
+<input class="w-full bg-[#1C1C1E] border border-[#38383A] rounded-full py-3 px-4 text-on-surface placeholder:text-[#8E8E93] focus:outline-none focus:border-obelisk-blue focus:ring-1 focus:ring-obelisk-blue font-body text-sm transition-all" placeholder="Type or use / for commands..." type="text"/>
+<button class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#2C2C2E] flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-[18px]">arrow_upward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 flex justify-around items-center px-safe-margin pb-8 pt-2 bg-surface/90 backdrop-blur-md dark:bg-surface/90 border-t border-outline-variant">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:text-secondary-fixed-dim transition-colors group" href="#">
+<div class="w-12 h-8 flex items-center justify-center rounded-full group-hover:bg-surface-variant transition-colors group-active:scale-90 duration-150">
+<span class="material-symbols-outlined">calendar_today</span>
+</div>
+<span class="font-label-sm text-label-sm mt-1">Today</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:text-secondary-fixed-dim transition-colors group" href="#">
+<div class="w-12 h-8 flex items-center justify-center rounded-full group-hover:bg-surface-variant transition-colors group-active:scale-90 duration-150">
+<span class="material-symbols-outlined">event_note</span>
+</div>
+<span class="font-label-sm text-label-sm mt-1">Plan</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary hover:text-secondary-fixed-dim transition-colors group" href="#">
+<div class="w-12 h-8 flex items-center justify-center rounded-full bg-secondary-container/20 group-hover:bg-secondary-container/30 transition-colors group-active:scale-90 duration-150">
+<span class="material-symbols-outlined fill">fitness_center</span>
+</div>
+<span class="font-label-sm text-label-sm mt-1 font-medium">Coach</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:text-secondary-fixed-dim transition-colors group" href="#">
+<div class="w-12 h-8 flex items-center justify-center rounded-full group-hover:bg-surface-variant transition-colors group-active:scale-90 duration-150">
+<span class="material-symbols-outlined">history_edu</span>
+</div>
+<span class="font-label-sm text-label-sm mt-1">Log</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:text-secondary-fixed-dim transition-colors group" href="#">
+<div class="w-12 h-8 flex items-center justify-center rounded-full group-hover:bg-surface-variant transition-colors group-active:scale-90 duration-150">
+<span class="material-symbols-outlined">person</span>
+</div>
+<span class="font-label-sm text-label-sm mt-1">Profile</span>
+</a>
+</nav>
+<!-- Side Navigation Shell (Web/Desktop) - Placeholder for structural completeness -->
+<div class="hidden md:flex fixed top-0 left-0 h-screen w-64 bg-surface border-r border-outline-variant z-40 flex-col pt-24 px-4">
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-variant transition-colors" href="#"><span class="material-symbols-outlined">calendar_today</span> <span class="font-body text-body">Today</span></a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-variant transition-colors" href="#"><span class="material-symbols-outlined">event_note</span> <span class="font-body text-body">Plan</span></a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-secondary-container/20 text-secondary font-medium" href="#"><span class="material-symbols-outlined fill">fitness_center</span> <span class="font-body text-body">Coach</span></a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-variant transition-colors" href="#"><span class="material-symbols-outlined">history_edu</span> <span class="font-body text-body">Log</span></a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-variant transition-colors" href="#"><span class="material-symbols-outlined">person</span> <span class="font-body text-body">Profile</span></a>
+</nav>
+</div>
+<!-- Web/Desktop Input Area Adjustment -->
+<style>
+        @media (min-width: 768px) {
+            main { margin-left: 16rem; }
+            .fixed.bottom-\[88px\] { bottom: 0; left: 16rem; width: calc(100% - 16rem); }
+        }
+    </style>
+</body></html>

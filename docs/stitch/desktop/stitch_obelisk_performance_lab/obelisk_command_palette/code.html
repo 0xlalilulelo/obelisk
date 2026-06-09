@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Obelisk Command Palette</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "foreground-muted": "#A1A1AA",
+                        "secondary-fixed-dim": "#ffb784",
+                        "on-secondary-container": "#ffa867",
+                        "border-subtle": "#26272B",
+                        "surface-container-lowest": "#0e0e10",
+                        "on-secondary-fixed": "#301400",
+                        "outline-variant": "#42474f",
+                        "inverse-on-surface": "#303032",
+                        "foreground": "#F4F4F5",
+                        "on-surface": "#e5e1e4",
+                        "tertiary-fixed": "#ffddb5",
+                        "on-error": "#690005",
+                        "on-tertiary-container": "#e9b268",
+                        "surface-container-highest": "#353437",
+                        "primary-container": "#1f4e79",
+                        "on-background": "#e5e1e4",
+                        "on-tertiary": "#462b00",
+                        "primary": "#a0cafc",
+                        "on-surface-variant": "#c2c7d0",
+                        "on-secondary": "#4f2500",
+                        "on-secondary-fixed-variant": "#713700",
+                        "on-tertiary-fixed": "#2a1800",
+                        "surface-container-low": "#1b1b1d",
+                        "primary-fixed-dim": "#a0cafc",
+                        "on-primary-fixed": "#001d35",
+                        "surface-tint": "#a0cafc",
+                        "secondary-container": "#783b00",
+                        "surface-dim": "#131315",
+                        "on-primary-fixed-variant": "#184974",
+                        "inverse-surface": "#e5e1e4",
+                        "surface-elevated": "#1C1C1F",
+                        "primary-fixed": "#d1e4ff",
+                        "surface": "#131315",
+                        "secondary": "#ffb784",
+                        "inverse-primary": "#35618d",
+                        "surface-container": "#1f1f21",
+                        "surface-container-high": "#2a2a2c",
+                        "surface-bright": "#39393b",
+                        "error-container": "#93000a",
+                        "tertiary": "#f5bc72",
+                        "on-primary-container": "#95bff1",
+                        "tertiary-container": "#6a4300",
+                        "secondary-fixed": "#ffdcc6",
+                        "error": "#ffb4ab",
+                        "on-primary": "#003257",
+                        "on-tertiary-fixed-variant": "#643f00",
+                        "background": "#0A0A0B",
+                        "on-error-container": "#ffdad6",
+                        "surface-variant": "#353437",
+                        "tertiary-fixed-dim": "#f5bc72",
+                        "outline": "#8c9199"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "24px",
+                        "gutter": "16px",
+                        "margin-mobile": "16px",
+                        "container-max": "1280px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "data-mono-lg": ["JetBrains Mono"],
+                        "display-lg-mobile": ["Inter"],
+                        "body-base": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "data-mono": ["JetBrains Mono"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["11px", { "lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "data-mono-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.03em", "fontWeight": "600" }],
+                        "body-base": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "600" }],
+                        "data-mono": ["14px", { "lineHeight": "20px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+                        "body-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0em", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #0A0A0B; color: #F4F4F5; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20; }
+        .kbd-key { display: inline-flex; align-items: center; justify-content: center; background-color: #1b1b1d; border: 1px solid #26272B; border-radius: 2px; padding: 0 4px; min-width: 20px; height: 20px; color: #A1A1AA; font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen relative font-body-base text-body-base">
+<!-- Background Context (simulated behind modal) -->
+<div class="absolute inset-0 opacity-20 pointer-events-none flex flex-col">
+<!-- TopNavBar Mock -->
+<div class="h-[56px] w-full border-b border-border-subtle bg-surface flex justify-between items-center px-margin-desktop">
+<div class="font-headline-md text-headline-md font-bold text-primary tracking-tighter">OBELISK</div>
+</div>
+<!-- SideNav Mock -->
+<div class="flex flex-1">
+<div class="w-[280px] h-full border-r border-border-subtle bg-surface-container-low"></div>
+<div class="flex-1 p-margin-desktop bg-background"></div>
+</div>
+</div>
+<!-- Modal Backdrop -->
+<div class="fixed inset-0 bg-background/80 backdrop-blur-sm z-40"></div>
+<!-- Command Palette Container -->
+<div class="relative z-50 w-full max-w-[640px] bg-surface border border-border-subtle rounded flex flex-col shadow-2xl mt-[-10vh]">
+<!-- Search Input Header -->
+<div class="flex items-center px-4 h-14 border-b border-border-subtle">
+<span class="material-symbols-outlined text-foreground-muted mr-3" data-icon="search">search</span>
+<input autofocus="" class="w-full bg-transparent border-none outline-none text-foreground font-body-base placeholder:text-foreground-muted/50 focus:ring-0 p-0" placeholder="What do you want to do?" type="text"/>
+<div class="kbd-key ml-auto">ESC</div>
+</div>
+<!-- Palette Content Area -->
+<div class="max-h-[614px] overflow-y-auto py-2">
+<!-- Section: Recent -->
+<div class="px-3 mb-1">
+<div class="px-2 py-1 font-label-caps text-label-caps text-foreground-muted mb-1">Recent</div>
+<button class="w-full flex items-center justify-between px-2 py-2 rounded bg-surface-elevated border border-primary group text-left cursor-pointer transition-colors">
+<div class="flex items-center">
+<span class="material-symbols-outlined text-primary mr-3 text-[18px]" data-icon="fitness_center">fitness_center</span>
+<span class="text-primary font-medium">Log Active Block</span>
+</div>
+<div class="flex items-center gap-1 opacity-100">
+<kbd class="kbd-key border-primary/30 text-primary/80 bg-primary/5">↵</kbd>
+</div>
+</button>
+<button class="w-full flex items-center justify-between px-2 py-2 rounded hover:bg-surface-container border border-transparent group text-left cursor-pointer transition-colors mt-1">
+<div class="flex items-center">
+<span class="material-symbols-outlined text-foreground-muted mr-3 text-[18px]" data-icon="leaderboard">leaderboard</span>
+<span class="text-foreground">View Weekly Analytics</span>
+</div>
+</button>
+</div>
+<div class="h-px bg-border-subtle mx-4 my-2"></div>
+<!-- Section: Navigate -->
+<div class="px-3 mb-1">
+<div class="px-2 py-1 font-label-caps text-label-caps text-foreground-muted mb-1">Navigate</div>
+<button class="w-full flex items-center justify-between px-2 py-2 rounded hover:bg-surface-container border border-transparent group text-left cursor-pointer transition-colors">
+<div class="flex items-center">
+<span class="material-symbols-outlined text-foreground-muted mr-3 text-[18px]" data-icon="home">home</span>
+<span class="text-foreground">Go to Dashboard</span>
+</div>
+<div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<kbd class="kbd-key">G</kbd>
+<kbd class="kbd-key">D</kbd>
+</div>
+</button>
+<button class="w-full flex items-center justify-between px-2 py-2 rounded hover:bg-surface-container border border-transparent group text-left cursor-pointer transition-colors">
+<div class="flex items-center">
+<span class="material-symbols-outlined text-foreground-muted mr-3 text-[18px]" data-icon="calendar_today">calendar_today</span>
+<span class="text-foreground">Go to Schedule</span>
+</div>
+<div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<kbd class="kbd-key">G</kbd>
+<kbd class="kbd-key">S</kbd>
+</div>
+</button>
+</div>
+<div class="h-px bg-border-subtle mx-4 my-2"></div>
+<!-- Section: Create -->
+<div class="px-3 mb-1">
+<div class="px-2 py-1 font-label-caps text-label-caps text-foreground-muted mb-1">Create</div>
+<button class="w-full flex items-center justify-between px-2 py-2 rounded hover:bg-surface-container border border-transparent group text-left cursor-pointer transition-colors">
+<div class="flex items-center">
+<span class="material-symbols-outlined text-foreground-muted mr-3 text-[18px]" data-icon="add_circle">add_circle</span>
+<span class="text-foreground">New Routine</span>
+</div>
+<div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<kbd class="kbd-key">C</kbd>
+<kbd class="kbd-key">R</kbd>
+</div>
+</button>
+</div>
+<div class="h-px bg-border-subtle mx-4 my-2"></div>
+<!-- Section: Coach -->
+<div class="px-3 mb-1">
+<div class="px-2 py-1 font-label-caps text-label-caps text-foreground-muted mb-1">Coach</div>
+<button class="w-full flex items-center justify-between px-2 py-2 rounded hover:bg-surface-container border border-transparent group text-left cursor-pointer transition-colors">
+<div class="flex items-center">
+<span class="material-symbols-outlined text-foreground-muted mr-3 text-[18px]" data-icon="chat_bubble">chat_bubble</span>
+<span class="text-foreground">Message Athletes</span>
+</div>
+<div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<kbd class="kbd-key">⌘</kbd>
+<kbd class="kbd-key">M</kbd>
+</div>
+</button>
+</div>
+</div>
+<!-- Footer -->
+<div class="border-t border-border-subtle bg-surface-container-low px-4 py-2 flex items-center justify-between rounded-b">
+<div class="flex items-center gap-4 text-foreground-muted font-body-sm text-body-sm">
+<span class="flex items-center gap-1"><kbd class="kbd-key text-[9px] h-4 min-w-[16px]">↑</kbd><kbd class="kbd-key text-[9px] h-4 min-w-[16px]">↓</kbd> to navigate</span>
+<span class="flex items-center gap-1"><kbd class="kbd-key text-[9px] h-4 min-w-[16px]">↵</kbd> to select</span>
+</div>
+<div class="font-data-mono text-data-mono text-foreground-muted">OBELISK_OS v2.1</div>
+</div>
+</div>
+</body></html>

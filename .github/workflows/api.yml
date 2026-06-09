@@ -1,0 +1,48 @@
+name: api
+
+on:
+  pull_request:
+    paths:
+      - "apps/api/**"
+      - "docs/advisor_brief.md"
+      - ".github/workflows/api.yml"
+  push:
+    branches: [main]
+    paths:
+      - "apps/api/**"
+      - "docs/advisor_brief.md"
+      - ".github/workflows/api.yml"
+
+defaults:
+  run:
+    working-directory: apps/api
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - run: uv python install 3.11
+      - run: uv sync --extra dev
+      - name: ruff
+        run: uv run ruff check .
+      - name: black
+        run: uv run black --check .
+      - name: mypy --strict
+        run: uv run mypy src
+      - name: pytest (90% coverage gate)
+        run: uv run pytest --cov=obelisk_api --cov-report=term-missing --cov-fail-under=90
+
+  docker:
+    needs: quality
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build API image
+        run: docker build -f infra/Dockerfile -t obelisk-api:ci .

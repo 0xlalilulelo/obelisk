@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Obelisk - Diff Viewer</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "foreground-muted": "#A1A1AA",
+                      "secondary-fixed-dim": "#ffb784",
+                      "on-secondary-container": "#ffa867",
+                      "border-subtle": "#26272B",
+                      "surface-container-lowest": "#0e0e10",
+                      "on-secondary-fixed": "#301400",
+                      "outline-variant": "#42474f",
+                      "inverse-on-surface": "#303032",
+                      "foreground": "#F4F4F5",
+                      "on-surface": "#e5e1e4",
+                      "tertiary-fixed": "#ffddb5",
+                      "on-error": "#690005",
+                      "on-tertiary-container": "#e9b268",
+                      "surface-container-highest": "#353437",
+                      "primary-container": "#1f4e79",
+                      "on-background": "#e5e1e4",
+                      "on-tertiary": "#462b00",
+                      "primary": "#a0cafc",
+                      "on-surface-variant": "#c2c7d0",
+                      "on-secondary": "#4f2500",
+                      "on-secondary-fixed-variant": "#713700",
+                      "on-tertiary-fixed": "#2a1800",
+                      "surface-container-low": "#1b1b1d",
+                      "primary-fixed-dim": "#a0cafc",
+                      "on-primary-fixed": "#001d35",
+                      "surface-tint": "#a0cafc",
+                      "secondary-container": "#783b00",
+                      "surface-dim": "#131315",
+                      "on-primary-fixed-variant": "#184974",
+                      "inverse-surface": "#e5e1e4",
+                      "surface-elevated": "#1C1C1F",
+                      "primary-fixed": "#d1e4ff",
+                      "surface": "#131315",
+                      "secondary": "#ffb784",
+                      "inverse-primary": "#35618d",
+                      "surface-container": "#1f1f21",
+                      "surface-container-high": "#2a2a2c",
+                      "surface-bright": "#39393b",
+                      "error-container": "#93000a",
+                      "tertiary": "#f5bc72",
+                      "on-primary-container": "#95bff1",
+                      "tertiary-container": "#6a4300",
+                      "secondary-fixed": "#ffdcc6",
+                      "error": "#ffb4ab",
+                      "on-primary": "#003257",
+                      "on-tertiary-fixed-variant": "#643f00",
+                      "background": "#0A0A0B",
+                      "on-error-container": "#ffdad6",
+                      "surface-variant": "#353437",
+                      "tertiary-fixed-dim": "#f5bc72",
+                      "outline": "#8c9199"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "margin-desktop": "24px",
+                      "gutter": "16px",
+                      "margin-mobile": "16px",
+                      "container-max": "1280px",
+                      "unit": "4px"
+              },
+              "fontFamily": {
+                      "label-caps": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "data-mono-lg": ["JetBrains Mono"],
+                      "display-lg-mobile": ["Inter"],
+                      "body-base": ["Inter"],
+                      "display-lg": ["Inter"],
+                      "data-mono": ["JetBrains Mono"],
+                      "body-sm": ["Inter"]
+              },
+              "fontSize": {
+                      "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "600"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                      "data-mono-lg": ["18px", {"lineHeight": "24px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                      "display-lg-mobile": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.03em", "fontWeight": "600"}],
+                      "body-base": ["14px", {"lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400"}],
+                      "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "600"}],
+                      "data-mono": ["14px", {"lineHeight": "20px", "letterSpacing": "-0.01em", "fontWeight": "500"}],
+                      "body-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0em", "fontWeight": "400"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-icon {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for dense technical feel */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #26272B;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #42474f;
+        }
+    </style>
+</head>
+<body class="bg-background text-foreground h-screen w-full overflow-hidden flex antialiased">
+<!-- Global Nav (SideNavBar) - From Shared Components -->
+<nav class="w-[280px] h-screen border-r border-border-subtle bg-surface-container-low flex flex-col py-gutter shrink-0 relative z-20">
+<!-- Header -->
+<div class="px-margin-desktop mb-8">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-10 h-10 rounded-full bg-surface-elevated border border-border-subtle overflow-hidden flex-shrink-0">
+<img alt="A high contrast, moody portrait of an athletic coach in a dimly lit gym setting." class="w-full h-full object-cover" data-alt="A high contrast, moody portrait of an athletic coach in a dimly lit gym setting. The lighting is cinematic, casting strong shadows that highlight facial features. The color palette is dark and desaturated, fitting a serious, professional training aesthetic. The subject is looking slightly off-camera with a focused expression." src="https://lh3.googleusercontent.com/aida/AP1WRLtYPmr50A8eydqahPpfO1AX9HRYvQ_SIFQ2sAMugsjhnlrtlOeh_L6F6IIOr77aojiSOzZG5ZVGRAejjwrG-IV35OzsM_NBO41ozFZVyUjw4FgBEugorGknMsmFlVExy_PUpgTBz1ccwM9cfadLqVOfgmCc3Gpr2MmP_p4Mk78eWPdOdOMJ1bHZQ7QPwflW8rkm2oSpYsvRI4qpBl_IRfEXqhTw6erIli1T1OVqXsmX-b24nwe-lTODD1-2"/>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md text-primary leading-tight">Performance</h1>
+<span class="font-label-caps text-label-caps text-foreground-muted">Elite Tier</span>
+</div>
+</div>
+</div>
+<!-- Main Nav Links -->
+<div class="flex-1 px-4 flex flex-col gap-1">
+<!-- Active Tab -->
+<a class="flex items-center gap-3 px-4 py-2.5 rounded text-primary font-bold bg-surface-elevated duration-200 ease-in-out group" href="#">
+<span class="material-symbols-outlined text-[20px] fill-icon">fitness_center</span>
+<span class="font-label-caps text-label-caps">Active Block</span>
+</a>
+<!-- Inactive Tabs -->
+<a class="flex items-center gap-3 px-4 py-2.5 rounded text-foreground-muted hover:bg-surface-container-high hover:text-foreground duration-200 ease-in-out group transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-foreground transition-colors">chat_bubble</span>
+<span class="font-label-caps text-label-caps">Conversations</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded text-foreground-muted hover:bg-surface-container-high hover:text-foreground duration-200 ease-in-out group transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-foreground transition-colors">local_library</span>
+<span class="font-label-caps text-label-caps">Library</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded text-foreground-muted hover:bg-surface-container-high hover:text-foreground duration-200 ease-in-out group transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-foreground transition-colors">leaderboard</span>
+<span class="font-label-caps text-label-caps">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded text-foreground-muted hover:bg-surface-container-high hover:text-foreground duration-200 ease-in-out group transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-foreground transition-colors">calendar_today</span>
+<span class="font-label-caps text-label-caps">Schedule</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded text-foreground-muted hover:bg-surface-container-high hover:text-foreground duration-200 ease-in-out group transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-foreground transition-colors">settings</span>
+<span class="font-label-caps text-label-caps">Settings</span>
+</a>
+</div>
+<!-- Footer / CTA -->
+<div class="px-4 mt-auto pt-4 flex flex-col gap-2">
+<button class="w-full py-2 flex items-center justify-center gap-2 border border-border-subtle rounded bg-surface hover:bg-surface-elevated text-foreground-muted hover:text-foreground transition-colors duration-200 mb-4">
+<span class="material-symbols-outlined text-[16px]">keyboard_command_key</span>
+<span class="font-label-caps text-[10px]">Command Palette (⌘K)</span>
+</button>
+<a class="flex items-center gap-3 px-4 py-2 rounded text-foreground-muted hover:bg-surface-container-high hover:text-foreground duration-200 ease-in-out group transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">help</span>
+<span class="font-label-caps text-label-caps">Support</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 rounded text-foreground-muted hover:bg-surface-container-high hover:text-foreground duration-200 ease-in-out group transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">history</span>
+<span class="font-label-caps text-label-caps">Archive</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area (Background context to make the Right Pane pop) -->
+<main class="flex-1 flex flex-col h-full bg-background relative overflow-hidden">
+<!-- Top App Bar context -->
+<header class="h-[56px] w-full border-b border-border-subtle bg-surface flex justify-between items-center px-margin-desktop sticky top-0 z-10 shrink-0">
+<div class="flex items-center gap-4">
+<h2 class="font-headline-md text-headline-md font-bold text-primary tracking-tighter">OBELISK</h2>
+<div class="h-4 w-[1px] bg-border-subtle mx-2"></div>
+<span class="font-body-base text-body-base text-foreground-muted">Mesocycle 04 / Week 2 / Day 3</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-foreground-muted hover:bg-surface-container transition-colors p-2 rounded-full cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="bg-primary text-on-primary px-4 py-1.5 rounded font-label-caps text-label-caps hover:opacity-90 transition-opacity">
+                    Check-in
+                </button>
+</div>
+</header>
+<!-- Blurred/Inactive Canvas Content -->
+<div class="flex-1 p-margin-desktop overflow-y-auto relative">
+<!-- Overlay to push focus to the right pane -->
+<div class="absolute inset-0 bg-background/40 backdrop-blur-[1px] z-10 pointer-events-none"></div>
+<div class="max-w-4xl mx-auto opacity-50 pointer-events-none">
+<div class="flex items-end justify-between mb-8">
+<div>
+<h3 class="font-display-lg text-display-lg text-foreground mb-2">Wednesday</h3>
+<p class="font-data-mono text-data-mono text-foreground-muted">VOL: 12,400 LB | INT: 85% | RPE: 8.0</p>
+</div>
+</div>
+<!-- Dummy Workout Cards -->
+<div class="flex flex-col gap-4">
+<div class="p-6 border border-border-subtle bg-surface rounded-lg">
+<div class="flex justify-between items-center mb-4">
+<span class="font-label-caps text-label-caps text-primary">Block A • Main Activation</span>
+</div>
+<div class="font-headline-md text-headline-md text-foreground mb-2">Conventional Deadlift</div>
+<div class="font-data-mono text-data-mono text-foreground-muted">1x5+ @ 270 lb</div>
+</div>
+<div class="p-6 border border-border-subtle bg-surface rounded-lg">
+<div class="flex justify-between items-center mb-4">
+<span class="font-label-caps text-label-caps text-secondary">Block B • Secondary</span>
+</div>
+<div class="font-headline-md text-headline-md text-foreground mb-2">Bulgarian Split Squat</div>
+<div class="font-data-mono text-data-mono text-foreground-muted">3x8 @ 120 lb</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- RIGHT PANE: Diff Viewer (The Core Component) -->
+<aside class="w-[360px] h-full flex flex-col bg-surface border-l border-border-subtle shrink-0 shadow-[-8px_0_24px_rgba(0,0,0,0.5)] z-30 relative">
+<!-- Header & Toggle -->
+<div class="h-[56px] border-b border-border-subtle flex items-center justify-between px-gutter shrink-0">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+<span class="font-label-caps text-label-caps text-foreground">Proposed Change</span>
+</div>
+<!-- Segmented Control -->
+<div class="flex items-center border border-border-subtle rounded bg-surface-container-lowest p-0.5">
+<button class="px-2.5 py-1 bg-surface-elevated text-foreground font-label-caps text-[10px] uppercase tracking-wider rounded shadow-sm border border-border-subtle">Split</button>
+<button class="px-2.5 py-1 text-foreground-muted hover:text-foreground font-label-caps text-[10px] uppercase tracking-wider rounded transition-colors">Unified</button>
+</div>
+</div>
+<!-- Scrollable Diff Content -->
+<div class="flex-1 overflow-y-auto p-gutter flex flex-col gap-6">
+<!-- Context Header -->
+<div>
+<h2 class="font-headline-md text-headline-md text-foreground mb-1">Wednesday Block</h2>
+<p class="font-body-sm text-body-sm text-foreground-muted leading-relaxed">System optimization recommendation based on elevated peripheral fatigue markers detected in Tuesday's session.</p>
+</div>
+<!-- Diff Visualization Module -->
+<div class="flex flex-col gap-3">
+<div class="flex items-center justify-between border-b border-border-subtle pb-2">
+<span class="font-label-caps text-label-caps text-foreground-muted">Movement Substitution</span>
+<span class="font-data-mono text-[10px] text-foreground-muted">ID: A1</span>
+</div>
+<!-- Removed Item (Red/Strike) -->
+<div class="p-3 border border-error/20 bg-[#2a0b10] rounded relative overflow-hidden group transition-colors">
+<div class="absolute left-0 top-0 bottom-0 w-[3px] bg-error"></div>
+<div class="flex items-start justify-between pl-1">
+<div class="w-full">
+<div class="font-label-caps text-[10px] uppercase tracking-widest text-error mb-1.5 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px]">remove</span>
+                                Current Prescription
+                            </div>
+<div class="font-body-base text-body-base text-foreground line-through opacity-50 decoration-error/50">
+                                Conventional Deadlift
+                            </div>
+<div class="mt-2 font-data-mono text-data-mono text-foreground-muted opacity-50 line-through decoration-error/50 flex justify-between">
+<span>1x5+ @ 270 lb</span>
+<span>RPE 8</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Arrow Connector (Subtle visual cue) -->
+<div class="flex justify-center -my-1 relative z-10">
+<div class="w-6 h-6 rounded-full bg-surface-elevated border border-border-subtle flex items-center justify-center">
+<span class="material-symbols-outlined text-[14px] text-foreground-muted transform rotate-90">sync_alt</span>
+</div>
+</div>
+<!-- Added Item (Obelisk Blue/Green substitute per theme rules) -->
+<div class="p-3 border border-primary/30 bg-primary/5 rounded relative overflow-hidden shadow-[0_0_15px_rgba(160,202,252,0.05)]">
+<div class="absolute left-0 top-0 bottom-0 w-[3px] bg-primary"></div>
+<div class="flex items-start justify-between pl-1">
+<div class="w-full">
+<div class="font-label-caps text-[10px] uppercase tracking-widest text-primary mb-1.5 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px]">add</span>
+                                Proposed Target
+                            </div>
+<div class="font-body-base text-body-base text-foreground">
+                                Trap Bar Deadlift
+                            </div>
+<div class="mt-2 font-data-mono text-data-mono text-primary-fixed-dim flex justify-between bg-primary/10 px-2 py-1 -mx-2 rounded-sm">
+<span>1x5+ @ 270 lb</span>
+<span>RPE 8</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- AI Rationale Block -->
+<div class="mt-2 p-4 bg-surface-container-low border border-border-subtle rounded">
+<h3 class="font-label-caps text-label-caps text-foreground mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-tertiary">psychology</span>
+                    Obelisk Rationale
+                 </h3>
+<p class="font-body-sm text-body-sm text-foreground-muted leading-relaxed mb-4">
+                     Switching to a hexagonal barbell shifts the center of mass inline with the coronal plane, significantly reducing anterior shear forces on the lumbar spine. This preserves central output while accumulating necessary mechanical tension under current fatigue constraints.
+                 </p>
+<!-- Citation Chip -->
+<div class="inline-flex items-center gap-2 px-2.5 py-1.5 bg-surface-elevated border border-border-subtle rounded-full">
+<span class="material-symbols-outlined text-[12px] text-primary">local_library</span>
+<span class="font-label-caps text-[9px] uppercase tracking-widest text-foreground">Stuart McGill 2016</span>
+</div>
+</div>
+</div>
+<!-- Footer Actions (Pinned to bottom) -->
+<div class="p-4 border-t border-border-subtle bg-surface-container-lowest flex flex-col gap-3 shrink-0">
+<!-- Primary Action -->
+<button class="w-full h-10 bg-primary hover:bg-primary-fixed-dim text-on-primary font-label-caps text-label-caps rounded flex justify-center items-center gap-2 transition-all duration-200 shadow-[0_0_10px_rgba(160,202,252,0.1)]">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+                Accept Change
+            </button>
+<div class="flex gap-2">
+<!-- Ghost Action -->
+<button class="flex-1 h-9 bg-transparent hover:bg-surface-elevated border border-border-subtle text-foreground font-label-caps text-[10px] uppercase tracking-wider rounded transition-colors flex justify-center items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px]">tune</span>
+                    Modify
+                </button>
+<!-- Text Action -->
+<button class="flex-1 h-9 bg-transparent text-foreground-muted hover:text-error hover:bg-error/10 font-label-caps text-[10px] uppercase tracking-wider rounded transition-colors flex justify-center items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px]">close</span>
+                    Reject
+                </button>
+</div>
+</div>
+</aside>
+</body></html>

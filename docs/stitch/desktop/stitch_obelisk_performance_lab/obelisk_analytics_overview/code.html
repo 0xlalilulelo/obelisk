@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Obelisk Analytics</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "foreground-muted": "#A1A1AA",
+                        "secondary-fixed-dim": "#ffb784",
+                        "on-secondary-container": "#ffa867",
+                        "border-subtle": "#26272B",
+                        "surface-container-lowest": "#0e0e10",
+                        "on-secondary-fixed": "#301400",
+                        "outline-variant": "#42474f",
+                        "inverse-on-surface": "#303032",
+                        "foreground": "#F4F4F5",
+                        "on-surface": "#e5e1e4",
+                        "tertiary-fixed": "#ffddb5",
+                        "on-error": "#690005",
+                        "on-tertiary-container": "#e9b268",
+                        "surface-container-highest": "#353437",
+                        "primary-container": "#1f4e79",
+                        "on-background": "#e5e1e4",
+                        "on-tertiary": "#462b00",
+                        "primary": "#a0cafc",
+                        "on-surface-variant": "#c2c7d0",
+                        "on-secondary": "#4f2500",
+                        "on-secondary-fixed-variant": "#713700",
+                        "on-tertiary-fixed": "#2a1800",
+                        "surface-container-low": "#1b1b1d",
+                        "primary-fixed-dim": "#a0cafc",
+                        "on-primary-fixed": "#001d35",
+                        "surface-tint": "#a0cafc",
+                        "secondary-container": "#783b00",
+                        "surface-dim": "#131315",
+                        "on-primary-fixed-variant": "#184974",
+                        "inverse-surface": "#e5e1e4",
+                        "surface-elevated": "#1C1C1F",
+                        "primary-fixed": "#d1e4ff",
+                        "surface": "#131315",
+                        "secondary": "#ffb784",
+                        "inverse-primary": "#35618d",
+                        "surface-container": "#1f1f21",
+                        "surface-container-high": "#2a2a2c",
+                        "surface-bright": "#39393b",
+                        "error-container": "#93000a",
+                        "tertiary": "#f5bc72",
+                        "on-primary-container": "#95bff1",
+                        "tertiary-container": "#6a4300",
+                        "secondary-fixed": "#ffdcc6",
+                        "error": "#ffb4ab",
+                        "on-primary": "#003257",
+                        "on-tertiary-fixed-variant": "#643f00",
+                        "background": "#0A0A0B",
+                        "on-error-container": "#ffdad6",
+                        "surface-variant": "#353437",
+                        "tertiary-fixed-dim": "#f5bc72",
+                        "outline": "#8c9199",
+                        "intensity-copper": "#f5bc72"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "24px",
+                        "gutter": "16px",
+                        "margin-mobile": "16px",
+                        "container-max": "1280px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "data-mono-lg": ["JetBrains Mono"],
+                        "display-lg-mobile": ["Inter"],
+                        "body-base": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "data-mono": ["JetBrains Mono"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["11px", { "lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "data-mono-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.03em", "fontWeight": "600" }],
+                        "body-base": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "600" }],
+                        "data-mono": ["14px", { "lineHeight": "20px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+                        "body-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0em", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .chart-line { stroke-width: 1.5; fill: none; }
+        .chart-grid { stroke: #26272B; stroke-width: 1; }
+    </style>
+</head>
+<body class="bg-background text-foreground font-body-base h-screen overflow-hidden flex flex-col antialiased">
+<!-- TopNavBar (Shared Component) -->
+<nav class="bg-surface dark:bg-surface text-primary dark:text-primary font-body-base text-body-base h-[56px] w-full border-b border-border-subtle flex justify-between items-center px-margin-desktop w-full sticky top-0 z-50">
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary tracking-tighter">OBELISK</div>
+<div class="flex items-center gap-6">
+<!-- Navigation items suppressed since this is a specific dashboard view, but preserving structure if needed -->
+<div class="hidden md:flex gap-6">
+<!-- Example of nav items, but focus is Analytics -->
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-foreground-muted hover:text-foreground transition-colors cursor-pointer" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-foreground-muted hover:text-foreground transition-colors cursor-pointer" data-icon="settings">settings</span>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-DEFAULT font-label-caps text-label-caps hover:opacity-90 transition-opacity">Check-in</button>
+<img alt="Athlete Profile Avatar" class="w-8 h-8 rounded-full border border-border-subtle cursor-pointer object-cover" data-alt="A small, circular avatar portrait of an elite athlete in high-contrast black and white. The lighting is dramatic and technical, fitting a high-performance analytics platform. The subject looks focused and intense, wearing dark athletic gear. The background is a stark, absolute black to blend seamlessly with a dark mode UI." src="https://lh3.googleusercontent.com/aida/AP1WRLuErPB91poSOXX8Cd4WjFktGMwVXtfTUoIkD0HcgnC-10FwNrzgHCsDg6_d3L0SXGDi3SbA6piQe9VTjFAgBm41xkrsypv8FOQHRNS0MQtF260bKCUy4d4NZs-vvzjw4ggRWTPRYD_gkPbTBJwySuVhfFpr97trcMSnwKYUbdinOW-6n-85IkubkKHTgHCjGGS7hAVhYjl3Wysc_5mv0NKBjnZ9fW0jds1TEzgJxnNxHXzDYvFI-s5b0DQ"/>
+</div>
+</nav>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar (Shared Component) -->
+<aside class="bg-surface-container-low dark:bg-surface-container-low text-primary dark:text-primary font-label-caps text-label-caps w-[280px] h-full border-r border-border-subtle flex flex-col py-gutter hidden md:flex shrink-0">
+<div class="px-6 mb-8">
+<div class="font-headline-md text-headline-md text-primary tracking-tighter mb-1">Performance</div>
+<div class="text-foreground-muted font-body-sm text-body-sm flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-intensity-copper"></span> Elite Tier
+                </div>
+</div>
+<nav class="flex-1 flex flex-col gap-1 px-4">
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-foreground-muted hover:bg-surface-container-high hover:text-foreground transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="fitness_center">fitness_center</span> Active Block
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-foreground-muted hover:bg-surface-container-high hover:text-foreground transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span> Conversations
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-foreground-muted hover:bg-surface-container-high hover:text-foreground transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="local_library">local_library</span> Library
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-primary font-bold bg-surface-elevated transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="leaderboard" style="font-variation-settings: 'FILL' 1;">leaderboard</span> Analytics
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-foreground-muted hover:bg-surface-container-high hover:text-foreground transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span> Schedule
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-foreground-muted hover:bg-surface-container-high hover:text-foreground transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span> Settings
+                </a>
+</nav>
+<div class="px-6 mt-auto mb-4">
+<button class="w-full flex items-center justify-between px-3 py-2 border border-border-subtle rounded-DEFAULT text-foreground-muted hover:bg-surface hover:text-foreground transition-colors font-body-sm text-body-sm">
+                    Command Palette <span>⌘K</span>
+</button>
+</div>
+<div class="flex flex-col gap-1 px-4 border-t border-border-subtle pt-4">
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-foreground-muted hover:bg-surface-container-high hover:text-foreground transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span> Support
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-foreground-muted hover:bg-surface-container-high hover:text-foreground transition-colors duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span> Archive
+                </a>
+</div>
+</aside>
+<!-- Main Content (Center Pane) -->
+<main class="flex-1 overflow-y-auto bg-background p-margin-desktop flex flex-col gap-6">
+<!-- Block-over-Block Comparison Card -->
+<section class="bg-surface border border-border-subtle rounded-DEFAULT p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 shrink-0">
+<div>
+<h2 class="font-label-caps text-label-caps text-foreground-muted mb-2 uppercase">Block Δ (Current vs Previous)</h2>
+<div class="flex flex-wrap gap-8">
+<div class="flex items-center gap-3">
+<span class="font-body-sm text-body-sm text-foreground">Squat 1RM</span>
+<span class="font-data-mono-lg text-data-mono-lg text-primary">+12 <span class="text-foreground-muted text-sm">lb</span></span>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-body-sm text-body-sm text-foreground">MAF Pace</span>
+<span class="font-data-mono-lg text-data-mono-lg text-intensity-copper">-0:23 <span class="text-foreground-muted text-sm">/mi</span></span>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-body-sm text-body-sm text-foreground">Bodyweight</span>
+<span class="font-data-mono-lg text-data-mono-lg text-foreground-muted">-1.2 <span class="text-foreground-muted text-sm">lb</span></span>
+</div>
+</div>
+</div>
+<button class="shrink-0 flex items-center gap-2 px-4 py-2 border border-border-subtle rounded-DEFAULT text-foreground font-body-sm text-body-sm hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[16px]" data-icon="download">download</span> Export CSV
+                </button>
+</section>
+<!-- 2 Column Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-gutter flex-1">
+<!-- Left Column (4 Line Charts - 1RM Estimates) -->
+<div class="flex flex-col gap-gutter">
+<h3 class="font-label-caps text-label-caps text-foreground-muted px-2 uppercase">1RM Trajectories</h3>
+<!-- Chart Card 1: Squat -->
+<div class="bg-surface border border-border-subtle rounded-DEFAULT p-4 flex flex-col justify-between h-[180px]">
+<div class="flex justify-between items-baseline mb-4">
+<span class="font-body-sm text-body-sm text-foreground">Squat</span>
+<span class="font-data-mono text-data-mono text-primary">405 lb</span>
+</div>
+<div class="flex-1 w-full relative">
+<!-- Minimalist SVG Chart Placeholder -->
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 100 40">
+<polyline class="chart-line stroke-primary" points="0,35 20,30 40,28 60,20 80,15 100,10"></polyline>
+<line class="chart-grid" x1="0" x2="100" y1="40" y2="40"></line>
+</svg>
+</div>
+</div>
+<!-- Chart Card 2: Bench -->
+<div class="bg-surface border border-border-subtle rounded-DEFAULT p-4 flex flex-col justify-between h-[180px]">
+<div class="flex justify-between items-baseline mb-4">
+<span class="font-body-sm text-body-sm text-foreground">Bench Press</span>
+<span class="font-data-mono text-data-mono text-primary">275 lb</span>
+</div>
+<div class="flex-1 w-full relative">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 100 40">
+<polyline class="chart-line stroke-primary" points="0,30 20,28 40,25 60,22 80,18 100,15"></polyline>
+<line class="chart-grid" x1="0" x2="100" y1="40" y2="40"></line>
+</svg>
+</div>
+</div>
+<!-- Chart Card 3: Deadlift -->
+<div class="bg-surface border border-border-subtle rounded-DEFAULT p-4 flex flex-col justify-between h-[180px]">
+<div class="flex justify-between items-baseline mb-4">
+<span class="font-body-sm text-body-sm text-foreground">Deadlift</span>
+<span class="font-data-mono text-data-mono text-primary">495 lb</span>
+</div>
+<div class="flex-1 w-full relative">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 100 40">
+<polyline class="chart-line stroke-primary" points="0,38 20,35 40,25 60,20 80,12 100,5"></polyline>
+<line class="chart-grid" x1="0" x2="100" y1="40" y2="40"></line>
+</svg>
+</div>
+</div>
+<!-- Chart Card 4: Press -->
+<div class="bg-surface border border-border-subtle rounded-DEFAULT p-4 flex flex-col justify-between h-[180px]">
+<div class="flex justify-between items-baseline mb-4">
+<span class="font-body-sm text-body-sm text-foreground">Overhead Press</span>
+<span class="font-data-mono text-data-mono text-primary">185 lb</span>
+</div>
+<div class="flex-1 w-full relative">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 100 40">
+<polyline class="chart-line stroke-primary" points="0,20 20,22 40,18 60,15 80,12 100,10"></polyline>
+<line class="chart-grid" x1="0" x2="100" y1="40" y2="40"></line>
+</svg>
+</div>
+</div>
+</div>
+<!-- Right Column (3 Charts - Mixed Metrics) -->
+<div class="flex flex-col gap-gutter">
+<h3 class="font-label-caps text-label-caps text-foreground-muted px-2 uppercase">Metabolic &amp; Auxiliary</h3>
+<!-- Chart Card 5: MAF Pace -->
+<div class="bg-surface border border-border-subtle rounded-DEFAULT p-4 flex flex-col justify-between h-[250px]">
+<div class="flex justify-between items-baseline mb-4">
+<div>
+<span class="font-body-sm text-body-sm text-foreground block">MAF Pace @ 140bpm</span>
+<span class="font-label-caps text-label-caps text-foreground-muted">8-Week Trend</span>
+</div>
+<span class="font-data-mono text-data-mono text-intensity-copper">8:15 /mi</span>
+</div>
+<div class="flex-1 w-full relative">
+<!-- Downward trend is good for pace -->
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 100 60">
+<polyline class="chart-line stroke-intensity-copper" points="0,10 20,15 40,25 60,35 80,45 100,50"></polyline>
+<line class="chart-grid" x1="0" x2="100" y1="60" y2="60"></line>
+<line class="chart-grid opacity-30" stroke-dasharray="2,2" x1="0" x2="100" y1="30" y2="30"></line>
+</svg>
+</div>
+</div>
+<!-- Chart Card 6: Body Weight + Macros -->
+<div class="bg-surface border border-border-subtle rounded-DEFAULT p-4 flex flex-col justify-between h-[250px]">
+<div class="flex justify-between items-baseline mb-4">
+<div>
+<span class="font-body-sm text-body-sm text-foreground block">Body Weight &amp; Adherence</span>
+<span class="font-label-caps text-label-caps text-foreground-muted">Daily Variance</span>
+</div>
+<span class="font-data-mono text-data-mono text-foreground">184.2 lb</span>
+</div>
+<div class="flex-1 w-full relative">
+<!-- Overlay bar + line concept -->
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 100 60">
+<!-- Bars for macros -->
+<rect fill="#1f4e79" height="20" width="8" x="5" y="40"></rect>
+<rect fill="#1f4e79" height="25" width="8" x="25" y="35"></rect>
+<rect fill="#1f4e79" height="15" width="8" x="45" y="45"></rect>
+<rect fill="#1f4e79" height="30" width="8" x="65" y="30"></rect>
+<rect fill="#1f4e79" height="35" width="8" x="85" y="25"></rect>
+<!-- Line for weight -->
+<polyline class="chart-line stroke-foreground" points="9,20 29,22 49,18 69,15 89,16"></polyline>
+<line class="chart-grid" x1="0" x2="100" y1="60" y2="60"></line>
+</svg>
+</div>
+</div>
+<!-- Chart Card 7: Hangboard -->
+<div class="bg-surface border border-border-subtle rounded-DEFAULT p-4 flex flex-col justify-between h-[236px]">
+<div class="flex justify-between items-baseline mb-4">
+<div>
+<span class="font-body-sm text-body-sm text-foreground block">Hangboard Peak Load</span>
+<span class="font-label-caps text-label-caps text-foreground-muted">% Body Weight (20mm edge)</span>
+</div>
+<span class="font-data-mono text-data-mono text-primary">135%</span>
+</div>
+<div class="flex-1 w-full relative">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 100 60">
+<polyline class="chart-line stroke-primary" points="0,50 20,48 40,40 60,35 80,20 100,10"></polyline>
+<line class="chart-grid" x1="0" x2="100" y1="60" y2="60"></line>
+<text class="font-data-mono text-[6px] fill-foreground-muted" x="0" y="8">Target: 140%</text>
+<line class="stroke-foreground-muted opacity-50" stroke-dasharray="1,2" x1="0" x2="100" y1="12" y2="12"></line>
+</svg>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

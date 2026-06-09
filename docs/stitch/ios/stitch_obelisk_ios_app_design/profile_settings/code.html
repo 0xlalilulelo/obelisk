@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Profile Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#e5e2e3",
+                        "on-tertiary-fixed": "#301400",
+                        "on-secondary-container": "#8eb8ea",
+                        "inverse-primary": "#5f5e5f",
+                        "tertiary-container": "#160600",
+                        "on-background": "#e3e2e7",
+                        "surface-container-lowest": "#0d0e12",
+                        "outline": "#919094",
+                        "secondary": "#a0cafc",
+                        "error": "#ffb4ab",
+                        "tertiary-fixed": "#ffdcc6",
+                        "surface-bright": "#38393d",
+                        "surface-tint": "#c8c6c7",
+                        "tertiary": "#ffb784",
+                        "error-container": "#93000a",
+                        "on-tertiary": "#4f2500",
+                        "on-tertiary-fixed-variant": "#713700",
+                        "on-error": "#690005",
+                        "on-primary-fixed-variant": "#474647",
+                        "on-error-container": "#ffdad6",
+                        "on-surface": "#e3e2e7",
+                        "on-primary-fixed": "#1c1b1c",
+                        "surface-container-highest": "#343539",
+                        "on-secondary": "#003257",
+                        "secondary-fixed-dim": "#a0cafc",
+                        "tertiary-fixed-dim": "#ffb784",
+                        "primary-container": "#0a0a0b",
+                        "surface": "#121317",
+                        "on-surface-variant": "#c7c6ca",
+                        "inverse-on-surface": "#2f3034",
+                        "surface-dim": "#121317",
+                        "on-primary-container": "#7a797a",
+                        "surface-container": "#1e1f23",
+                        "on-secondary-fixed": "#001d35",
+                        "surface-container-high": "#292a2e",
+                        "on-tertiary-container": "#b0672d",
+                        "primary-fixed-dim": "#c8c6c7",
+                        "secondary-fixed": "#d1e4ff",
+                        "on-primary": "#313031",
+                        "primary": "#c8c6c7",
+                        "inverse-surface": "#e3e2e7",
+                        "secondary-container": "#184974",
+                        "surface-variant": "#343539",
+                        "surface-container-low": "#1a1b1f",
+                        "outline-variant": "#46464a",
+                        "on-secondary-fixed-variant": "#184974",
+                        "background": "#121317"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "safe-margin": "16px",
+                        "section-gap": "32px",
+                        "stack-lg": "16px",
+                        "stack-md": "8px",
+                        "stack-sm": "4px",
+                        "gutter": "12px"
+                    },
+                    "fontFamily": {
+                        "page-title": ["Inter"],
+                        "section-label": ["Inter"],
+                        "hero-num": ["JetBrains Mono"],
+                        "body": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "dense-mono": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "page-title": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "page-title-mobile": ["24px", { "lineHeight": "30px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "section-label": ["13px", { "lineHeight": "16px", "letterSpacing": "0.06em", "fontWeight": "600" }],
+                        "hero-num": ["64px", { "lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "dense-mono": ["15px", { "lineHeight": "20px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            -webkit-tap-highlight-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Grouped list row separation */
+        .grouped-row:not(:last-child) {
+            border-bottom: 1px solid theme('colors.outline-variant');
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body antialiased selection:bg-secondary selection:text-on-secondary">
+<!-- TopAppBar -->
+<header class="bg-background/80 backdrop-blur-md dark:bg-background/80 fixed top-0 w-full z-50 flex items-center justify-between px-safe-margin pt-12 pb-4 border-b border-outline-variant flat no shadows">
+<div class="flex items-center gap-3">
+<span class="font-page-title text-page-title-mobile font-bold text-on-background tracking-tight">Profile</span>
+</div>
+<button class="text-on-background dark:text-on-background hover:opacity-80 transition-opacity active:scale-95 duration-100 flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-[100px] pb-[120px] px-safe-margin flex flex-col gap-section-gap">
+<!-- Athlete Identity Card -->
+<section class="bg-surface-container rounded-xl p-4 flex items-center gap-4 border border-outline-variant/30 relative overflow-hidden">
+<!-- Subtle architectural background element -->
+<div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(circle at right top, theme('colors.secondary'), transparent 60%);"></div>
+<div class="w-16 h-16 rounded-full overflow-hidden bg-surface-variant flex-shrink-0 border border-outline-variant/50 relative z-10">
+<img alt="Athlete profile picture" class="w-full h-full object-cover" data-alt="A striking close-up portrait of a high-performance athlete in a dimly lit, minimalist training facility. The lighting is low-key with cool, technical blue and stark white accents highlighting the subject's focused expression. The background is pure deep black void, emphasizing a mood of intense concentration and elite precision." src="https://lh3.googleusercontent.com/aida/AP1WRLtv_WZUUV1cRZYIzhDeeXnqK7WRjM4m0RvnE3eayEWwKXJPWT0orgkm1VCxyeye80j9NfVlrDazoG9NFm8T_UBUnQrbyCySQYswDc-lvfUcltSEJyjVyZQaMU9Nok6S_1yf0SddpTZclwSiHQhZMOiTt9rUFwjyqf3vFpWTj5mwSu-XAyk3i3zHuJNhyPcDbUbApwDfpyfBRMO8wI5TByN1O0z8rmsklKHH01SLZ2d1oQddsV1OCebrFS4"/>
+</div>
+<div class="flex flex-col z-10">
+<h2 class="font-body text-body font-bold text-on-background">Dr. E. Vance</h2>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-dense-mono text-[13px] text-on-surface-variant tracking-wide">ID: 9482-TX</span>
+</div>
+</div>
+</section>
+<!-- Goals & Profile Section -->
+<section class="flex flex-col gap-stack-sm">
+<h3 class="font-section-label text-section-label text-on-surface-variant pl-4 uppercase tracking-wider">Identity &amp; Metrics</h3>
+<div class="bg-surface-container rounded-xl overflow-hidden border border-outline-variant/30 flex flex-col">
+<button class="grouped-row flex items-center justify-between p-4 hover:bg-surface-container-high transition-colors text-left w-full active:bg-surface-variant">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="person">person</span>
+<span class="font-body text-body text-on-background">Personal Information</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant" data-icon="chevron_right">chevron_right</span>
+</button>
+<button class="grouped-row flex items-center justify-between p-4 hover:bg-surface-container-high transition-colors text-left w-full active:bg-surface-variant">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="monitor_weight">monitor_weight</span>
+<span class="font-body text-body text-on-background">Physiological Data</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-dense-mono text-dense-mono text-secondary">Updated Today</span>
+<span class="material-symbols-outlined text-outline-variant" data-icon="chevron_right">chevron_right</span>
+</div>
+</button>
+<button class="grouped-row flex items-center justify-between p-4 hover:bg-surface-container-high transition-colors text-left w-full active:bg-surface-variant">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="flag">flag</span>
+<span class="font-body text-body text-on-background">Performance Goals</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</section>
+<!-- Integrations Section -->
+<section class="flex flex-col gap-stack-sm">
+<h3 class="font-section-label text-section-label text-on-surface-variant pl-4 uppercase tracking-wider">Telemetry Inputs</h3>
+<div class="bg-surface-container rounded-xl overflow-hidden border border-outline-variant/30 flex flex-col">
+<div class="grouped-row flex items-center justify-between p-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="health_and_safety">health_and_safety</span>
+<span class="font-body text-body text-on-background">Apple HealthKit</span>
+</div>
+<!-- Custom Toggle Switch -->
+<div class="w-12 h-6 bg-secondary rounded-full relative cursor-pointer border border-transparent">
+<div class="absolute right-0.5 top-0.5 w-5 h-5 bg-primary-container rounded-full shadow-sm"></div>
+</div>
+</div>
+<div class="grouped-row flex items-center justify-between p-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="directions_run">directions_run</span>
+<span class="font-body text-body text-on-background">Strava Connect</span>
+</div>
+<div class="w-12 h-6 bg-surface-variant rounded-full relative cursor-pointer border border-outline-variant">
+<div class="absolute left-0.5 top-0.5 w-5 h-5 bg-on-surface-variant rounded-full shadow-sm"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Plan Section -->
+<section class="flex flex-col gap-stack-sm">
+<h3 class="font-section-label text-section-label text-on-surface-variant pl-4 uppercase tracking-wider">Access Level</h3>
+<div class="bg-surface-container rounded-xl overflow-hidden border border-outline-variant/30 flex flex-col">
+<button class="grouped-row flex items-center justify-between p-4 hover:bg-surface-container-high transition-colors text-left w-full active:bg-surface-variant">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="card_membership">card_membership</span>
+<span class="font-body text-body text-on-background">Subscription Plan</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="px-2 py-0.5 rounded text-[11px] font-dense-mono font-bold uppercase tracking-wider text-[#C97B3F] bg-[#C97B3F]/15 border border-[#C97B3F]/30">Pro Researcher</span>
+<span class="material-symbols-outlined text-outline-variant" data-icon="chevron_right">chevron_right</span>
+</div>
+</button>
+</div>
+</section>
+<!-- Preferences Section -->
+<section class="flex flex-col gap-stack-sm">
+<h3 class="font-section-label text-section-label text-on-surface-variant pl-4 uppercase tracking-wider">System Config</h3>
+<div class="bg-surface-container rounded-xl overflow-hidden border border-outline-variant/30 flex flex-col">
+<button class="grouped-row flex items-center justify-between p-4 hover:bg-surface-container-high transition-colors text-left w-full active:bg-surface-variant">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="notifications">notifications</span>
+<span class="font-body text-body text-on-background">Alerts &amp; Notifications</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant" data-icon="chevron_right">chevron_right</span>
+</button>
+<button class="grouped-row flex items-center justify-between p-4 hover:bg-surface-container-high transition-colors text-left w-full active:bg-surface-variant">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="database">database</span>
+<span class="font-body text-body text-on-background">Data Management</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant" data-icon="chevron_right">chevron_right</span>
+</button>
+<button class="grouped-row flex items-center justify-between p-4 hover:bg-surface-container-high transition-colors text-left w-full active:bg-surface-variant">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="info">info</span>
+<span class="font-body text-body text-on-background">About Application</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-dense-mono text-dense-mono text-on-surface-variant">v2.4.1</span>
+<span class="material-symbols-outlined text-outline-variant" data-icon="chevron_right">chevron_right</span>
+</div>
+</button>
+</div>
+</section>
+<!-- Sign Out Action -->
+<section class="mt-4">
+<button class="w-full py-4 text-center font-body text-body font-bold text-error bg-surface-container rounded-xl hover:bg-surface-container-high active:scale-[0.98] transition-all border border-outline-variant/30">
+                Terminate Session
+            </button>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="bg-surface/90 backdrop-blur-md dark:bg-surface/90 fixed bottom-0 w-full z-50 flex justify-around items-center px-safe-margin pb-8 pt-2 border-t border-outline-variant flat no shadows md:hidden">
+<!-- Tab 1: Today -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:text-secondary-fixed-dim transition-colors group w-16">
+<span class="material-symbols-outlined mb-1 group-active:scale-90 duration-150" data-icon="calendar_today">calendar_today</span>
+<span class="font-label-sm text-label-sm">Today</span>
+</button>
+<!-- Tab 2: Plan -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:text-secondary-fixed-dim transition-colors group w-16">
+<span class="material-symbols-outlined mb-1 group-active:scale-90 duration-150" data-icon="event_note">event_note</span>
+<span class="font-label-sm text-label-sm">Plan</span>
+</button>
+<!-- Tab 3: Coach -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:text-secondary-fixed-dim transition-colors group w-16">
+<span class="material-symbols-outlined mb-1 group-active:scale-90 duration-150" data-icon="fitness_center">fitness_center</span>
+<span class="font-label-sm text-label-sm">Coach</span>
+</button>
+<!-- Tab 4: Log -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:text-secondary-fixed-dim transition-colors group w-16">
+<span class="material-symbols-outlined mb-1 group-active:scale-90 duration-150" data-icon="history_edu">history_edu</span>
+<span class="font-label-sm text-label-sm">Log</span>
+</button>
+<!-- Tab 5: Profile (Active) -->
+<button class="flex flex-col items-center justify-center text-secondary dark:text-secondary hover:text-secondary-fixed-dim transition-colors group w-16">
+<span class="material-symbols-outlined icon-fill mb-1 scale-90 duration-150" data-icon="person">person</span>
+<span class="font-label-sm text-label-sm font-bold">Profile</span>
+</button>
+</nav>
+</body></html>

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Plan - Technical Instrument UI</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#e5e2e3",
+                        "on-tertiary-fixed": "#301400",
+                        "on-secondary-container": "#8eb8ea",
+                        "inverse-primary": "#5f5e5f",
+                        "tertiary-container": "#160600",
+                        "on-background": "#e3e2e7",
+                        "surface-container-lowest": "#0d0e12",
+                        "outline": "#919094",
+                        "secondary": "#a0cafc",
+                        "error": "#ffb4ab",
+                        "tertiary-fixed": "#ffdcc6",
+                        "surface-bright": "#38393d",
+                        "surface-tint": "#c8c6c7",
+                        "tertiary": "#ffb784",
+                        "error-container": "#93000a",
+                        "on-tertiary": "#4f2500",
+                        "on-tertiary-fixed-variant": "#713700",
+                        "on-error": "#690005",
+                        "on-primary-fixed-variant": "#474647",
+                        "on-error-container": "#ffdad6",
+                        "on-surface": "#e3e2e7",
+                        "on-primary-fixed": "#1c1b1c",
+                        "surface-container-highest": "#343539",
+                        "on-secondary": "#003257",
+                        "secondary-fixed-dim": "#a0cafc",
+                        "tertiary-fixed-dim": "#ffb784",
+                        "primary-container": "#0a0a0b",
+                        "surface": "#121317",
+                        "on-surface-variant": "#c7c6ca",
+                        "inverse-on-surface": "#2f3034",
+                        "surface-dim": "#121317",
+                        "on-primary-container": "#7a797a",
+                        "surface-container": "#1e1f23",
+                        "on-secondary-fixed": "#001d35",
+                        "surface-container-high": "#292a2e",
+                        "on-tertiary-container": "#b0672d",
+                        "primary-fixed-dim": "#c8c6c7",
+                        "secondary-fixed": "#d1e4ff",
+                        "on-primary": "#313031",
+                        "primary": "#c8c6c7",
+                        "inverse-surface": "#e3e2e7",
+                        "secondary-container": "#184974",
+                        "surface-variant": "#343539",
+                        "surface-container-low": "#1a1b1f",
+                        "outline-variant": "#46464a",
+                        "on-secondary-fixed-variant": "#184974",
+                        "background": "#121317"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "safe-margin": "16px",
+                        "section-gap": "32px",
+                        "stack-lg": "16px",
+                        "stack-md": "8px",
+                        "stack-sm": "4px",
+                        "gutter": "12px"
+                    },
+                    "fontFamily": {
+                        "page-title": ["Inter", "sans-serif"],
+                        "section-label": ["Inter", "sans-serif"],
+                        "hero-num": ["JetBrains Mono", "monospace"],
+                        "body": ["Inter", "sans-serif"],
+                        "label-sm": ["Inter", "sans-serif"],
+                        "dense-mono": ["JetBrains Mono", "monospace"]
+                    },
+                    "fontSize": {
+                        "page-title": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "page-title-mobile": ["24px", { "lineHeight": "30px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "section-label": ["13px", { "lineHeight": "16px", "letterSpacing": "0.06em", "fontWeight": "600" }],
+                        "hero-num": ["64px", { "lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "dense-mono": ["15px", { "lineHeight": "20px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Utility to hide scrollbar but keep functionality */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background antialiased min-h-screen font-body selection:bg-secondary/30">
+<!-- TopAppBar (from JSON) -->
+<header class="fixed top-0 w-full z-50 flex items-center justify-between px-safe-margin pt-12 pb-4 bg-background/80 backdrop-blur-md border-b border-outline-variant flat no shadows">
+<div class="flex items-center gap-stack-lg">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center overflow-hidden border border-outline-variant">
+<span class="material-symbols-outlined text-on-surface text-[20px]" style="font-variation-settings: 'FILL' 1;">person</span>
+</div>
+<h1 class="font-page-title text-page-title-mobile font-bold text-on-background">Today</h1>
+</div>
+<button class="text-on-surface-variant hover:opacity-80 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-[96px] pb-[120px] px-safe-margin flex flex-col gap-section-gap">
+<!-- Phase Visualizer Band -->
+<section class="flex flex-col gap-stack-sm pt-4">
+<div class="flex justify-between font-section-label text-section-label uppercase tracking-wider text-[10px]">
+<span class="text-on-surface-variant opacity-50">Accumulation</span>
+<span class="text-tertiary">Intensification</span>
+<span class="text-on-surface-variant opacity-50">Realization</span>
+</div>
+<div class="h-1 bg-surface-container rounded-full overflow-hidden flex relative">
+<!-- Progress Track -->
+<div class="absolute left-0 top-0 h-full w-[45%] bg-surface-variant"></div>
+<!-- Current Position Indicator -->
+<div class="absolute left-[45%] top-0 h-full w-4 bg-tertiary rounded-full shadow-[0_0_8px_rgba(255,183,132,0.6)]"></div>
+</div>
+<div class="flex justify-between font-dense-mono text-label-sm text-on-surface-variant text-[10px] mt-1">
+<span>Wk 1-4</span>
+<span class="text-tertiary">Wk 5-8 (Wk 6)</span>
+<span>Wk 9-12</span>
+</div>
+</section>
+<!-- Week Strip Pills -->
+<section class="-mx-safe-margin px-safe-margin overflow-x-auto snap-x hide-scrollbar">
+<div class="flex gap-gutter pb-4 w-max">
+<!-- Inactive Day -->
+<button class="snap-start flex-shrink-0 w-[56px] py-3 flex flex-col items-center justify-center gap-stack-sm rounded-lg border border-outline-variant bg-surface hover:bg-surface-container-high transition-colors text-on-surface-variant">
+<span class="font-section-label text-section-label uppercase text-[10px]">Mon</span>
+<span class="font-dense-mono text-dense-mono">12</span>
+</button>
+<!-- Active Day (Current) -->
+<button class="snap-start flex-shrink-0 w-[56px] py-3 flex flex-col items-center justify-center gap-stack-sm rounded-lg border border-secondary bg-secondary/10 text-secondary ring-1 ring-secondary/50">
+<span class="font-section-label text-section-label uppercase text-[10px]">Tue</span>
+<span class="font-dense-mono text-dense-mono font-bold">13</span>
+<div class="w-1 h-1 rounded-full bg-secondary mt-1"></div>
+</button>
+<!-- Inactive Day w/ Data Indicator -->
+<button class="snap-start flex-shrink-0 w-[56px] py-3 flex flex-col items-center justify-center gap-stack-sm rounded-lg border border-outline-variant bg-surface hover:bg-surface-container-high transition-colors text-on-surface">
+<span class="font-section-label text-section-label uppercase text-[10px] text-on-surface-variant">Wed</span>
+<span class="font-dense-mono text-dense-mono">14</span>
+<div class="w-1 h-1 rounded-full bg-surface-variant mt-1"></div>
+</button>
+<!-- Inactive Day -->
+<button class="snap-start flex-shrink-0 w-[56px] py-3 flex flex-col items-center justify-center gap-stack-sm rounded-lg border border-outline-variant bg-surface hover:bg-surface-container-high transition-colors text-on-surface-variant">
+<span class="font-section-label text-section-label uppercase text-[10px]">Thu</span>
+<span class="font-dense-mono text-dense-mono">15</span>
+</button>
+<!-- Inactive Day -->
+<button class="snap-start flex-shrink-0 w-[56px] py-3 flex flex-col items-center justify-center gap-stack-sm rounded-lg border border-outline-variant bg-surface hover:bg-surface-container-high transition-colors text-on-surface-variant">
+<span class="font-section-label text-section-label uppercase text-[10px]">Fri</span>
+<span class="font-dense-mono text-dense-mono">16</span>
+</button>
+<button class="snap-start flex-shrink-0 w-[56px] py-3 flex flex-col items-center justify-center gap-stack-sm rounded-lg border border-outline-variant border-dashed bg-transparent text-on-surface-variant opacity-50">
+<span class="font-section-label text-section-label uppercase text-[10px]">Sat</span>
+<span class="font-dense-mono text-dense-mono">17</span>
+</button>
+</div>
+</section>
+<!-- Expanded Day Card -->
+<article class="flex flex-col gap-stack-lg bg-surface-container-low rounded-xl p-safe-margin border border-outline-variant relative overflow-hidden">
+<!-- Subtle background accent for intensity -->
+<div class="absolute top-0 right-0 w-32 h-32 bg-tertiary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+<header class="flex justify-between items-center border-b border-outline-variant pb-stack-md z-10">
+<div class="flex flex-col gap-1">
+<h2 class="font-section-label text-section-label text-on-surface uppercase tracking-widest">Tuesday, 13th</h2>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Day 38 • Intensification Phase</span>
+</div>
+<span class="px-2 py-1 bg-tertiary/15 text-tertiary font-dense-mono text-label-sm rounded DEFAULT whitespace-nowrap">High CNS</span>
+</header>
+<div class="flex flex-col gap-section-gap z-10">
+<!-- Strength Block -->
+<div class="flex flex-col gap-stack-md">
+<h3 class="font-section-label text-section-label text-secondary uppercase flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">fitness_center</span>
+                        Strength Block
+                    </h3>
+<div class="flex flex-col gap-1">
+<!-- Data Row -->
+<div class="bg-surface p-stack-md rounded-lg border border-outline-variant flex justify-between items-center group hover:border-secondary-fixed-dim transition-colors cursor-pointer">
+<div class="flex flex-col">
+<span class="font-body text-body text-on-surface font-medium">Heavy Back Squat</span>
+<span class="font-dense-mono text-label-sm text-on-surface-variant">5x3 @ 85% 1RM</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-dense-mono text-dense-mono text-on-surface">315<span class="text-[12px] text-on-surface-variant ml-1">lbs</span></span>
+<span class="material-symbols-outlined text-on-surface-variant text-[16px] group-hover:text-secondary">chevron_right</span>
+</div>
+</div>
+<!-- Data Row -->
+<div class="bg-surface p-stack-md rounded-lg border border-outline-variant flex justify-between items-center group hover:border-secondary-fixed-dim transition-colors cursor-pointer">
+<div class="flex flex-col">
+<span class="font-body text-body text-on-surface font-medium">Romanian Deadlift</span>
+<span class="font-dense-mono text-label-sm text-on-surface-variant">3x8 @ RPE 7</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-dense-mono text-dense-mono text-on-surface">225<span class="text-[12px] text-on-surface-variant ml-1">lbs</span></span>
+<span class="material-symbols-outlined text-on-surface-variant text-[16px] group-hover:text-secondary">chevron_right</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Aerobic Block -->
+<div class="flex flex-col gap-stack-md">
+<h3 class="font-section-label text-section-label text-secondary uppercase flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">monitor_heart</span>
+                        Aerobic Block
+                    </h3>
+<div class="bg-surface p-stack-md rounded-lg border border-outline-variant flex justify-between items-center group hover:border-secondary-fixed-dim transition-colors cursor-pointer">
+<div class="flex flex-col">
+<span class="font-body text-body text-on-surface font-medium">Zone 2 Flush</span>
+<span class="font-dense-mono text-label-sm text-on-surface-variant">Assault Bike • Steady</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-dense-mono text-dense-mono text-on-surface">45:00</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[16px] group-hover:text-secondary">chevron_right</span>
+</div>
+</div>
+</div>
+<!-- Mobility Block -->
+<div class="flex flex-col gap-stack-md opacity-80">
+<h3 class="font-section-label text-section-label text-on-surface-variant uppercase flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">accessibility_new</span>
+                        Mobility Block
+                    </h3>
+<div class="bg-transparent p-stack-md rounded-lg border border-outline-variant border-dashed flex justify-between items-center hover:bg-surface-container-high transition-colors cursor-pointer">
+<div class="flex flex-col">
+<span class="font-body text-body text-on-surface font-medium">Hip &amp; Ankle Protocol</span>
+<span class="font-dense-mono text-label-sm text-on-surface-variant">Optional Recovery</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-dense-mono text-dense-mono text-on-surface-variant">15:00</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[16px]">add_circle</span>
+</div>
+</div>
+</div>
+</div>
+</article>
+</main>
+<!-- FAB: + Adapt (Only visible on Plan screen where relevant) -->
+<button class="fixed bottom-[104px] right-safe-margin z-40 bg-secondary text-on-secondary px-5 py-3 rounded-full flex items-center gap-2 shadow-[0_4px_16px_rgba(160,202,252,0.15)] hover:bg-secondary-fixed-dim transition-all active:scale-95 border border-secondary/20">
+<span class="material-symbols-outlined text-[20px]">auto_awesome</span>
+<span class="font-section-label text-section-label uppercase tracking-widest text-on-secondary">Adapt</span>
+</button>
+<!-- BottomNavBar (from JSON) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 flex justify-around items-center px-safe-margin pb-8 pt-2 bg-surface/90 backdrop-blur-md border-t border-outline-variant flat no shadows">
+<!-- Today (Inactive) -->
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-secondary-fixed-dim transition-colors cursor-pointer w-16">
+<span class="material-symbols-outlined text-[24px]">calendar_today</span>
+<span class="font-label-sm text-label-sm mt-1">Today</span>
+</div>
+<!-- Plan (Active State Logic applied here) -->
+<div class="flex flex-col items-center justify-center text-secondary scale-90 duration-150 cursor-default w-16">
+<!-- Active icon usually filled in this system if indicated, using FILL 1 -->
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">event_note</span>
+<span class="font-label-sm text-label-sm mt-1 font-bold">Plan</span>
+</div>
+<!-- Coach (Inactive) -->
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-secondary-fixed-dim transition-colors cursor-pointer w-16">
+<span class="material-symbols-outlined text-[24px]">fitness_center</span>
+<span class="font-label-sm text-label-sm mt-1">Coach</span>
+</div>
+<!-- Log (Inactive) -->
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-secondary-fixed-dim transition-colors cursor-pointer w-16">
+<span class="material-symbols-outlined text-[24px]">history_edu</span>
+<span class="font-label-sm text-label-sm mt-1">Log</span>
+</div>
+<!-- Profile (Inactive) -->
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-secondary-fixed-dim transition-colors cursor-pointer w-16">
+<span class="material-symbols-outlined text-[24px]">person</span>
+<span class="font-label-sm text-label-sm mt-1">Profile</span>
+</div>
+</nav>
+<!-- Desktop Navigation Fallback (Hidden on Mobile, per requirements) -->
+<nav class="hidden md:flex fixed top-0 left-0 h-full w-[240px] border-r border-outline-variant bg-surface-container-lowest flex-col py-12 px-6 gap-8 z-40">
+<div class="font-page-title text-page-title text-on-background font-bold tracking-tight">INSTRUMENT</div>
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface p-2 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-body text-body">Today</span>
+</a>
+<a class="flex items-center gap-3 text-secondary bg-secondary/10 p-2 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">event_note</span>
+<span class="font-body text-body font-medium">Plan</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface p-2 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">fitness_center</span>
+<span class="font-body text-body">Coach</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface p-2 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">history_edu</span>
+<span class="font-body text-body">Log</span>
+</a>
+</div>
+</nav>
+</body></html>

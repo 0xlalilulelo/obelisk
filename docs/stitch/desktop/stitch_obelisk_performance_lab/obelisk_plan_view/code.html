@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Obelisk - Plan View</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "foreground-muted": "#A1A1AA",
+                        "secondary-fixed-dim": "#ffb784",
+                        "on-secondary-container": "#ffa867",
+                        "border-subtle": "#26272B",
+                        "surface-container-lowest": "#0e0e10",
+                        "on-secondary-fixed": "#301400",
+                        "outline-variant": "#42474f",
+                        "inverse-on-surface": "#303032",
+                        "foreground": "#F4F4F5",
+                        "on-surface": "#e5e1e4",
+                        "tertiary-fixed": "#ffddb5",
+                        "on-error": "#690005",
+                        "on-tertiary-container": "#e9b268",
+                        "surface-container-highest": "#353437",
+                        "primary-container": "#1f4e79",
+                        "on-background": "#e5e1e4",
+                        "on-tertiary": "#462b00",
+                        "primary": "#a0cafc",
+                        "on-surface-variant": "#c2c7d0",
+                        "on-secondary": "#4f2500",
+                        "on-secondary-fixed-variant": "#713700",
+                        "on-tertiary-fixed": "#2a1800",
+                        "surface-container-low": "#1b1b1d",
+                        "primary-fixed-dim": "#a0cafc",
+                        "on-primary-fixed": "#001d35",
+                        "surface-tint": "#a0cafc",
+                        "secondary-container": "#783b00",
+                        "surface-dim": "#131315",
+                        "on-primary-fixed-variant": "#184974",
+                        "inverse-surface": "#e5e1e4",
+                        "surface-elevated": "#1C1C1F",
+                        "primary-fixed": "#d1e4ff",
+                        "surface": "#131315",
+                        "secondary": "#ffb784",
+                        "inverse-primary": "#35618d",
+                        "surface-container": "#1f1f21",
+                        "surface-container-high": "#2a2a2c",
+                        "surface-bright": "#39393b",
+                        "error-container": "#93000a",
+                        "tertiary": "#f5bc72",
+                        "on-primary-container": "#95bff1",
+                        "tertiary-container": "#6a4300",
+                        "secondary-fixed": "#ffdcc6",
+                        "error": "#ffb4ab",
+                        "on-primary": "#003257",
+                        "on-tertiary-fixed-variant": "#643f00",
+                        "background": "#0A0A0B",
+                        "on-error-container": "#ffdad6",
+                        "surface-variant": "#353437",
+                        "tertiary-fixed-dim": "#f5bc72",
+                        "outline": "#8c9199"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "24px",
+                        "gutter": "16px",
+                        "margin-mobile": "16px",
+                        "container-max": "1280px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "data-mono-lg": ["JetBrains Mono"],
+                        "display-lg-mobile": ["Inter"],
+                        "body-base": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "data-mono": ["JetBrains Mono"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["11px", { "lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "data-mono-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.03em", "fontWeight": "600" }],
+                        "body-base": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "600" }],
+                        "data-mono": ["14px", { "lineHeight": "20px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+                        "body-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0em", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-foreground h-screen flex flex-col overflow-hidden font-body-base text-body-base">
+<!-- Top Navigation -->
+<header class="flex justify-between items-center px-margin-desktop w-full sticky top-0 z-50 h-[56px] border-b border-border-subtle bg-surface">
+<div class="flex items-center gap-4">
+<img alt="Obelisk Logo" class="h-6 object-contain" src="data:image/png;base64,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"/>
+</div>
+<!-- Navigation Links (Hidden on Mobile, Center on Web) -->
+<nav class="hidden md:flex space-x-8 h-full">
+<a class="flex items-center h-full px-2 text-foreground-muted hover:bg-surface-container transition-colors cursor-pointer active:opacity-80 transition-opacity" href="#">Dashboard</a>
+<a class="flex items-center h-full px-2 text-primary border-b-2 border-primary hover:bg-surface-container transition-colors cursor-pointer active:opacity-80 transition-opacity" href="#">Plan</a>
+<a class="flex items-center h-full px-2 text-foreground-muted hover:bg-surface-container transition-colors cursor-pointer active:opacity-80 transition-opacity" href="#">Logs</a>
+<a class="flex items-center h-full px-2 text-foreground-muted hover:bg-surface-container transition-colors cursor-pointer active:opacity-80 transition-opacity" href="#">Insights</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="p-2 text-foreground-muted hover:text-foreground transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-foreground-muted hover:text-foreground transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="bg-primary-container text-on-primary-container px-4 py-1.5 rounded text-sm font-semibold hover:opacity-90 transition-opacity">Check-in</button>
+<img alt="Athlete Profile Avatar" class="h-8 w-8 rounded-full border border-border-subtle object-cover" data-alt="A close-up portrait of a highly focused athlete, presented in a desaturated, high-contrast style. The background is a dark, abstract texture. The lighting is dramatic and directional, casting strong shadows to emphasize structural facial features. The overall mood is intense, disciplined, and professional, aligning with a premium performance brand." src="https://lh3.googleusercontent.com/aida/AP1WRLtSLrNdxHxfpXUK1ykTiM2N69EadXm2EXC2abjfQfswxxD2SOipX3vuoFbYB8-PHgcbRfRGaZMjcuoCM2QmjSeNmJpQqk9z_x57WSsBQioU7z_u2khzI2j0MJ6gW16fc6YQKAkEkXnIDsY9YJmg3FMAHmTYuJawouw5-fEs1EZhY8K7bacleIT45PK3AR8-r58Ihu6Yy4ZikhsNMn-kIdFOA6m2jtNGkCmJgthL4uEefw8r8s_5Ap-Kjfo"/>
+</div>
+</header>
+<!-- Main Content Area (3-pane layout) -->
+<main class="flex-1 flex overflow-hidden">
+<!-- Left Sidebar -->
+<aside class="w-[280px] h-full border-r border-border-subtle bg-surface-container-low flex flex-col py-gutter shrink-0 hidden lg:flex">
+<div class="px-6 pb-6 border-b border-border-subtle mb-4">
+<div class="flex items-center gap-3">
+<img alt="Coach Avatar" class="w-10 h-10 rounded-full border border-border-subtle object-cover" data-alt="A portrait of an elite strength coach or performance director. They are wearing dark, technical athletic apparel. The background is a stark, monochromatic gym environment with blurred steel equipment. The lighting is cool, clinical, and high-key, conveying authority, precision, and technical expertise in sports science." src="https://lh3.googleusercontent.com/aida/AP1WRLt-gDW0Zuk0nx5XCrzTfa0EWriCSiy3vllaeMrogo8STGHH4PFTN9jcusdTpEAD0s8cizi46oROQ297tkVi-lQhalPUApiJfui-pU8HCwL89UcQqol4X9dmqBSu4jMNwx9e_n7_PvG8nAyccmECdRh3ZZEsJl1vTqco9WXEIViZEfCvMPhUVUpzhgPKcs79jMPwY4cwmQvSo4Pgtn-T2hPwup5RxME5w2MDc2fosgLd4zp21C-5HOd4UsE"/>
+<div>
+<div class="font-headline-md text-headline-md text-primary tracking-tight" style="font-size: 16px; line-height: 20px;">Performance</div>
+<div class="font-label-caps text-label-caps text-foreground-muted">Elite Tier</div>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-foreground-muted font-label-caps text-label-caps hover:bg-surface-container-high text-foreground rounded duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[18px]">fitness_center</span> Active Block
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-foreground-muted font-label-caps text-label-caps hover:bg-surface-container-high text-foreground rounded duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[18px]">chat_bubble</span> Conversations
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-foreground-muted font-label-caps text-label-caps hover:bg-surface-container-high text-foreground rounded duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[18px]">local_library</span> Library
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-foreground-muted font-label-caps text-label-caps hover:bg-surface-container-high text-foreground rounded duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[18px]">leaderboard</span> Analytics
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-primary font-bold bg-surface-elevated font-label-caps text-label-caps rounded duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span> Schedule
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-foreground-muted font-label-caps text-label-caps hover:bg-surface-container-high text-foreground rounded duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[18px]">settings</span> Settings
+                </a>
+</nav>
+<div class="px-4 mt-auto border-t border-border-subtle pt-4 space-y-1">
+<button class="w-full flex items-center justify-center gap-2 py-2 border border-border-subtle bg-surface text-foreground-muted font-label-caps text-label-caps rounded hover:bg-surface-container transition-colors mb-4">
+<span class="material-symbols-outlined text-[16px]">search</span> Command Palette (⌘K)
+                </button>
+<a class="flex items-center gap-3 px-3 py-2 text-foreground-muted font-label-caps text-label-caps hover:bg-surface-container-high text-foreground rounded duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[18px]">help</span> Support
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-foreground-muted font-label-caps text-label-caps hover:bg-surface-container-high text-foreground rounded duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[18px]">history</span> Archive
+                </a>
+</div>
+</aside>
+<!-- Center Pane (Main Content) -->
+<section class="flex-1 overflow-y-auto bg-surface flex flex-col p-6 min-w-0">
+<!-- Meso/phase visualizer -->
+<div class="mb-8 border border-border-subtle bg-surface-container p-4 rounded-sm">
+<div class="flex justify-between items-center mb-4">
+<h2 class="font-headline-md text-headline-md tracking-tight">Crucible-25</h2>
+<span class="font-data-mono text-data-mono text-primary">W4 / D2</span>
+</div>
+<div class="flex gap-1 h-2 w-full bg-surface-container-low rounded-full overflow-hidden border border-border-subtle">
+<!-- Wave 1 (Completed) -->
+<div class="flex-1 bg-surface-variant relative group cursor-pointer hover:bg-outline-variant transition-colors">
+<div class="absolute inset-0 border-r border-border-subtle"></div>
+</div>
+<!-- Wave 2 (Current) -->
+<div class="flex-[1.5] flex gap-px relative group cursor-pointer">
+<div class="flex-1 bg-primary-container h-full"></div>
+<div class="flex-1 bg-primary h-full shadow-[0_0_8px_rgba(160,202,252,0.3)]"></div>
+<div class="flex-1 bg-primary-container h-full"></div>
+<div class="flex-1 bg-surface-variant h-full"></div>
+</div>
+<!-- Wave 3 (Future) -->
+<div class="flex-1 bg-surface-container-lowest relative group cursor-pointer hover:bg-surface-container transition-colors">
+<div class="absolute inset-0 border-l border-border-subtle"></div>
+</div>
+</div>
+<div class="flex justify-between mt-2 font-label-caps text-label-caps text-foreground-muted">
+<span>Wave 1: Accumulation</span>
+<span class="text-primary">Wave 2: Intensification (Current)</span>
+<span>Wave 3: Realization</span>
+</div>
+</div>
+<!-- Week-strip -->
+<div class="flex gap-2 mb-8 overflow-x-auto pb-2 -mx-2 px-2 snap-x">
+<!-- Day 1 (Past) -->
+<div class="min-w-[140px] flex-1 h-[100px] border border-border-subtle bg-surface-container-low p-3 flex flex-col justify-between rounded-sm snap-start opacity-70">
+<div class="flex justify-between items-start">
+<span class="font-label-caps text-label-caps text-foreground-muted">MON 12</span>
+<span class="bg-error-container text-on-error-container font-label-caps text-[9px] px-1.5 py-0.5 rounded-sm">HARD</span>
+</div>
+<div class="font-data-mono text-data-mono text-foreground truncate" title="SQ + Pull Heavy">SQ + Pull Heavy</div>
+</div>
+<!-- Day 2 (Current) -->
+<div class="min-w-[140px] flex-1 h-[100px] border border-primary bg-surface shadow-[inset_0_0_0_1px_#1F4E79] p-3 flex flex-col justify-between rounded-sm snap-start relative">
+<div class="absolute top-0 right-0 w-2 h-2 bg-primary rounded-bl-sm"></div>
+<div class="flex justify-between items-start">
+<span class="font-label-caps text-label-caps text-primary">TUE 13</span>
+<span class="bg-tertiary-container text-on-tertiary-container font-label-caps text-[9px] px-1.5 py-0.5 rounded-sm">MODERATE</span>
+</div>
+<div class="font-data-mono text-data-mono text-foreground truncate" title="DL + Bench Light">DL + Bench Light</div>
+</div>
+<!-- Day 3 -->
+<div class="min-w-[140px] flex-1 h-[100px] border border-border-subtle bg-surface-container-low p-3 flex flex-col justify-between rounded-sm snap-start hover:bg-surface transition-colors cursor-pointer">
+<div class="flex justify-between items-start">
+<span class="font-label-caps text-label-caps text-foreground-muted">WED 14</span>
+<span class="bg-surface-variant text-on-surface-variant font-label-caps text-[9px] px-1.5 py-0.5 rounded-sm">REST</span>
+</div>
+<div class="font-data-mono text-data-mono text-foreground-muted truncate" title="Active Recovery">Active Recovery</div>
+</div>
+<!-- Day 4 -->
+<div class="min-w-[140px] flex-1 h-[100px] border border-border-subtle bg-surface-container-low p-3 flex flex-col justify-between rounded-sm snap-start hover:bg-surface transition-colors cursor-pointer">
+<div class="flex justify-between items-start">
+<span class="font-label-caps text-label-caps text-foreground-muted">THU 15</span>
+<span class="bg-error-container text-on-error-container font-label-caps text-[9px] px-1.5 py-0.5 rounded-sm">HARD</span>
+</div>
+<div class="font-data-mono text-data-mono text-foreground truncate" title="Bench Heavy + SQ Light">Bench Heavy...</div>
+</div>
+<!-- Day 5 -->
+<div class="min-w-[140px] flex-1 h-[100px] border border-border-subtle bg-surface-container-low p-3 flex flex-col justify-between rounded-sm snap-start hover:bg-surface transition-colors cursor-pointer">
+<div class="flex justify-between items-start">
+<span class="font-label-caps text-label-caps text-foreground-muted">FRI 16</span>
+<span class="bg-primary-container text-on-primary-container font-label-caps text-[9px] px-1.5 py-0.5 rounded-sm">LIGHT</span>
+</div>
+<div class="font-data-mono text-data-mono text-foreground truncate" title="Accessories">Accessories</div>
+</div>
+<!-- Day 6 -->
+<div class="min-w-[140px] flex-1 h-[100px] border border-border-subtle bg-surface-container-low p-3 flex flex-col justify-between rounded-sm snap-start hover:bg-surface transition-colors cursor-pointer">
+<div class="flex justify-between items-start">
+<span class="font-label-caps text-label-caps text-foreground-muted">SAT 17</span>
+<span class="border border-border-subtle text-foreground-muted font-label-caps text-[9px] px-1.5 py-0.5 rounded-sm">LONG</span>
+</div>
+<div class="font-data-mono text-data-mono text-foreground truncate" title="Zone 2 Run (60m)">Zone 2 Run...</div>
+</div>
+<!-- Day 7 -->
+<div class="min-w-[140px] flex-1 h-[100px] border border-border-subtle bg-surface-container-low p-3 flex flex-col justify-between rounded-sm snap-start hover:bg-surface transition-colors cursor-pointer">
+<div class="flex justify-between items-start">
+<span class="font-label-caps text-label-caps text-foreground-muted">SUN 18</span>
+<span class="bg-surface-variant text-on-surface-variant font-label-caps text-[9px] px-1.5 py-0.5 rounded-sm">REST</span>
+</div>
+<div class="font-data-mono text-data-mono text-foreground-muted truncate" title="Complete Rest">Complete Rest</div>
+</div>
+</div>
+<!-- Day Card (Expanded) -->
+<div class="flex-1 flex flex-col border border-border-subtle bg-surface-container-lowest rounded-sm overflow-hidden mb-6">
+<!-- Card Header -->
+<div class="p-4 border-b border-border-subtle bg-surface flex justify-between items-center">
+<div>
+<h3 class="font-headline-md text-headline-md">DL + Bench Light</h3>
+<div class="font-label-caps text-label-caps text-foreground-muted mt-1">Tuesday, Aug 13 • Est. 75 mins</div>
+</div>
+<div class="flex gap-2">
+<button class="px-3 py-1.5 border border-border-subtle text-foreground font-label-caps text-label-caps rounded-sm hover:bg-surface-container transition-colors">Edit</button>
+<button class="px-3 py-1.5 bg-primary text-on-primary font-label-caps text-label-caps rounded-sm hover:opacity-90 transition-opacity">Start Session</button>
+</div>
+</div>
+<!-- 3 Columns -->
+<div class="flex-1 flex flex-col lg:flex-row divide-y lg:divide-y-0 lg:divide-x divide-border-subtle overflow-y-auto">
+<!-- Strength Block -->
+<div class="flex-[2] p-6">
+<h4 class="font-label-caps text-label-caps text-primary mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">fitness_center</span> Strength
+                        </h4>
+<div class="space-y-1 font-data-mono text-data-mono">
+<!-- Header Row -->
+<div class="flex px-2 py-1 text-foreground-muted font-label-caps text-label-caps border-b border-border-subtle mb-2">
+<div class="w-8">Ltr</div>
+<div class="flex-1">Movement</div>
+<div class="w-16 text-right">Sets</div>
+<div class="w-16 text-right">Reps</div>
+<div class="w-24 text-right">Load/Int</div>
+</div>
+<!-- Row 1 -->
+<div class="flex px-2 py-2 hover:bg-surface-container rounded-sm transition-colors group border-b border-border-subtle/50">
+<div class="w-8 text-foreground-muted">A</div>
+<div class="flex-1">Deadlift (Conventional)</div>
+<div class="w-16 text-right">4</div>
+<div class="w-16 text-right">5</div>
+<div class="w-24 text-right text-primary">70% 1RM</div>
+</div>
+<!-- Row 2 -->
+<div class="flex px-2 py-2 hover:bg-surface-container rounded-sm transition-colors group border-b border-border-subtle/50">
+<div class="w-8 text-foreground-muted">B</div>
+<div class="flex-1">Bench Press (Comp)</div>
+<div class="w-16 text-right">3</div>
+<div class="w-16 text-right">8</div>
+<div class="w-24 text-right text-tertiary">RPE 7</div>
+</div>
+<!-- Row 3 -->
+<div class="flex px-2 py-2 hover:bg-surface-container rounded-sm transition-colors group border-b border-border-subtle/50">
+<div class="w-8 text-foreground-muted">C1</div>
+<div class="flex-1 text-foreground-muted">DB Row</div>
+<div class="w-16 text-right">3</div>
+<div class="w-16 text-right">10-12</div>
+<div class="w-24 text-right">Moderate</div>
+</div>
+<!-- Row 4 -->
+<div class="flex px-2 py-2 hover:bg-surface-container rounded-sm transition-colors group">
+<div class="w-8 text-foreground-muted">C2</div>
+<div class="flex-1 text-foreground-muted">Face Pulls</div>
+<div class="w-16 text-right">3</div>
+<div class="w-16 text-right">15</div>
+<div class="w-24 text-right">Light</div>
+</div>
+</div>
+</div>
+<!-- Aerobic Block -->
+<div class="flex-1 p-6">
+<h4 class="font-label-caps text-label-caps text-secondary mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">monitor_heart</span> Aerobic
+                        </h4>
+<div class="border border-border-subtle rounded-sm p-4 bg-surface-container-low mb-4">
+<div class="font-data-mono text-data-mono text-foreground mb-1">Rowing Machine</div>
+<div class="font-body-sm text-body-sm text-foreground-muted mb-4">Steady state flush post-lifting.</div>
+<div class="flex justify-between items-end mb-1">
+<span class="font-label-caps text-label-caps text-foreground-muted">Target HR</span>
+<span class="font-data-mono-lg text-data-mono-lg text-secondary">110-130<span class="text-body-sm text-foreground-muted ml-1">bpm</span></span>
+</div>
+<div class="w-full bg-surface-variant h-1.5 rounded-full overflow-hidden">
+<div class="bg-secondary w-[40%] h-full ml-[20%]"></div>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="flex-1 border border-border-subtle rounded-sm p-3 bg-surface text-center">
+<div class="font-label-caps text-label-caps text-foreground-muted mb-1">Duration</div>
+<div class="font-data-mono text-data-mono text-foreground">15 min</div>
+</div>
+<div class="flex-1 border border-border-subtle rounded-sm p-3 bg-surface text-center">
+<div class="font-label-caps text-label-caps text-foreground-muted mb-1">Pace</div>
+<div class="font-data-mono text-data-mono text-foreground">2:15 /500</div>
+</div>
+</div>
+</div>
+<!-- Mobility Block -->
+<div class="flex-1 p-6">
+<h4 class="font-label-caps text-label-caps text-tertiary mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">accessibility_new</span> Mobility
+                        </h4>
+<ul class="space-y-3 font-body-sm text-body-sm text-foreground-muted list-disc pl-4 marker:text-tertiary">
+<li>Couch stretch: 2 mins per side (focus on hip extension).</li>
+<li>Thoracic extensions over foam roller: 15 reps slowly.</li>
+<li>Banded shoulder dislocations: 2x10 reps.</li>
+<li>90/90 hip switches: 10 per side.</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Bottom: Macro chips -->
+<div class="mt-auto pt-4 border-t border-border-subtle flex gap-4 items-center">
+<span class="font-label-caps text-label-caps text-foreground-muted mr-2">Target Nutrition:</span>
+<div class="flex gap-px border border-border-subtle rounded-sm overflow-hidden font-data-mono text-data-mono bg-border-subtle">
+<div class="bg-surface px-3 py-1 flex items-center gap-2">
+<span class="text-foreground-muted">P</span>
+<span class="text-primary">180g</span>
+</div>
+<div class="bg-surface px-3 py-1 flex items-center gap-2">
+<span class="text-foreground-muted">C</span>
+<span class="text-tertiary">350g</span>
+</div>
+<div class="bg-surface px-3 py-1 flex items-center gap-2">
+<span class="text-foreground-muted">F</span>
+<span class="text-secondary">110g</span>
+</div>
+</div>
+<div class="border border-border-subtle bg-surface-container-low px-4 py-1 rounded-sm font-data-mono text-data-mono text-foreground ml-auto">
+                    3,400 <span class="text-foreground-muted text-[12px]">kcal</span>
+</div>
+</div>
+</section>
+<!-- Right Pane (Context / Quick Actions - Optional but implied by 3-pane request) -->
+<aside class="w-[300px] border-l border-border-subtle bg-surface-container-low p-6 hidden xl:block flex-col overflow-y-auto">
+<h3 class="font-label-caps text-label-caps text-foreground-muted mb-4 border-b border-border-subtle pb-2">Recent Metrics</h3>
+<div class="space-y-4 mb-8">
+<!-- Metric Item -->
+<div class="flex justify-between items-center">
+<span class="font-body-sm text-body-sm text-foreground-muted">Morning Bodyweight</span>
+<span class="font-data-mono text-data-mono text-foreground">84.2 kg</span>
+</div>
+<!-- Metric Item -->
+<div class="flex justify-between items-center">
+<span class="font-body-sm text-body-sm text-foreground-muted">Sleep Quality (Oura)</span>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="font-data-mono text-data-mono text-foreground">88</span>
+</div>
+</div>
+<!-- Metric Item -->
+<div class="flex justify-between items-center">
+<span class="font-body-sm text-body-sm text-foreground-muted">HRV Readiness</span>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span class="font-data-mono text-data-mono text-foreground">72 ms</span>
+</div>
+</div>
+</div>
+<h3 class="font-label-caps text-label-caps text-foreground-muted mb-4 border-b border-border-subtle pb-2">Coach Notes</h3>
+<div class="bg-surface border border-border-subtle p-3 rounded-sm font-body-sm text-body-sm text-foreground-muted italic relative">
+<span class="material-symbols-outlined absolute -top-2 -left-2 text-[16px] text-primary bg-surface-container-low rounded-full">format_quote</span>
+                 "Feeling good about the volume this week. Let's keep the RPE strictly at 7 for the bench work today. Don't push it."
+                 <div class="mt-2 text-right not-italic font-label-caps text-[9px] text-primary">- Coach T.</div>
+</div>
+</aside>
+</main>
+</body></html>

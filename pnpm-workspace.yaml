@@ -1,0 +1,5 @@
+packages:
+  - "apps/desktop"
+  - "packages/*"
+# Note: apps/api (Python/uv) and apps/ios (Swift/Xcode) are NOT pnpm workspaces.
+# They are managed by uv and Xcode respectively. See their READMEs.

@@ -1,0 +1,35 @@
+# Local dev stack: Postgres 16 + pgvector, plus a one-shot Alembic migration runner.
+#   docker compose -f infra/docker-compose.dev.yml up -d
+# The API itself runs on the host (uv run uvicorn ...) per the root README.
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: obelisk
+      POSTGRES_PASSWORD: obelisk
+      POSTGRES_DB: obelisk
+    ports:
+      - "5432:5432"
+    volumes:
+      - obelisk_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U obelisk -d obelisk"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # Applies migrations on boot, then exits. Build context is the repo root.
+  migrate:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile
+    command: ["uv", "run", "alembic", "upgrade", "head"]
+    environment:
+      DATABASE_URL: postgresql+psycopg://obelisk:obelisk@db:5432/obelisk
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+
+volumes:
+  obelisk_pgdata:

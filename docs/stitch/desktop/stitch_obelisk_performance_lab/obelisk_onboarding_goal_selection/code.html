@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Obelisk Onboarding</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "foreground-muted": "#A1A1AA",
+                      "secondary-fixed-dim": "#ffb784",
+                      "on-secondary-container": "#ffa867",
+                      "border-subtle": "#26272B",
+                      "surface-container-lowest": "#0e0e10",
+                      "on-secondary-fixed": "#301400",
+                      "outline-variant": "#42474f",
+                      "inverse-on-surface": "#303032",
+                      "foreground": "#F4F4F5",
+                      "on-surface": "#e5e1e4",
+                      "tertiary-fixed": "#ffddb5",
+                      "on-error": "#690005",
+                      "on-tertiary-container": "#e9b268",
+                      "surface-container-highest": "#353437",
+                      "primary-container": "#1f4e79",
+                      "on-background": "#e5e1e4",
+                      "on-tertiary": "#462b00",
+                      "primary": "#a0cafc",
+                      "on-surface-variant": "#c2c7d0",
+                      "on-secondary": "#4f2500",
+                      "on-secondary-fixed-variant": "#713700",
+                      "on-tertiary-fixed": "#2a1800",
+                      "surface-container-low": "#1b1b1d",
+                      "primary-fixed-dim": "#a0cafc",
+                      "on-primary-fixed": "#001d35",
+                      "surface-tint": "#a0cafc",
+                      "secondary-container": "#783b00",
+                      "surface-dim": "#131315",
+                      "on-primary-fixed-variant": "#184974",
+                      "inverse-surface": "#e5e1e4",
+                      "surface-elevated": "#1C1C1F",
+                      "primary-fixed": "#d1e4ff",
+                      "surface": "#131315",
+                      "secondary": "#ffb784",
+                      "inverse-primary": "#35618d",
+                      "surface-container": "#1f1f21",
+                      "surface-container-high": "#2a2a2c",
+                      "surface-bright": "#39393b",
+                      "error-container": "#93000a",
+                      "tertiary": "#f5bc72",
+                      "on-primary-container": "#95bff1",
+                      "tertiary-container": "#6a4300",
+                      "secondary-fixed": "#ffdcc6",
+                      "error": "#ffb4ab",
+                      "on-primary": "#003257",
+                      "on-tertiary-fixed-variant": "#643f00",
+                      "background": "#0A0A0B",
+                      "on-error-container": "#ffdad6",
+                      "surface-variant": "#353437",
+                      "tertiary-fixed-dim": "#f5bc72",
+                      "outline": "#8c9199"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "margin-desktop": "24px",
+                      "gutter": "16px",
+                      "margin-mobile": "16px",
+                      "container-max": "1280px",
+                      "unit": "4px"
+              },
+              "fontFamily": {
+                      "label-caps": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "data-mono-lg": ["JetBrains Mono"],
+                      "display-lg-mobile": ["Inter"],
+                      "body-base": ["Inter"],
+                      "display-lg": ["Inter"],
+                      "data-mono": ["JetBrains Mono"],
+                      "body-sm": ["Inter"]
+              },
+              "fontSize": {
+                      "label-caps": ["11px", { "lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "600" }],
+                      "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                      "data-mono-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                      "display-lg-mobile": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.03em", "fontWeight": "600" }],
+                      "body-base": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }],
+                      "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "600" }],
+                      "data-mono": ["14px", { "lineHeight": "20px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+                      "body-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0em", "fontWeight": "400" }]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-foreground min-h-screen flex items-center justify-center font-sans antialiased selection:bg-primary selection:text-on-primary">
+<main class="w-full max-w-[640px] px-margin-mobile md:px-margin-desktop py-12 md:py-24 mx-auto flex flex-col min-h-screen md:min-h-0 justify-center">
+<!-- Progress Indicators -->
+<div aria-label="Progress: Step 1 of 5" class="flex items-center gap-[4px] mb-12 justify-center">
+<div aria-current="step" class="w-[8px] h-[8px] rounded-full bg-primary"></div>
+<div class="w-[8px] h-[8px] rounded-full bg-border-subtle border border-border-subtle"></div>
+<div class="w-[8px] h-[8px] rounded-full bg-border-subtle border border-border-subtle"></div>
+<div class="w-[8px] h-[8px] rounded-full bg-border-subtle border border-border-subtle"></div>
+<div class="w-[8px] h-[8px] rounded-full bg-border-subtle border border-border-subtle"></div>
+</div>
+<!-- Header -->
+<div class="text-center mb-10">
+<h1 class="font-headline-md text-headline-md text-foreground tracking-tight">What's your primary goal?</h1>
+</div>
+<!-- Options Container -->
+<div class="flex flex-col gap-[8px] w-full max-w-[400px] mx-auto mb-16">
+<button class="w-full bg-surface border border-border-subtle hover:bg-surface-container-high transition-colors duration-200 p-[24px] text-left rounded-DEFAULT group focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
+<div class="flex items-center justify-between">
+<span class="font-data-mono-lg text-data-mono-lg text-foreground group-hover:text-primary transition-colors">Lose fat</span>
+<span class="material-symbols-outlined text-foreground-muted group-hover:text-primary opacity-0 group-hover:opacity-100 transition-all transform translate-x-2 group-hover:translate-x-0">arrow_forward</span>
+</div>
+</button>
+<button class="w-full bg-surface border border-border-subtle hover:bg-surface-container-high transition-colors duration-200 p-[24px] text-left rounded-DEFAULT group focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
+<div class="flex items-center justify-between">
+<span class="font-data-mono-lg text-data-mono-lg text-foreground group-hover:text-primary transition-colors">Build muscle</span>
+<span class="material-symbols-outlined text-foreground-muted group-hover:text-primary opacity-0 group-hover:opacity-100 transition-all transform translate-x-2 group-hover:translate-x-0">arrow_forward</span>
+</div>
+</button>
+<button class="w-full bg-surface border border-border-subtle hover:bg-surface-container-high transition-colors duration-200 p-[24px] text-left rounded-DEFAULT group focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
+<div class="flex items-center justify-between">
+<span class="font-data-mono-lg text-data-mono-lg text-foreground group-hover:text-primary transition-colors">Get conditioned</span>
+<span class="material-symbols-outlined text-foreground-muted group-hover:text-primary opacity-0 group-hover:opacity-100 transition-all transform translate-x-2 group-hover:translate-x-0">arrow_forward</span>
+</div>
+</button>
+<button class="w-full bg-surface border border-border-subtle hover:bg-surface-container-high transition-colors duration-200 p-[24px] text-left rounded-DEFAULT group focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
+<div class="flex items-center justify-between">
+<span class="font-data-mono-lg text-data-mono-lg text-foreground group-hover:text-primary transition-colors">Train for an objective</span>
+<span class="material-symbols-outlined text-foreground-muted group-hover:text-primary opacity-0 group-hover:opacity-100 transition-all transform translate-x-2 group-hover:translate-x-0">arrow_forward</span>
+</div>
+</button>
+</div>
+<!-- Footer Action -->
+<div class="text-center mt-auto md:mt-0">
+<a class="font-body-sm text-body-sm text-foreground-muted hover:text-foreground transition-colors uppercase tracking-wider" href="#">Skip and explore</a>
+</div>
+</main>
+</body></html>

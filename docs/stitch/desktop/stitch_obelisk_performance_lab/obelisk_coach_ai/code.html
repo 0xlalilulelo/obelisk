@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Obelisk Coach - Chat Thread</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "foreground-muted": "#A1A1AA",
+                        "secondary-fixed-dim": "#ffb784",
+                        "on-secondary-container": "#ffa867",
+                        "border-subtle": "#26272B",
+                        "surface-container-lowest": "#0e0e10",
+                        "on-secondary-fixed": "#301400",
+                        "outline-variant": "#42474f",
+                        "inverse-on-surface": "#303032",
+                        "foreground": "#F4F4F5",
+                        "on-surface": "#e5e1e4",
+                        "tertiary-fixed": "#ffddb5",
+                        "on-error": "#690005",
+                        "on-tertiary-container": "#e9b268",
+                        "surface-container-highest": "#353437",
+                        "primary-container": "#1f4e79",
+                        "on-background": "#e5e1e4",
+                        "on-tertiary": "#462b00",
+                        "primary": "#a0cafc",
+                        "on-surface-variant": "#c2c7d0",
+                        "on-secondary": "#4f2500",
+                        "on-secondary-fixed-variant": "#713700",
+                        "on-tertiary-fixed": "#2a1800",
+                        "surface-container-low": "#1b1b1d",
+                        "primary-fixed-dim": "#a0cafc",
+                        "on-primary-fixed": "#001d35",
+                        "surface-tint": "#a0cafc",
+                        "secondary-container": "#783b00",
+                        "surface-dim": "#131315",
+                        "on-primary-fixed-variant": "#184974",
+                        "inverse-surface": "#e5e1e4",
+                        "surface-elevated": "#1C1C1F",
+                        "primary-fixed": "#d1e4ff",
+                        "surface": "#131315",
+                        "secondary": "#ffb784",
+                        "inverse-primary": "#35618d",
+                        "surface-container": "#1f1f21",
+                        "surface-container-high": "#2a2a2c",
+                        "surface-bright": "#39393b",
+                        "error-container": "#93000a",
+                        "tertiary": "#f5bc72",
+                        "on-primary-container": "#95bff1",
+                        "tertiary-container": "#6a4300",
+                        "secondary-fixed": "#ffdcc6",
+                        "error": "#ffb4ab",
+                        "on-primary": "#003257",
+                        "on-tertiary-fixed-variant": "#643f00",
+                        "background": "#0A0A0B",
+                        "on-error-container": "#ffdad6",
+                        "surface-variant": "#353437",
+                        "tertiary-fixed-dim": "#f5bc72",
+                        "outline": "#8c9199"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    spacing: {
+                        "margin-desktop": "24px",
+                        "gutter": "16px",
+                        "margin-mobile": "16px",
+                        "container-max": "1280px",
+                        "unit": "4px"
+                    },
+                    fontFamily: {
+                        "label-caps": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "data-mono-lg": ["JetBrains Mono"],
+                        "display-lg-mobile": ["Inter"],
+                        "body-base": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "data-mono": ["JetBrains Mono"],
+                        "body-sm": ["Inter"]
+                    },
+                    fontSize: {
+                        "label-caps": ["11px", { lineHeight: "16px", letterSpacing: "0.08em", fontWeight: "600" }],
+                        "headline-md": ["24px", { lineHeight: "32px", letterSpacing: "-0.02em", fontWeight: "600" }],
+                        "data-mono-lg": ["18px", { lineHeight: "24px", letterSpacing: "-0.02em", fontWeight: "600" }],
+                        "display-lg-mobile": ["32px", { lineHeight: "1.2", letterSpacing: "-0.03em", fontWeight: "600" }],
+                        "body-base": ["14px", { lineHeight: "20px", letterSpacing: "0em", fontWeight: "400" }],
+                        "display-lg": ["48px", { lineHeight: "1.1", letterSpacing: "-0.04em", fontWeight: "600" }],
+                        "data-mono": ["14px", { lineHeight: "20px", letterSpacing: "-0.01em", fontWeight: "500" }],
+                        "body-sm": ["12px", { lineHeight: "16px", letterSpacing: "0em", fontWeight: "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for technical feel */
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0A0A0B;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #26272B;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #42474f;
+        }
+    </style>
+</head>
+<body class="bg-background text-foreground h-screen w-screen overflow-hidden flex font-body-base">
+<!-- Left Pane: SideNavBar from JSON -->
+<nav class="hidden md:flex flex-col h-full py-gutter w-[280px] border-r border-border-subtle bg-surface-container-low shrink-0">
+<!-- Header -->
+<div class="px-margin-desktop mb-8 flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface border border-border-subtle flex items-center justify-center overflow-hidden">
+<img alt="Coach Avatar" class="w-full h-full object-cover grayscale opacity-80" data-alt="A close-up black and white portrait of a focused athletic coach in a dimly lit, high-end training facility. The lighting is dramatic and moody, emphasizing technical authority and a serious, quiet premium aesthetic." src="https://lh3.googleusercontent.com/aida/AP1WRLucwbzsBQc2RrA2vFHMFnwP5BJGyZ_tisdQgax0IlYCxH34eHrD13SiGJZlq8Lglfx-jnxkCRa34rQph1EM9wuGPzyCmMvG5iUcEjknOFkvmXV68udsi0QZ71Pt_dOrf3rsSrGN7q1Wr5EsgS9_SfMa6ooVNd1sSXDIkZDicHnn5-ippD9HX5Xrhej5BUxr8mS5hzgzUdAwX4lBB_tPS7qPi8qIHfvU-PlGrqv9SuQBISgXHxkv5A9V4a8L"/>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md text-primary">Performance</h1>
+<p class="font-label-caps text-label-caps text-foreground-muted">Elite Tier</p>
+</div>
+</div>
+<!-- Main Tabs -->
+<div class="flex-1 flex flex-col gap-1 px-4">
+<a class="flex items-center gap-3 px-3 py-2 rounded text-foreground-muted hover:bg-surface-container-high text-foreground duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[18px]">fitness_center</span>
+<span class="font-label-caps text-label-caps">Active Block</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-primary dark:text-primary font-bold bg-surface-elevated duration-200 ease-in-out border border-border-subtle" href="#">
+<span class="material-symbols-outlined text-[18px] icon-fill">chat_bubble</span>
+<span class="font-label-caps text-label-caps">Conversations</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-foreground-muted hover:bg-surface-container-high text-foreground duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[18px]">local_library</span>
+<span class="font-label-caps text-label-caps">Library</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-foreground-muted hover:bg-surface-container-high text-foreground duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[18px]">leaderboard</span>
+<span class="font-label-caps text-label-caps">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-foreground-muted hover:bg-surface-container-high text-foreground duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+<span class="font-label-caps text-label-caps">Schedule</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-foreground-muted hover:bg-surface-container-high text-foreground duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[18px]">settings</span>
+<span class="font-label-caps text-label-caps">Settings</span>
+</a>
+</div>
+<!-- CTA & Footer -->
+<div class="px-4 mt-auto flex flex-col gap-4">
+<button class="w-full py-2 px-3 flex items-center justify-between bg-surface border border-border-subtle rounded text-foreground-muted hover:text-foreground transition-colors">
+<span class="font-label-caps text-label-caps">Command Palette (⌘K)</span>
+<span class="material-symbols-outlined text-[14px]">search</span>
+</button>
+<div class="flex flex-col gap-1 border-t border-border-subtle pt-4">
+<a class="flex items-center gap-3 px-3 py-2 rounded text-foreground-muted hover:bg-surface-container-high text-foreground duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[18px]">help</span>
+<span class="font-label-caps text-label-caps">Support</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-foreground-muted hover:bg-surface-container-high text-foreground duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[18px]">history</span>
+<span class="font-label-caps text-label-caps">Archive</span>
+</a>
+</div>
+</div>
+</nav>
+<!-- Center Pane: Chat Thread -->
+<main class="flex-1 flex flex-col h-full border-r border-border-subtle bg-background relative min-w-[500px]">
+<!-- Thread Header -->
+<header class="h-[56px] border-b border-border-subtle bg-background/90 backdrop-blur flex items-center px-6 shrink-0 z-10 sticky top-0">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+<h2 class="font-data-mono text-data-mono text-foreground">SYS.OBELISK_COACH_V4</h2>
+</div>
+<div class="ml-auto flex items-center gap-4 text-foreground-muted font-data-mono text-[10px]">
+<span>LATENCY: <span class="text-foreground">12ms</span></span>
+<span>STATE: <span class="text-primary">ACTIVE</span></span>
+</div>
+</header>
+<!-- Chat Scroll Area -->
+<div class="flex-1 overflow-y-auto p-6 space-y-8 flex flex-col">
+<!-- System/Time Marker -->
+<div class="flex items-center justify-center gap-4 opacity-50">
+<div class="h-[1px] w-12 bg-border-subtle"></div>
+<span class="font-data-mono text-[10px] text-foreground-muted">SESSION <span class="text-foreground">ID_8472A</span> • 08:42 UTC</span>
+<div class="h-[1px] w-12 bg-border-subtle"></div>
+</div>
+<!-- Coach Message: Actionable Proposal -->
+<div class="flex flex-col gap-3 self-start max-w-[85%]">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-[14px] text-primary">memory</span>
+<span class="font-label-caps text-label-caps text-primary">Obelisk Analysis</span>
+</div>
+<p class="text-foreground leading-relaxed">
+                    Reviewing telemetry from microcycle <span class="font-data-mono text-primary">M-04</span>. Volume load across posterior chain compounds exceeded target threshold by <span class="font-data-mono text-error">14.2%</span>. CNS fatigue indicators (HRV baseline deviation) suggest insufficient recovery vector.
+                </p>
+<p class="text-foreground-muted">
+                    Recommendation: Immediate structural adjustment to impending block. Shift primary hinge mechanic to unilateral variant and reduce total structural load.
+                </p>
+<!-- Action Card -->
+<div class="mt-2 p-4 border border-border-subtle bg-surface rounded flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-foreground">Proposed Protocol Modification</span>
+<span class="font-data-mono text-[10px] text-primary bg-primary/10 px-2 py-1 rounded">HIGH PRIORITY</span>
+</div>
+<div class="font-data-mono text-body-sm text-foreground-muted space-y-1">
+<div class="flex justify-between"><span>SWAP:</span> <span class="text-foreground">Barbell Deadlift</span></div>
+<div class="flex justify-between"><span>WITH:</span> <span class="text-primary">B-Stance RDL</span></div>
+<div class="flex justify-between"><span>VOLUME:</span> <span><del>4x6 @80%</del> → <span class="text-foreground">3x8 @7 RPE</span></span></div>
+</div>
+<div class="flex items-center gap-3 mt-2">
+<button class="bg-primary text-on-primary font-label-caps text-label-caps px-4 py-2 rounded hover:opacity-90 transition-opacity">Apply this change</button>
+<button class="bg-transparent border border-border-subtle text-foreground font-label-caps text-label-caps px-4 py-2 rounded hover:bg-surface transition-colors">Explain why</button>
+</div>
+</div>
+</div>
+<!-- User Message -->
+<div class="self-end bg-surface border border-border-subtle rounded-lg p-4 max-w-[70%]">
+<p class="text-foreground">What about the squat volume for tomorrow? I felt slightly sluggish during warmups yesterday.</p>
+</div>
+<!-- Coach Message with Citations -->
+<div class="flex flex-col gap-3 self-start max-w-[85%]">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-[14px] text-primary">memory</span>
+<span class="font-label-caps text-label-caps text-primary">Obelisk Analysis</span>
+</div>
+<p class="text-foreground leading-relaxed">
+                    Squat volume remains locked. The sluggishness correlates with the acute posterior fatigue noted above, not anterior chain depletion. Maintaining <span class="font-data-mono text-foreground">75%</span> intensity on primary squat is required to preserve specific adaptation timelines.
+                </p>
+<!-- Citations -->
+<div class="flex flex-wrap gap-2 mt-1">
+<div class="inline-flex items-center gap-1 border border-border-subtle bg-surface-container-low px-2 py-1 rounded text-foreground-muted hover:text-foreground cursor-pointer transition-colors">
+<span class="material-symbols-outlined text-[12px]">menu_book</span>
+<span class="font-data-mono text-[10px]">Renaissance Diet §4</span>
+</div>
+<div class="inline-flex items-center gap-1 border border-border-subtle bg-surface-container-low px-2 py-1 rounded text-foreground-muted hover:text-foreground cursor-pointer transition-colors">
+<span class="material-symbols-outlined text-[12px]">data_usage</span>
+<span class="font-data-mono text-[10px]">5/3/1 BBB Principles</span>
+</div>
+</div>
+</div>
+<!-- Scroll Anchor (empty div to push content up) -->
+<div class="h-4"></div>
+</div>
+<!-- Input Area -->
+<div class="border-t border-border-subtle bg-background p-4 shrink-0">
+<div class="max-w-[800px] mx-auto w-full">
+<!-- Slash Command Hints -->
+<div class="flex items-center gap-3 mb-2 px-2 text-foreground-muted">
+<span class="font-data-mono text-[11px] hover:text-primary cursor-pointer transition-colors">/swap</span>
+<span class="font-data-mono text-[11px] hover:text-primary cursor-pointer transition-colors">/explain</span>
+<span class="font-data-mono text-[11px] hover:text-primary cursor-pointer transition-colors">/deload</span>
+<span class="font-data-mono text-[11px] opacity-50 ml-auto">Type '/' for commands</span>
+</div>
+<!-- Input Container -->
+<div class="relative bg-surface border border-border-subtle rounded flex items-end focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all duration-200">
+<button class="p-3 text-foreground-muted hover:text-foreground transition-colors shrink-0">
+<span class="material-symbols-outlined text-[20px]">attach_file</span>
+</button>
+<textarea class="flex-1 bg-transparent border-none text-foreground font-body-base resize-none py-3 px-1 focus:ring-0 placeholder:text-foreground-muted min-h-[44px] max-h-[120px]" oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px'" placeholder="Acknowledge or request adjustment..." rows="1"></textarea>
+<div class="flex items-center gap-1 p-2 shrink-0">
+<button class="p-2 text-foreground-muted hover:text-foreground rounded transition-colors">
+<span class="material-symbols-outlined text-[20px]">mic</span>
+</button>
+<button class="p-2 bg-primary text-on-primary rounded hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-[20px] icon-fill">arrow_upward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Right Pane: Context/Details -->
+<aside class="hidden lg:flex w-[320px] bg-surface-container-lowest flex-col shrink-0 border-l border-border-subtle">
+<header class="h-[56px] border-b border-border-subtle flex items-center px-4">
+<span class="font-label-caps text-label-caps text-foreground">Active Block Context</span>
+</header>
+<div class="p-4 space-y-6 overflow-y-auto">
+<!-- Vitals Module -->
+<div class="space-y-3">
+<div class="flex items-center justify-between text-foreground-muted">
+<span class="font-label-caps text-label-caps">Current Vitals</span>
+<span class="material-symbols-outlined text-[14px]">monitor_heart</span>
+</div>
+<div class="grid grid-cols-2 gap-px bg-border-subtle border border-border-subtle rounded overflow-hidden">
+<div class="bg-surface p-3 flex flex-col gap-1">
+<span class="font-label-caps text-[10px] text-foreground-muted">RESTING HR</span>
+<div class="flex items-baseline gap-1">
+<span class="font-data-mono-lg text-foreground">48</span>
+<span class="font-data-mono text-[10px] text-foreground-muted">BPM</span>
+</div>
+</div>
+<div class="bg-surface p-3 flex flex-col gap-1">
+<span class="font-label-caps text-[10px] text-foreground-muted">HRV STATUS</span>
+<div class="flex items-baseline gap-1">
+<span class="font-data-mono-lg text-error">52</span>
+<span class="font-data-mono text-[10px] text-foreground-muted">MS</span>
+</div>
+</div>
+<div class="bg-surface p-3 flex flex-col gap-1 col-span-2">
+<span class="font-label-caps text-[10px] text-foreground-muted">READINESS SCORE</span>
+<div class="flex items-center gap-3">
+<span class="font-data-mono-lg text-tertiary">6.4</span>
+<!-- Progress gauge linear -->
+<div class="flex-1 h-[2px] bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-[64%]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Current Macro Cycle -->
+<div class="space-y-3 pt-4 border-t border-border-subtle">
+<div class="flex items-center justify-between text-foreground-muted">
+<span class="font-label-caps text-label-caps">Hypertrophy Phase II</span>
+<span class="font-data-mono text-[10px]">Wk 3/6</span>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center font-data-mono text-[12px]">
+<span class="text-foreground-muted">Volume Load</span>
+<span class="text-foreground">42,500 <span class="text-foreground-muted text-[10px]">kg</span></span>
+</div>
+<div class="flex justify-between items-center font-data-mono text-[12px]">
+<span class="text-foreground-muted">Avg Intensity</span>
+<span class="text-foreground">78%</span>
+</div>
+<div class="flex justify-between items-center font-data-mono text-[12px]">
+<span class="text-foreground-muted">Strain Index</span>
+<span class="text-error">High</span>
+</div>
+</div>
+</div>
+<!-- Reference Chart Dummy -->
+<div class="pt-4 border-t border-border-subtle">
+<span class="font-label-caps text-label-caps text-foreground-muted mb-2 block">Fatigue Trend (7D)</span>
+<div class="h-24 w-full bg-surface border border-border-subtle rounded relative overflow-hidden flex items-end px-2 gap-1 pb-1">
+<!-- Fake sparkline bars -->
+<div class="w-full bg-surface-container-high h-[30%]"></div>
+<div class="w-full bg-surface-container-high h-[40%]"></div>
+<div class="w-full bg-surface-container-high h-[35%]"></div>
+<div class="w-full bg-surface-container-high h-[60%]"></div>
+<div class="w-full bg-surface-container-high h-[75%]"></div>
+<div class="w-full bg-error/80 h-[90%]"></div>
+<div class="w-full bg-error h-[100%]"></div>
+</div>
+</div>
+</div>
+</aside>
+</body></html>
