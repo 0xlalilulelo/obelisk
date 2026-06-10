@@ -13,7 +13,15 @@ from starlette.requests import Request
 
 from obelisk_api.config import get_settings
 from obelisk_api.ratelimit import limiter
-from obelisk_api.routes import athlete, blocks, health, log, subscription, wearable
+from obelisk_api.routes import (
+    athlete,
+    blocks,
+    health,
+    log,
+    notifications,
+    subscription,
+    wearable,
+)
 
 
 def _rate_limit_handler(request: Request, exc: Exception) -> JSONResponse:
@@ -74,6 +82,12 @@ def create_app() -> FastAPI:
     app.include_router(wearable.router, prefix=v1_prefix)
     app.include_router(subscription.router, prefix=v1_prefix)
     app.include_router(subscription.webhook_router, prefix=v1_prefix)
+    app.include_router(notifications.router, prefix=v1_prefix)
+
+    if settings.push_scheduler_enabled:
+        from obelisk_api.services import scheduler
+
+        app.router.add_event_handler("startup", scheduler.start)
 
     return app
 

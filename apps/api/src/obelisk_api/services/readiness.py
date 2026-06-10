@@ -12,7 +12,7 @@ composite by at most that input's weight, which is the guard against the spec's
 
 from __future__ import annotations
 
-from collections.abc import Iterable
+from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta
 from statistics import mean
@@ -136,7 +136,7 @@ def _baseline(samples: Iterable[SampleLike], stype: str, target: date) -> float 
     return mean(vals) if vals else None
 
 
-def compute_readiness(samples: list[SampleLike], target: date) -> Readiness:
+def compute_readiness(samples: Sequence[SampleLike], target: date) -> Readiness:
     """Composite for ``target`` from the athlete's samples. Returns an unknown
     band (score None) when no input is available."""
     factors: list[Factor] = []

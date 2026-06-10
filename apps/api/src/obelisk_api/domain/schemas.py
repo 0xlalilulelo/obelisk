@@ -273,6 +273,37 @@ class AnalyticsLiftsOut(BaseModel):
     series: dict[str, list[LiftPointOut]]
 
 
+# --- Notifications ---------------------------------------------------------
+_HHMM = r"^([01]\d|2[0-3]):[0-5]\d$"
+
+
+class DeviceTokenIn(BaseModel):
+    device_token: str = Field(min_length=1, max_length=200)
+
+
+class NotificationPrefsIn(BaseModel):
+    """Partial update — only provided fields change."""
+
+    morning_ping_enabled: bool | None = None
+    morning_ping_time: str | None = Field(default=None, pattern=_HHMM)
+    weekly_recap_enabled: bool | None = None
+    event_notifications_enabled: bool | None = None
+    quiet_hours_start: str | None = Field(default=None, pattern=_HHMM)
+    quiet_hours_end: str | None = Field(default=None, pattern=_HHMM)
+    timezone: str | None = None
+
+
+class NotificationPrefsOut(BaseModel):
+    morning_ping_enabled: bool
+    morning_ping_time: str
+    weekly_recap_enabled: bool
+    event_notifications_enabled: bool
+    quiet_hours_start: str
+    quiet_hours_end: str
+    timezone: str
+    device_registered: bool
+
+
 # --- Subscriptions ---------------------------------------------------------
 class SubscriptionOut(BaseModel):
     model_config = ConfigDict(from_attributes=True)
