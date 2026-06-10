@@ -28,36 +28,6 @@ struct RootView: View {
     }
 }
 
-/// Minimal Profile tab — identity + sign out. The full editor lands later.
-struct ProfileView: View {
-    var onSignOut: (() -> Void)?
-
-    var body: some View {
-        NavigationStack {
-            VStack(spacing: 16) {
-                Image(systemName: "person.crop.circle")
-                    .font(.system(size: 48))
-                    .foregroundStyle(Theme.foregroundMuted)
-                Text("Profile, integrations, and plan settings land in a later milestone.")
-                    .font(.system(size: 14))
-                    .foregroundStyle(Theme.foregroundMuted)
-                    .multilineTextAlignment(.center)
-                if let onSignOut {
-                    Button(role: .destructive, action: onSignOut) {
-                        Text("Sign out").font(.system(size: 15, weight: .semibold))
-                    }
-                    .padding(.top, 8)
-                }
-            }
-            .padding(32)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Theme.background)
-            .navigationTitle("Profile")
-            .toolbarColorScheme(.dark, for: .navigationBar)
-        }
-    }
-}
-
 /// Shared empty state when no Block is selected yet.
 struct NoBlockState: View {
     let message: String

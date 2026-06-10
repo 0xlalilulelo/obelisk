@@ -37,10 +37,19 @@ demonstrable without a server.
   a fresh Clerk JWT per request via `AuthProvider`; sign-out from Profile. Falls back
   to a dev token when no `CLERK_PUBLISHABLE_KEY` is set (CI / sample runs).
 - **App shell:** 5-tab `TabView` (Today / Plan / Coach / Log / Profile), dark mode.
-  Plan/Coach/Log are placeholders this milestone.
+  all five tabs are real (shared `AppModel` holds the active Block).
 - **Today:** readiness composite with visible factors + behavioral guidance
   (`GET /v1/athlete/readiness`); block selection (`GET /v1/blocks` → active block +
   switcher); today's session card; **Start Session**.
+- **Plan / Coach / Log:** week strip from the day template; streaming Coach chat
+  over SSE with plan-edit Accept/Reject; the unified set-log feed.
+- **Profile:** editable athlete profile (`GET`/`POST /v1/athlete/profile`),
+  notification preferences (`GET`/`PATCH /v1/notifications/preferences`),
+  integrations, and a **Plan / subscription** screen (StoreKit 2 — see below).
+- **Subscriptions (StoreKit 2):** `StorePlanView` loads `obelisk.plus.monthly` /
+  `obelisk.plus.annual`, purchases, and posts the signed transaction to
+  `POST /v1/subscription/apple/verify` (server verifies — never self-granted).
+  Local testing: select `Obelisk.storekit` as the scheme's StoreKit configuration.
 - **HealthKit (read-only, ADR-011):** first-run permission prompt (7-day re-prompt
   backoff), reads body weight / resting HR / HRV / sleep, maps to the wire DTO, and
   posts to `POST /v1/wearable/healthkit`. The HK→DTO mapping is unit-tested.
@@ -54,13 +63,14 @@ demonstrable without a server.
   device UUID, so a gym-basement reconnect never double-logs.
 - **Networking:** `NetworkClient` actor over `/v1`; Codable mirrors of the backend
   schemas.
-- **Tests:** plate math, Epley e1RM (matches the backend), rest formatting, and
-  client pre-fill, and the HealthKit mapping — `xcodebuild test`, 12 passing.
+- **Tests:** plate math, Epley e1RM, rest formatting, in-session pre-fill, HealthKit
+  mapping, SSE frame parsing, message-content extraction, and the ProfileDTO
+  snake_case round-trip — `xcodebuild test`, 15 passing.
 
 ## Next iOS milestones
 
-The Coach SSE chat, the Plan week strip, the Log feed, the editable Profile,
-HealthKit background delivery, push registration, StoreKit 2 subscriptions, and the
-Dynamic Island Live Activity. The HealthKit capability/entitlement is added in
-Xcode's Signing & Capabilities for device/TestFlight builds (omitted from
-`project.yml` so unsigned simulator/CI builds stay eligible).
+Dynamic Island / Live Activity for the in-session rest timer (needs a Widget
+Extension target — deferred), HealthKit background delivery, and APNs device
+registration on launch. The HealthKit capability/entitlement is added in Xcode's
+Signing & Capabilities for device/TestFlight builds (omitted from `project.yml` so
+unsigned simulator/CI builds stay eligible).

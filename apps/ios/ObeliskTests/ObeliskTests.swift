@@ -114,6 +114,27 @@ final class ChatParsingTests: XCTestCase {
     }
 }
 
+final class ProfileDTOTests: XCTestCase {
+    func testRoundTripPreservesSnakeCaseKeys() throws {
+        let p = ProfileDTO(
+            name: "Josh", age: 34, sex: "male", bodyweightLb: 175, heightIn: 74,
+            restingHrBpm: 59, estimated1rm: ["back_squat": 259], primaryGoals: ["bench"],
+            equipment: "full_gym", daysPerWeek: 6, primaryModality: "hybrid"
+        )
+        // ProfileDTO is (de)coded with strategy-free coders (see ProfileModels).
+        let data = try JSONEncoder().encode(p)
+        let json = String(data: data, encoding: .utf8)!
+        XCTAssertTrue(json.contains("\"estimated_1rm\""), "1rm key must survive")
+        XCTAssertTrue(json.contains("\"bodyweight_lb\""))
+        XCTAssertTrue(json.contains("\"primary_goals\""))
+
+        let back = try JSONDecoder().decode(ProfileDTO.self, from: data)
+        XCTAssertEqual(back.estimated1rm["back_squat"], 259)
+        XCTAssertEqual(back.bodyweightLb, 175)
+        XCTAssertEqual(back.daysPerWeek, 6)
+    }
+}
+
 @MainActor
 final class SessionViewModelTests: XCTestCase {
     func testPreFillUsesPriorActualsThenPrescription() {
