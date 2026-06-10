@@ -6,6 +6,7 @@
  */
 
 import type {
+  AnalyticsLifts,
   AthleteProfile,
   AthleteProfileInput,
   Block,
@@ -85,6 +86,7 @@ export function createClient({ baseUrl, getToken }: ClientConfig) {
       request<{ kind: string; url: string; version: number }>(
         `/v1/blocks/${blockId}/artifact/${kind}`,
       ),
+    getLiftAnalytics: () => request<AnalyticsLifts>('/v1/athlete/analytics/lifts'),
 
     /** Stream a chat turn over SSE, invoking onEvent for each parsed event. */
     async streamChat(

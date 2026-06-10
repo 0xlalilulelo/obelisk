@@ -13,22 +13,25 @@ import {
 } from 'lucide-react';
 
 import { useBlocks } from '@/lib/queries';
-import { useAppStore } from '@/lib/store';
+import { type CenterTab, useAppStore } from '@/lib/store';
 import { cn } from '@/lib/utils';
 
-const NAV: { icon: LucideIcon; label: string }[] = [
-  { icon: Dumbbell, label: 'Active Block' },
-  { icon: MessagesSquare, label: 'Conversations' },
+// `tab` items navigate the center pane; the rest are decorative for now.
+const NAV: { icon: LucideIcon; label: string; tab?: CenterTab }[] = [
+  { icon: Dumbbell, label: 'Active Block', tab: 'plan' },
+  { icon: MessagesSquare, label: 'Conversations', tab: 'coach' },
   { icon: BookMarked, label: 'Library' },
-  { icon: BarChart3, label: 'Analytics' },
+  { icon: BarChart3, label: 'Analytics', tab: 'analytics' },
   { icon: Calendar, label: 'Schedule' },
-  { icon: Settings, label: 'Settings' },
+  { icon: Settings, label: 'Settings', tab: 'settings' },
 ];
 
 export function Sidebar() {
   const { data: blocks } = useBlocks();
   const activeBlockId = useAppStore((s) => s.activeBlockId);
+  const activeTab = useAppStore((s) => s.activeTab);
   const setActiveBlock = useAppStore((s) => s.setActiveBlock);
+  const setActiveTab = useAppStore((s) => s.setActiveTab);
   const setNewBlockOpen = useAppStore((s) => s.setNewBlockOpen);
   const setCommandPaletteOpen = useAppStore((s) => s.setCommandPaletteOpen);
 
@@ -40,14 +43,19 @@ export function Sidebar() {
       </div>
 
       <nav className="px-2">
-        {NAV.map(({ icon: Icon, label }, i) => (
+        {NAV.map(({ icon: Icon, label, tab }) => (
           <button
             key={label}
+            onClick={tab ? () => setActiveTab(tab) : undefined}
+            disabled={!tab}
             className={cn(
               'flex w-full items-center gap-3 rounded px-3 py-2 text-body-base transition-colors',
-              i === 0
+              tab && tab === activeTab
                 ? 'font-medium text-primary-accent'
-                : 'text-foreground-muted hover:bg-surface-elevated hover:text-foreground',
+                : 'text-foreground-muted',
+              tab
+                ? 'hover:bg-surface-elevated hover:text-foreground'
+                : 'cursor-default opacity-60',
             )}
           >
             <Icon className="h-4 w-4" strokeWidth={1.5} />
