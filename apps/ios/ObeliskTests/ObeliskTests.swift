@@ -1,6 +1,38 @@
+import HealthKit
 import XCTest
 
 @testable import Obelisk
+
+final class HealthKitMappingTests: XCTestCase {
+    func testSleepSampleCarriesDuration() {
+        let start = Date(timeIntervalSince1970: 0)
+        let end = start.addingTimeInterval(8 * 3600)
+        let dto = HealthKitSync.makeSample(
+            uuid: "u1", sampleType: "sleep", start: start, end: end, value: nil, unit: nil
+        )
+        XCTAssertEqual(dto.sampleType, "sleep")
+        XCTAssertEqual(dto.durationSec, 8 * 3600)
+        XCTAssertEqual(dto.source, "healthkit")
+        XCTAssertNil(dto.value)
+    }
+
+    func testQuantitySampleCarriesValueNotDuration() {
+        let t = Date(timeIntervalSince1970: 1000)
+        let dto = HealthKitSync.makeSample(
+            uuid: "u2", sampleType: "rhr", start: t, end: t, value: 55, unit: "count/min"
+        )
+        XCTAssertEqual(dto.value, 55)
+        XCTAssertNil(dto.durationSec)
+        XCTAssertEqual(dto.unit, "count/min")
+    }
+
+    func testAsleepCategoriesCountAsSleep() {
+        XCTAssertTrue(HealthKitSync.isAsleep(HKCategoryValueSleepAnalysis.asleepCore.rawValue))
+        XCTAssertTrue(HealthKitSync.isAsleep(HKCategoryValueSleepAnalysis.asleepREM.rawValue))
+        XCTAssertFalse(HealthKitSync.isAsleep(HKCategoryValueSleepAnalysis.awake.rawValue))
+        XCTAssertFalse(HealthKitSync.isAsleep(HKCategoryValueSleepAnalysis.inBed.rawValue))
+    }
+}
 
 final class PlateMathTests: XCTestCase {
     func testTwoPlatesPerSide() {

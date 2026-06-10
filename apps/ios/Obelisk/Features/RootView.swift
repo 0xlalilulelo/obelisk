@@ -4,6 +4,9 @@ import SwiftUI
 /// the rest are placeholders this milestone — Coach SSE chat, the Plan week
 /// strip, the Log feed, and the editable Profile land next.
 struct RootView: View {
+    /// Present when Clerk is active; nil in dev/sample mode.
+    var onSignOut: (() -> Void)?
+
     var body: some View {
         TabView {
             TodayView()
@@ -18,7 +21,8 @@ struct RootView: View {
                            detail: "Every set you've logged, synced from the gym.")
                 .tabItem { Label("Log", systemImage: "list.bullet.rectangle") }
             PlaceholderTab(title: "Profile", systemImage: "person",
-                           detail: "Your athlete profile, integrations, and plan.")
+                           detail: "Your athlete profile, integrations, and plan.",
+                           onSignOut: onSignOut)
                 .tabItem { Label("Profile", systemImage: "person") }
         }
     }
@@ -28,6 +32,7 @@ struct PlaceholderTab: View {
     let title: String
     let systemImage: String
     let detail: String
+    var onSignOut: (() -> Void)?
 
     var body: some View {
         NavigationStack {
@@ -41,6 +46,10 @@ struct PlaceholderTab: View {
                     .multilineTextAlignment(.center)
                 Text("Coming in a later Phase 2 milestone")
                     .font(Theme.mono(11)).foregroundStyle(Theme.borderSubtle)
+                if let onSignOut {
+                    Button("Sign out", role: .destructive, action: onSignOut)
+                        .padding(.top, 16)
+                }
             }
             .padding(32)
             .frame(maxWidth: .infinity, maxHeight: .infinity)

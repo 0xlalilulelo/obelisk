@@ -92,6 +92,41 @@ struct ReadinessFactorDTO: Codable, Sendable, Identifiable {
     var id: String { key }
 }
 
+// MARK: Blocks (GET /v1/blocks)
+
+struct BlockSummaryDTO: Codable, Sendable, Identifiable {
+    let id: String
+    let name: String
+    let goal: String
+    let programModel: String
+    let phase: String
+    let startDate: String?
+    let endDate: String?
+    let createdAt: String
+}
+
+// MARK: Wearable ingest (POST /v1/wearable/healthkit)
+
+struct WearableSampleInDTO: Codable, Sendable {
+    let sampleUuid: String
+    let source: String
+    let sampleType: String
+    let occurredAt: String
+    let durationSec: Int?
+    let value: Double?
+    let unit: String?
+}
+
+struct WearableBatchDTO: Codable, Sendable {
+    let samples: [WearableSampleInDTO]
+}
+
+struct WearableBatchResultDTO: Codable, Sendable {
+    let received: Int
+    let inserted: Int
+    let duplicates: Int
+}
+
 // MARK: PR (GET /v1/athlete/pr/{lift})
 
 struct PRDTO: Codable, Sendable {

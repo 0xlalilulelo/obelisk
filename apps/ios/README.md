@@ -27,12 +27,23 @@ Point the app at a backend with the `OBELISK_API_URL` / `OBELISK_DEV_TOKEN` /
 Today screen falls back to a bundled sample session so the In-Session screen is
 demonstrable without a server.
 
-## What's built (Phase 2, first iOS milestone)
+> **Simulator runtime:** the bundled SDK may be newer than the installed simulator
+> runtimes. Once Swift Package dependencies are present, xcodebuild needs the
+> *matching* runtime — install it with `xcodebuild -downloadPlatform iOS`.
 
+## What's built (Phase 2 iOS, milestones 1–2)
+
+- **Auth (Clerk, ADR-004):** email + password sign-in gate; the network layer pulls
+  a fresh Clerk JWT per request via `AuthProvider`; sign-out from Profile. Falls back
+  to a dev token when no `CLERK_PUBLISHABLE_KEY` is set (CI / sample runs).
 - **App shell:** 5-tab `TabView` (Today / Plan / Coach / Log / Profile), dark mode.
-  Plan/Coach/Log/Profile are placeholders this milestone.
+  Plan/Coach/Log are placeholders this milestone.
 - **Today:** readiness composite with visible factors + behavioral guidance
-  (`GET /v1/athlete/readiness`); today's session card; **Start Session**.
+  (`GET /v1/athlete/readiness`); block selection (`GET /v1/blocks` → active block +
+  switcher); today's session card; **Start Session**.
+- **HealthKit (read-only, ADR-011):** first-run permission prompt (7-day re-prompt
+  backoff), reads body weight / resting HR / HRV / sleep, maps to the wire DTO, and
+  posts to `POST /v1/wearable/healthkit`. The HK→DTO mapping is unit-tested.
 - **In-Session (the workhorse, PRD §2.1):** full-screen takeover, idle-timer
   disabled, large-mono hero with prior-session value, set rows with 56pt ± steppers,
   RPE chip, confirm checkbox, swipe-to-copy / swipe-to-delete, inline plate
@@ -44,10 +55,12 @@ demonstrable without a server.
 - **Networking:** `NetworkClient` actor over `/v1`; Codable mirrors of the backend
   schemas.
 - **Tests:** plate math, Epley e1RM (matches the backend), rest formatting, and
-  client pre-fill — `xcodebuild test`, 9 passing.
+  client pre-fill, and the HealthKit mapping — `xcodebuild test`, 12 passing.
 
 ## Next iOS milestones
 
-Clerk sign-in + block selection, the Coach SSE chat, the Plan week strip, the Log
-feed, the editable Profile, HealthKit read + background delivery, push registration,
-StoreKit 2 subscriptions, and the Dynamic Island Live Activity.
+The Coach SSE chat, the Plan week strip, the Log feed, the editable Profile,
+HealthKit background delivery, push registration, StoreKit 2 subscriptions, and the
+Dynamic Island Live Activity. The HealthKit capability/entitlement is added in
+Xcode's Signing & Capabilities for device/TestFlight builds (omitted from
+`project.yml` so unsigned simulator/CI builds stay eligible).

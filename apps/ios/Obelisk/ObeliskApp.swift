@@ -1,3 +1,4 @@
+import ClerkKit
 import SwiftData
 import SwiftUI
 
@@ -5,6 +6,9 @@ import SwiftUI
 /// (ADR-009) and the five-tab shell.
 @main
 struct ObeliskApp: App {
+    init() {
+        ClerkBootstrap.configureIfEnabled()
+    }
     /// Local-first store for logged sets. `isStoredInMemoryOnly` is off so a
     /// gym-basement session survives a force-quit before sync.
     let container: ModelContainer = {
@@ -21,9 +25,16 @@ struct ObeliskApp: App {
 
     var body: some Scene {
         WindowGroup {
-            RootView()
-                .preferredColorScheme(.dark)
-                .tint(Theme.primaryAccent)
+            Group {
+                if AppConfig.clerkPublishableKey != nil {
+                    ClerkGate().environment(Clerk.shared)
+                } else {
+                    // Clerk-less mode (CI / sample data): the dev token drives auth.
+                    RootView()
+                }
+            }
+            .preferredColorScheme(.dark)
+            .tint(Theme.primaryAccent)
         }
         .modelContainer(container)
     }

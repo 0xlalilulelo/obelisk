@@ -5,11 +5,16 @@ import SwiftUI
 struct TodayView: View {
     @State private var readiness: ReadinessDTO?
     @State private var session: SessionDTO?
-    @State private var loadError: String?
+    @State private var blocks: [BlockSummaryDTO] = []
+    @State private var activeBlockId: String?
     @State private var presentingSession = false
 
     private var todayString: String {
         String(ISO8601DateFormatter().string(from: Date()).prefix(10))
+    }
+
+    private var activeBlock: BlockSummaryDTO? {
+        blocks.first { $0.id == activeBlockId }
     }
 
     var body: some View {
@@ -24,10 +29,35 @@ struct TodayView: View {
             .background(Theme.background)
             .navigationTitle("Today")
             .toolbarColorScheme(.dark, for: .navigationBar)
+            .toolbar {
+                if blocks.count > 1 {
+                    ToolbarItem(placement: .topBarTrailing) { blockPicker }
+                }
+            }
             .task { await load() }
+            .task { await maybeSyncHealth() }
             .fullScreenCover(isPresented: $presentingSession) {
                 InSessionView(session: session ?? SampleData.session())
             }
+        }
+    }
+
+    private var blockPicker: some View {
+        Menu {
+            ForEach(blocks) { b in
+                Button {
+                    activeBlockId = b.id
+                    Task { await loadSession() }
+                } label: {
+                    if b.id == activeBlockId {
+                        Label(b.name, systemImage: "checkmark")
+                    } else {
+                        Text(b.name)
+                    }
+                }
+            }
+        } label: {
+            Image(systemName: "rectangle.stack")
         }
     }
 
@@ -121,8 +151,34 @@ struct TodayView: View {
     private func load() async {
         // Readiness is athlete-scoped, so it works as soon as auth is wired.
         readiness = try? await NetworkClient.shared.readiness(date: todayString)
-        if let blockId = AppConfig.devBlockId {
-            session = try? await NetworkClient.shared.session(blockId: blockId, date: todayString)
+        if let fetched = try? await NetworkClient.shared.blocks(), !fetched.isEmpty {
+            blocks = fetched
+            // Prefer an active block; fall back to the most recent.
+            activeBlockId = fetched.first { $0.phase == "active" }?.id ?? fetched.first?.id
+        } else if let devId = AppConfig.devBlockId {
+            activeBlockId = devId
+        }
+        await loadSession()
+    }
+
+    private func loadSession() async {
+        guard let blockId = activeBlockId else { return }
+        session = try? await NetworkClient.shared.session(blockId: blockId, date: todayString)
+    }
+
+    /// First-run HealthKit permission + sync. Gated on having a backend identity,
+    /// and respects a decline by not re-prompting for 7 days (PRD §2.2).
+    private func maybeSyncHealth() async {
+        guard AppConfig.authConfigured, HealthKitSync.isAvailable else { return }
+        let key = "healthkit.lastPrompt"
+        let last = UserDefaults.standard.object(forKey: key) as? Date
+        if let last, Date().timeIntervalSince(last) < 7 * 24 * 3600 {
+            await HealthKitSync.shared.syncRecent()  // already authorized; just sync
+            return
+        }
+        UserDefaults.standard.set(Date(), forKey: key)
+        if await HealthKitSync.shared.requestAuthorization() {
+            await HealthKitSync.shared.syncRecent()
         }
     }
 }

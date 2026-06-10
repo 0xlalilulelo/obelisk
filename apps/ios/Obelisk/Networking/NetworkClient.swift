@@ -43,6 +43,10 @@ actor NetworkClient {
         try await get("/v1/athlete/pr/\(lift)")
     }
 
+    func blocks() async throws -> [BlockSummaryDTO] {
+        try await get("/v1/blocks")
+    }
+
     // MARK: Writes
 
     @discardableResult
@@ -50,26 +54,30 @@ actor NetworkClient {
         try await send("/v1/log", method: "POST", body: batch)
     }
 
+    @discardableResult
+    func ingestHealthKit(_ batch: WearableBatchDTO) async throws -> WearableBatchResultDTO {
+        try await send("/v1/wearable/healthkit", method: "POST", body: batch)
+    }
+
     // MARK: Plumbing
 
     private func get<T: Decodable>(_ path: String) async throws -> T {
-        try await perform(request(path, method: "GET"))
+        try await perform(request(path, method: "GET", token: await AuthProvider.shared.token()))
     }
 
     private func send<B: Encodable, T: Decodable>(
         _ path: String, method: String, body: B
     ) async throws -> T {
-        var req = request(path, method: method)
+        var req = request(path, method: method, token: await AuthProvider.shared.token())
         req.setValue("application/json", forHTTPHeaderField: "Content-Type")
         req.httpBody = try encoder.encode(body)
         return try await perform(req)
     }
 
-    private func request(_ path: String, method: String) -> URLRequest {
+    private func request(_ path: String, method: String, token: String?) -> URLRequest {
         var req = URLRequest(url: AppConfig.apiBaseURL.appendingPathComponent(path))
         req.httpMethod = method
-        let token = AppConfig.devBearerToken
-        if !token.isEmpty {
+        if let token, !token.isEmpty {
             req.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }
         return req

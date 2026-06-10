@@ -24,4 +24,18 @@ enum AppConfig {
         let raw = Bundle.main.object(forInfoDictionaryKey: "OBELISK_DEV_BLOCK_ID") as? String
         return (raw?.isEmpty == false) ? raw : nil
     }
+
+    /// Clerk publishable key. When present the app uses real Clerk sign-in; when
+    /// absent (CI / sample-data simulator runs) it falls back to the dev token.
+    static var clerkPublishableKey: String? {
+        let raw = Bundle.main.object(forInfoDictionaryKey: "CLERK_PUBLISHABLE_KEY") as? String
+        return (raw?.isEmpty == false) ? raw : nil
+    }
+
+    /// True when the app has some way to authenticate to the backend — gates
+    /// flows (like the HealthKit prompt) that are pointless without a logged-in
+    /// athlete to attach data to.
+    static var authConfigured: Bool {
+        clerkPublishableKey != nil || !devBearerToken.isEmpty
+    }
 }
