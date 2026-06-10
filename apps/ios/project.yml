@@ -58,6 +58,27 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: app.obelisk.ios.tests
 
+  # Integration tests that require a running backend. Kept OUT of the default
+  # Obelisk scheme so CI stays hermetic; run via the ObeliskE2E scheme.
+  ObeliskE2ETests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: ObeliskE2ETests
+    dependencies:
+      - target: Obelisk
+    # Explicit Info.plist so we can allow cleartext HTTP to the local backend
+    # (ATS otherwise blocks it, silently skipping the test).
+    info:
+      path: ObeliskE2ETests/Info.plist
+      properties:
+        NSAppTransportSecurity:
+          NSAllowsLocalNetworking: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.obelisk.ios.e2e
+        GENERATE_INFOPLIST_FILE: NO
+
 schemes:
   Obelisk:
     build:
@@ -67,3 +88,11 @@ schemes:
     test:
       targets:
         - ObeliskTests
+  ObeliskE2E:
+    build:
+      targets:
+        Obelisk: all
+        ObeliskE2ETests: [test]
+    test:
+      targets:
+        - ObeliskE2ETests

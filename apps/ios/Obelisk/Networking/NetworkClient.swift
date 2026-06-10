@@ -18,11 +18,13 @@ actor NetworkClient {
     static let shared = NetworkClient()
 
     private let session: URLSession
+    private let baseURL: URL
     private let decoder: JSONDecoder
     private let encoder: JSONEncoder
 
-    init(session: URLSession = .shared) {
+    init(session: URLSession = .shared, baseURL: URL = AppConfig.apiBaseURL) {
         self.session = session
+        self.baseURL = baseURL
         decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         encoder = JSONEncoder()
@@ -45,6 +47,11 @@ actor NetworkClient {
 
     func blocks() async throws -> [BlockSummaryDTO] {
         try await get("/v1/blocks")
+    }
+
+    func logFeed(type: String? = nil, limit: Int = 50) async throws -> LogPageDTO {
+        let q = type.map { "&type=\($0)" } ?? ""
+        return try await get("/v1/log?limit=\(limit)\(q)")
     }
 
     // MARK: Writes
@@ -75,7 +82,10 @@ actor NetworkClient {
     }
 
     private func request(_ path: String, method: String, token: String?) -> URLRequest {
-        var req = URLRequest(url: AppConfig.apiBaseURL.appendingPathComponent(path))
+        // Concatenate (not appendingPathComponent) so query strings survive — the
+        // path already starts with "/" and baseURL has no trailing slash.
+        let url = URL(string: baseURL.absoluteString + path) ?? baseURL
+        var req = URLRequest(url: url)
         req.httpMethod = method
         if let token, !token.isEmpty {
             req.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")

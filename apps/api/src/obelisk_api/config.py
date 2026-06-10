@@ -35,6 +35,11 @@ class Settings(BaseSettings):
     clerk_issuer: str = ""
     clerk_audience: str | None = None
     clerk_secret_key: str = ""
+    # Dev-only auth escape hatch: when set (and environment != "production") a
+    # request bearing exactly this token authenticates as a synthetic dev user.
+    # Lets the iOS simulator / E2E hit a local backend without a live Clerk.
+    dev_auth_token: str = ""
+    dev_auth_sub: str = "dev_user"
 
     # --- Object storage ---
     obelisk_s3_bucket: str = "obelisk-artifacts"

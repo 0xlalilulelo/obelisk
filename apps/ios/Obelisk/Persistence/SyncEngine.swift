@@ -8,6 +8,9 @@ import SwiftData
 @MainActor
 struct SyncEngine {
     let context: ModelContext
+    /// Defaults to the shared client; injectable so the E2E test can point it at a
+    /// dead or live backend to exercise the offline→reconnect path.
+    var client: NetworkClient = .shared
 
     /// Push every not-yet-synced set; mark the ones the server accepted.
     func flush() async {
@@ -18,7 +21,7 @@ struct SyncEngine {
 
         let batch = LogBatchDTO(sets: unsynced.map(\.dto))
         do {
-            _ = try await NetworkClient.shared.postLog(batch)
+            _ = try await client.postLog(batch)
             for row in unsynced { row.synced = true }
             try? context.save()
         } catch {

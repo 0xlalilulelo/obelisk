@@ -20,8 +20,15 @@ class Base(DeclarativeBase):
 
 
 _settings = get_settings()
-# pool_pre_ping avoids stale connections after Postgres idle timeouts.
-engine = create_engine(_settings.database_url, pool_pre_ping=True, future=True)
+# SQLite (local dev / E2E) is a single file; allow cross-thread use so it works
+# under FastAPI's threadpool. No-op for Postgres. pool_pre_ping avoids stale
+# connections after Postgres idle timeouts.
+_connect_args = (
+    {"check_same_thread": False} if _settings.database_url.startswith("sqlite") else {}
+)
+engine = create_engine(
+    _settings.database_url, pool_pre_ping=True, future=True, connect_args=_connect_args
+)
 SessionLocal = sessionmaker(bind=engine, autoflush=False, expire_on_commit=False, class_=Session)
 
 

@@ -92,6 +92,20 @@ struct ReadinessFactorDTO: Codable, Sendable, Identifiable {
     var id: String { key }
 }
 
+// MARK: Log feed (GET /v1/log)
+
+struct LogEntryDTO: Codable, Sendable, Identifiable {
+    let id: String
+    let type: String
+    let occurredAt: String
+    let source: String
+}
+
+struct LogPageDTO: Codable, Sendable {
+    let entries: [LogEntryDTO]
+    let total: Int
+}
+
 // MARK: Blocks (GET /v1/blocks)
 
 struct BlockSummaryDTO: Codable, Sendable, Identifiable {

@@ -63,12 +63,26 @@ def get_verifier() -> ClerkVerifier:
     return ClerkVerifier(settings.clerk_issuer, settings.clerk_audience)
 
 
+def _dev_claims_or_none(token: str) -> dict[str, Any] | None:
+    """Synthetic claims for the dev-auth escape hatch. Active only when
+    ``dev_auth_token`` is configured and we're not in production."""
+    settings = get_settings()
+    if not settings.dev_auth_token or settings.environment == "production":
+        return None
+    if token != settings.dev_auth_token:
+        return None
+    return {"sub": settings.dev_auth_sub, "email": f"{settings.dev_auth_sub}@obelisk.test"}
+
+
 def get_token_claims(
     credentials: HTTPAuthorizationCredentials | None = Depends(_bearer),
 ) -> dict[str, Any]:
     """Verify the Bearer token and return its claims. Override in tests."""
     if credentials is None or not credentials.credentials:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Missing bearer token")
+    dev_claims = _dev_claims_or_none(credentials.credentials)
+    if dev_claims is not None:
+        return dev_claims
     try:
         return get_verifier().verify(credentials.credentials)
     except Exception as exc:  # pyjwt raises a family of errors; all mean "unauthorized"
