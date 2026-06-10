@@ -99,6 +99,14 @@ struct LogEntryDTO: Codable, Sendable, Identifiable {
     let type: String
     let occurredAt: String
     let source: String
+    let data: JSONValue?
+
+    // Set fields (data keys are camelCased by the snake-case decoder).
+    var exercise: String? { data?["exercise"]?.stringValue }
+    var weightLb: Double? { data?["weightLb"]?.doubleValue }
+    var reps: Int? { data?["reps"]?.intValue }
+    var setIndex: Int? { data?["setIndex"]?.intValue }
+    var sessionDate: String? { data?["sessionDate"]?.stringValue }
 }
 
 struct LogPageDTO: Codable, Sendable {

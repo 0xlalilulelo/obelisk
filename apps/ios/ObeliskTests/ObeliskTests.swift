@@ -77,6 +77,43 @@ final class RestTimerTests: XCTestCase {
     }
 }
 
+final class ChatParsingTests: XCTestCase {
+    func testSseFrameParsing() {
+        if case .token(let t)? = NetworkClient.parseFrame(event: "token", data: #"{"text":"hi"}"#) {
+            XCTAssertEqual(t, "hi")
+        } else {
+            XCTFail("expected token")
+        }
+        if case .planEdit(let id, let diff)? = NetworkClient.parseFrame(
+            event: "plan_edit", data: #"{"edit_id":"e1","diff":"swap"}"#
+        ) {
+            XCTAssertEqual(id, "e1")
+            XCTAssertEqual(diff, "swap")
+        } else {
+            XCTFail("expected planEdit")
+        }
+        if case .done? = NetworkClient.parseFrame(event: "done", data: "{}") {} else {
+            XCTFail("expected done")
+        }
+        XCTAssertNil(NetworkClient.parseFrame(event: "unknown", data: "{}"))
+    }
+
+    func testMessageContentExtraction() throws {
+        let dec = JSONDecoder()
+        let plain = try dec.decode(JSONValue.self, from: Data(#""just text""#.utf8))
+        XCTAssertEqual(plain.displayText, "just text")
+
+        let blocks = try dec.decode(
+            JSONValue.self,
+            from: Data(#"[{"type":"text","text":"a"},{"type":"tool_use","name":"x"},{"type":"text","text":"b"}]"#.utf8)
+        )
+        XCTAssertEqual(blocks.displayText, "a\nb")
+
+        let object = try dec.decode(JSONValue.self, from: Data(#"{"foo":1}"#.utf8))
+        XCTAssertEqual(object.displayText, "")
+    }
+}
+
 @MainActor
 final class SessionViewModelTests: XCTestCase {
     func testPreFillUsesPriorActualsThenPrescription() {

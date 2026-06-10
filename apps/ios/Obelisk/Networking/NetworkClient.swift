@@ -54,6 +54,88 @@ actor NetworkClient {
         return try await get("/v1/log?limit=\(limit)\(q)")
     }
 
+    func messages(blockId: String) async throws -> MessagePageDTO {
+        try await get("/v1/blocks/\(blockId)/messages?limit=100")
+    }
+
+    func plan(blockId: String) async throws -> PlanResponseDTO {
+        try await get("/v1/blocks/\(blockId)/plan")
+    }
+
+    @discardableResult
+    func commitEdit(blockId: String, editId: String) async throws -> EmptyDTO {
+        try await postNoBody("/v1/blocks/\(blockId)/edits/\(editId)/commit")
+    }
+
+    @discardableResult
+    func rejectEdit(blockId: String, editId: String) async throws -> EmptyDTO {
+        try await postNoBody("/v1/blocks/\(blockId)/edits/\(editId)/reject")
+    }
+
+    // MARK: SSE chat (ADR-006)
+
+    /// Stream a chat turn. Yields parsed events; finishes (throwing) on transport
+    /// error. Cancelling the consuming task cancels the request.
+    func streamChat(blockId: String, message: String) -> AsyncThrowingStream<ChatEvent, Error> {
+        AsyncThrowingStream { continuation in
+            let work = Task {
+                do {
+                    let token = await AuthProvider.shared.token()
+                    var req = request("/v1/blocks/\(blockId)/chat", method: "POST", token: token)
+                    req.setValue("application/json", forHTTPHeaderField: "Content-Type")
+                    req.setValue("text/event-stream", forHTTPHeaderField: "Accept")
+                    req.httpBody = try encoder.encode(ChatInDTO(message: message))
+
+                    let (bytes, resp) = try await session.bytes(for: req)
+                    guard let http = resp as? HTTPURLResponse,
+                        (200..<300).contains(http.statusCode)
+                    else {
+                        throw APIError.http((resp as? HTTPURLResponse)?.statusCode ?? -1, "chat failed")
+                    }
+
+                    var event = "message"
+                    var data: [String] = []
+                    for try await raw in bytes.lines {
+                        let line = raw.trimmingCharacters(in: CharacterSet(charactersIn: "\r"))
+                        if line.isEmpty {
+                            if let ev = NetworkClient.parseFrame(event: event, data: data.joined(separator: "\n")) {
+                                continuation.yield(ev)
+                            }
+                            event = "message"
+                            data = []
+                        } else if line.hasPrefix("event:") {
+                            event = String(line.dropFirst(6)).trimmingCharacters(in: .whitespaces)
+                        } else if line.hasPrefix("data:") {
+                            data.append(String(line.dropFirst(5)).trimmingCharacters(in: .whitespaces))
+                        }
+                    }
+                    continuation.finish()
+                } catch {
+                    continuation.finish(throwing: error)
+                }
+            }
+            continuation.onTermination = { _ in work.cancel() }
+        }
+    }
+
+    nonisolated static func parseFrame(event: String, data: String) -> ChatEvent? {
+        guard let d = data.data(using: .utf8),
+            let obj = try? JSONSerialization.jsonObject(with: d) as? [String: Any]
+        else { return nil }
+        switch event {
+        case "open": return .open
+        case "tool_use": return .toolUse(obj["name"] as? String ?? "")
+        case "token": return .token(obj["text"] as? String ?? "")
+        case "plan_edit":
+            return .planEdit(
+                editId: obj["edit_id"] as? String ?? "", diff: obj["diff"] as? String ?? ""
+            )
+        case "done": return .done
+        case "error": return .error(obj["message"] as? String ?? "error")
+        default: return nil
+        }
+    }
+
     // MARK: Writes
 
     @discardableResult
@@ -70,6 +152,10 @@ actor NetworkClient {
 
     private func get<T: Decodable>(_ path: String) async throws -> T {
         try await perform(request(path, method: "GET", token: await AuthProvider.shared.token()))
+    }
+
+    private func postNoBody<T: Decodable>(_ path: String) async throws -> T {
+        try await perform(request(path, method: "POST", token: await AuthProvider.shared.token()))
     }
 
     private func send<B: Encodable, T: Decodable>(

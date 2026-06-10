@@ -3,18 +3,13 @@ import SwiftUI
 /// The gym-morning home: readiness composite with visible inputs, plus today's
 /// session card and the Start Session entry to the workhorse (PRD §2.1/§2.4).
 struct TodayView: View {
+    @Environment(AppModel.self) private var app
     @State private var readiness: ReadinessDTO?
     @State private var session: SessionDTO?
-    @State private var blocks: [BlockSummaryDTO] = []
-    @State private var activeBlockId: String?
     @State private var presentingSession = false
 
     private var todayString: String {
         String(ISO8601DateFormatter().string(from: Date()).prefix(10))
-    }
-
-    private var activeBlock: BlockSummaryDTO? {
-        blocks.first { $0.id == activeBlockId }
     }
 
     var body: some View {
@@ -30,11 +25,12 @@ struct TodayView: View {
             .navigationTitle("Today")
             .toolbarColorScheme(.dark, for: .navigationBar)
             .toolbar {
-                if blocks.count > 1 {
+                if app.blocks.count > 1 {
                     ToolbarItem(placement: .topBarTrailing) { blockPicker }
                 }
             }
-            .task { await load() }
+            .task { readiness = try? await NetworkClient.shared.readiness(date: todayString) }
+            .task(id: app.activeBlockId) { await loadSession() }
             .task { await maybeSyncHealth() }
             .fullScreenCover(isPresented: $presentingSession) {
                 InSessionView(session: session ?? SampleData.session())
@@ -43,13 +39,13 @@ struct TodayView: View {
     }
 
     private var blockPicker: some View {
-        Menu {
-            ForEach(blocks) { b in
+        @Bindable var app = app
+        return Menu {
+            ForEach(app.blocks) { b in
                 Button {
-                    activeBlockId = b.id
-                    Task { await loadSession() }
+                    app.activeBlockId = b.id
                 } label: {
-                    if b.id == activeBlockId {
+                    if b.id == app.activeBlockId {
                         Label(b.name, systemImage: "checkmark")
                     } else {
                         Text(b.name)
@@ -148,21 +144,8 @@ struct TodayView: View {
 
     // MARK: Load
 
-    private func load() async {
-        // Readiness is athlete-scoped, so it works as soon as auth is wired.
-        readiness = try? await NetworkClient.shared.readiness(date: todayString)
-        if let fetched = try? await NetworkClient.shared.blocks(), !fetched.isEmpty {
-            blocks = fetched
-            // Prefer an active block; fall back to the most recent.
-            activeBlockId = fetched.first { $0.phase == "active" }?.id ?? fetched.first?.id
-        } else if let devId = AppConfig.devBlockId {
-            activeBlockId = devId
-        }
-        await loadSession()
-    }
-
     private func loadSession() async {
-        guard let blockId = activeBlockId else { return }
+        guard let blockId = app.activeBlockId else { return }
         session = try? await NetworkClient.shared.session(blockId: blockId, date: todayString)
     }
 
