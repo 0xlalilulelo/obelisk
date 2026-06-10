@@ -18,6 +18,7 @@ Tiny, append-only records of decisions that shape Obelisk. One screen each:
 | [011](ADR-011-healthkit-sync.md) | HealthKit sync architecture | Accepted |
 | [012](ADR-012-subscription-source-of-truth.md) | Subscription state source-of-truth | Accepted |
 | [013](ADR-013-ios-build-local-mac.md) | iOS built on a local Mac (supersedes 007 premise) | Accepted |
+| [014](ADR-014-push-dispatch.md) | Push notification dispatch strategy | Accepted |
 
 Locked stack decisions originate in PRD §10 + §15.1 and are not re-litigated here;
 these ADRs record the *implementation* choices made while building Phase 1.
