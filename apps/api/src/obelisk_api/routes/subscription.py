@@ -18,7 +18,7 @@ from obelisk_api.domain.schemas import (
     SubscriptionOut,
 )
 from obelisk_api.ratelimit import limiter
-from obelisk_api.services import apple, subscription
+from obelisk_api.services import analytics, apple, subscription
 
 router = APIRouter(tags=["subscription"])
 
@@ -52,6 +52,8 @@ def verify_apple(
             status_code=status.HTTP_400_BAD_REQUEST, detail="Malformed transaction"
         ) from exc
     sub = subscription.apply_apple_transaction(db, user.id, tx)
+    if sub.tier == "plus" and sub.status == "active":
+        analytics.capture(str(user.id), "subscription_purchased", {"source": "apple"})
     return SubscriptionOut.model_validate(sub)
 
 

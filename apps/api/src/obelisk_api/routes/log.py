@@ -16,6 +16,7 @@ from obelisk_api.db.base import get_db
 from obelisk_api.db.models import AthleteProfile, LogEntry, User
 from obelisk_api.domain.schemas import LogBatchIn, LogBatchResult, LogPage
 from obelisk_api.ratelimit import limiter
+from obelisk_api.services import analytics
 from obelisk_api.services.logbook import insert_set_logs
 
 router = APIRouter(prefix="/log", tags=["log"])
@@ -39,6 +40,8 @@ def post_log(
     """Idempotently persist a batch of logged sets flushed from the device queue."""
     profile = _profile_or_404(db, user)
     inserted, duplicates = insert_set_logs(db, profile.id, payload.sets)
+    if inserted:
+        analytics.capture(str(user.id), "set_logged", {"count": inserted})
     return LogBatchResult(received=len(payload.sets), inserted=inserted, duplicates=duplicates)
 
 

@@ -42,7 +42,7 @@ from obelisk_api.domain.schemas import (
     SessionOut,
 )
 from obelisk_api.ratelimit import limiter
-from obelisk_api.services import orchestrator, storage
+from obelisk_api.services import analytics, orchestrator, storage
 from obelisk_api.services.logbook import prior_actuals
 from obelisk_api.services.session import expand_session
 from obelisk_api.tools.registry import _plan_summary
@@ -84,9 +84,15 @@ def create_block(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
             detail="Profile needs a bodyweight before the coach can plan.",
         )
-    return orchestrator.create_block(
+    block = orchestrator.create_block(
         db, profile, payload.name, payload.goal, client, payload.program_model
     )
+    analytics.capture(
+        str(user.id),
+        "block_created",
+        {"program_model": block.program_model, "goal_text_length": len(payload.goal)},
+    )
+    return block
 
 
 @router.get("", response_model=list[BlockSummaryOut])
@@ -234,6 +240,15 @@ async def chat(
 ) -> EventSourceResponse:
     """Append a user message, run the agent loop, stream the response over SSE."""
     block = _owned_block(db, user, block_id)
+    _adapt_words = ("swap", "change", "adapt", "replace", "adjust", "lighter", "heavier")
+    analytics.capture(
+        str(user.id),
+        "chat_message_sent",
+        {
+            "is_adapt_request": any(w in payload.message.lower() for w in _adapt_words),
+            "tokens_in_estimate": len(payload.message) // 4,
+        },
+    )
 
     async def event_gen() -> AsyncIterator[dict[str, Any]]:
         yield {"event": "open", "data": json.dumps({"block_id": str(block_id)})}
