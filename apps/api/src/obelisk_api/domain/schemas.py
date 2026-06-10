@@ -273,6 +273,29 @@ class AnalyticsLiftsOut(BaseModel):
     series: dict[str, list[LiftPointOut]]
 
 
+# --- Subscriptions ---------------------------------------------------------
+class SubscriptionOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    tier: str
+    status: str
+    source: str
+    period_end: datetime | None = None
+    canceled_at: datetime | None = None
+
+
+class AppleVerifyIn(BaseModel):
+    signed_transaction: str = Field(min_length=1)
+
+
+class StripeCheckoutIn(BaseModel):
+    plan: str = Field(default="monthly", pattern="^(monthly|annual)$")
+
+
+class CheckoutOut(BaseModel):
+    url: str
+
+
 # --- PR / e1RM -------------------------------------------------------------
 class PROut(BaseModel):
     lift: str
