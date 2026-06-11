@@ -3,7 +3,7 @@
 # CI (apps/ios/ios.yml) can `xcodebuild` without an XcodeGen step.
 name: Obelisk
 options:
-  bundleIdPrefix: app.obelisk
+  bundleIdPrefix: fit.obelisk
   deploymentTarget:
     iOS: "17.0"
   createIntermediateGroups: true
@@ -40,7 +40,7 @@ targets:
       - sdk: HealthKit.framework
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: app.obelisk.ios
+        PRODUCT_BUNDLE_IDENTIFIER: fit.obelisk.ios
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
         INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
         INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait
@@ -56,7 +56,7 @@ targets:
       - target: Obelisk
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: app.obelisk.ios.tests
+        PRODUCT_BUNDLE_IDENTIFIER: fit.obelisk.ios.tests
 
   # Integration tests that require a running backend. Kept OUT of the default
   # Obelisk scheme so CI stays hermetic; run via the ObeliskE2E scheme.
@@ -76,7 +76,7 @@ targets:
           NSAllowsLocalNetworking: true
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: app.obelisk.ios.e2e
+        PRODUCT_BUNDLE_IDENTIFIER: fit.obelisk.ios.e2e
         GENERATE_INFOPLIST_FILE: NO
 
 schemes:

@@ -6,6 +6,10 @@ import SwiftUI
 /// (ADR-009) and the five-tab shell.
 @main
 struct ObeliskApp: App {
+    // Bridges UIKit app-lifecycle callbacks (APNs token, HealthKit background
+    // delivery) into the SwiftUI app (see PushNotifications.swift).
+    @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
+
     init() {
         ClerkBootstrap.configureIfEnabled()
     }

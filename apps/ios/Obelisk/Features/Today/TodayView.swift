@@ -32,6 +32,7 @@ struct TodayView: View {
             .task { readiness = try? await NetworkClient.shared.readiness(date: todayString) }
             .task(id: app.activeBlockId) { await loadSession() }
             .task { await maybeSyncHealth() }
+            .task { await maybeRegisterForPush() }
             .fullScreenCover(isPresented: $presentingSession) {
                 InSessionView(session: session ?? SampleData.session())
             }
@@ -163,5 +164,12 @@ struct TodayView: View {
         if await HealthKitSync.shared.requestAuthorization() {
             await HealthKitSync.shared.syncRecent()
         }
+    }
+
+    /// First-run push permission, gated on a backend identity like the HealthKit
+    /// prompt. `requestAndRegister` is self-throttling, so no separate back-off here.
+    private func maybeRegisterForPush() async {
+        guard AppConfig.authConfigured else { return }
+        await PushAuthorization.requestAndRegister()
     }
 }

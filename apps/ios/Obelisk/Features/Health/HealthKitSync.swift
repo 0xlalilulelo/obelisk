@@ -52,6 +52,32 @@ final class HealthKitSync {
         _ = try? await NetworkClient.shared.ingestHealthKit(WearableBatchDTO(samples: samples))
     }
 
+    /// Enable HealthKit background delivery for the low-frequency recovery types
+    /// (body weight, sleep) per ADR-011: register an observer query per type that
+    /// re-syncs the recent window when HealthKit reports new data, and ask the OS to
+    /// wake the app for those updates. Higher-frequency types stay foreground-only.
+    /// Safe to call on every launch — server-side dedup makes an overlapping re-sync
+    /// a no-op, and it does nothing until HealthKit authorization has been granted.
+    func startBackgroundDelivery() {
+        guard Self.isAvailable else { return }
+        let backgroundTypes: [HKSampleType] = [
+            HKObjectType.quantityType(forIdentifier: .bodyMass),
+            HKObjectType.categoryType(forIdentifier: .sleepAnalysis),
+        ].compactMap { $0 }
+        for type in backgroundTypes {
+            let query = HKObserverQuery(sampleType: type, predicate: nil) {
+                [weak self] _, completion, _ in
+                // Re-sync, then signal completion so HealthKit stops waking us for this batch.
+                Task { @MainActor in
+                    await self?.syncRecent()
+                    completion()
+                }
+            }
+            store.execute(query)
+            store.enableBackgroundDelivery(for: type, frequency: .daily) { _, _ in }
+        }
+    }
+
     // MARK: Queries
 
     private func readQuantity(
