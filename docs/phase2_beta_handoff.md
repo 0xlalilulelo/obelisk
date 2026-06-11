@@ -141,6 +141,21 @@ For each row: **what** to get, **where** to get it, and the **exact** env var / 
 - [ ] Smoke `GET /healthz` (the only unauthenticated `/v1`-adjacent route)
 - [ ] Confirm an authenticated request with a **real Clerk JWT** succeeds and a request with the old dev token is rejected (`401`)
 
+### Deploy (Railway) — beta target
+
+The beta runs **all-on-Railway**: a `pgvector` DB service + the API service from this repo. `railway.json` (repo root) pins the API service to `infra/Dockerfile` (root build context — the Dockerfile copies `apps/api` **and** `docs/advisor_brief.md`), runs `alembic upgrade head` as a `preDeployCommand`, and health-checks `/healthz`. The Dockerfile `CMD` already launches uvicorn, so no `startCommand` is set.
+
+1. **Auth + project** — `railway login` (interactive), then `railway init` from the repo root.
+2. **DB service** — New Service → *Deploy from Docker image* → `pgvector/pgvector:pg16`. Vars: `POSTGRES_USER=obelisk`, `POSTGRES_PASSWORD=<generate>`, `POSTGRES_DB=obelisk`. Listens on `5432` over Railway's private network.
+3. **API service** — deploy this repo (auto-detects `railway.json`). Set `DATABASE_URL` to the private-domain form (note the `+psycopg` driver suffix — psycopg3, not psycopg2):
+   `postgresql+psycopg://obelisk:<PASS>@${{Postgres.RAILWAY_PRIVATE_DOMAIN}}:5432/obelisk`
+   Then paste the rest of `.env.production.example`, including all six flag-flips. Generate a public domain — that `https://…up.railway.app` URL feeds the **Stripe webhook** endpoint (§1), **iOS `OBELISK_API_URL`** (§3), and **desktop `VITE_API_BASE_URL`** (§4).
+4. **Verify** — first deploy's `preDeployCommand` runs the migrations, which create the `vector` extension (`0001_initial.py` → `CREATE EXTENSION IF NOT EXISTS vector`); then run the four checks above.
+
+**Trade-offs for the beta:**
+- *Secrets in two models* — `config.py` standardizes on Doppler; Railway's own env vars work fine for 5 users (or use Railway's Doppler integration to stay Doppler-native). Pick one to avoid drift.
+- *You own the DB container* — no managed backups/PITR like Neon/Supabase. Acceptable at this scale, but schedule a `pg_dump` once real beta data exists.
+
 ---
 
 ## 3. iOS — signing, capabilities, StoreKit, TestFlight

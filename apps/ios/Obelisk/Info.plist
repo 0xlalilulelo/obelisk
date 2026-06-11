@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLERK_PUBLISHABLE_KEY</key>
+	<string>pk_test_YXBwYXJlbnQtd2Fob28tNTkuY2xlcmsuYWNjb3VudHMuZGV2JA</string>
+	<key>OBELISK_API_URL</key>
+	<string>https://...</string>
+	<key>OBELISK_DEV_BLOCK_ID</key>
+	<string></string>
+	<key>OBELISK_DEV_TOKEN</key>
+	<string></string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
+</dict>
+</plist>
