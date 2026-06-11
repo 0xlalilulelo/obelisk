@@ -6,7 +6,7 @@
   },
   "deploy": {
     "preDeployCommand": "uv run alembic upgrade head",
-    "healthcheckPath": "/healthz",
+    "healthcheckPath": "/v1/healthz",
     "restartPolicyType": "ON_FAILURE"
   }
 }
