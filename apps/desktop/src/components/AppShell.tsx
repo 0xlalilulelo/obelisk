@@ -15,6 +15,12 @@ export function AppShell() {
   const activeBlockId = useAppStore((s) => s.activeBlockId);
   const setActiveBlock = useAppStore((s) => s.setActiveBlock);
   const setCommandPaletteOpen = useAppStore((s) => s.setCommandPaletteOpen);
+  const theme = useAppStore((s) => s.theme);
+
+  // Apply the theme by toggling the `light` class on <html> (see index.css vars).
+  useEffect(() => {
+    document.documentElement.classList.toggle('light', theme === 'light');
+  }, [theme]);
 
   // Default to the most recent Block once they load.
   useEffect(() => {

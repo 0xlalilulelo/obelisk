@@ -8,6 +8,7 @@ import { AnalyticsTab } from './AnalyticsTab';
 import { CoachTab } from './CoachTab';
 import { LogTab } from './LogTab';
 import { PlanTab } from './PlanTab';
+import { SettingsTab } from './SettingsTab';
 
 const TABS: { id: CenterTab; label: string }[] = [
   { id: 'plan', label: 'Plan' },
@@ -21,6 +22,15 @@ export function CenterPane() {
   const activeTab = useAppStore((s) => s.activeTab);
   const setActiveTab = useAppStore((s) => s.setActiveTab);
   const setNewBlockOpen = useAppStore((s) => s.setNewBlockOpen);
+
+  // Settings is account-scoped, not Block-scoped — reachable with no active Block.
+  if (activeTab === 'settings') {
+    return (
+      <main className="min-h-0 overflow-y-auto bg-background">
+        <SettingsTab />
+      </main>
+    );
+  }
 
   if (!activeBlockId) {
     return (

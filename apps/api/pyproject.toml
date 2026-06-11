@@ -15,6 +15,7 @@ dependencies = [
     "uvicorn[standard]>=0.32.0",
     "sse-starlette>=2.1.0",
     "pydantic-settings>=2.5.0",
+    "slowapi>=0.1.9",
     # --- Persistence ---
     "sqlalchemy>=2.0.36",
     "alembic>=1.14.0",
@@ -23,6 +24,11 @@ dependencies = [
     # --- Auth (Clerk JWT verification) ---
     "pyjwt[crypto]>=2.9.0",
     "httpx>=0.27.0",
+    # --- Subscriptions, push, analytics (Phase 2; all runtime-gated by config) ---
+    "stripe>=11.0.0",
+    "aioapns>=3.2",
+    "apscheduler>=3.10",
+    "posthog>=3.7",
     # --- Object storage + observability ---
     "boto3>=1.35.0",
     "sentry-sdk[fastapi]>=2.18.0",

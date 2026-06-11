@@ -1,0 +1,98 @@
+# XcodeGen spec — the source of truth for Obelisk.xcodeproj (ADR-013).
+# Regenerate with `xcodegen generate`. The generated project is committed so
+# CI (apps/ios/ios.yml) can `xcodebuild` without an XcodeGen step.
+name: Obelisk
+options:
+  bundleIdPrefix: fit.obelisk
+  deploymentTarget:
+    iOS: "17.0"
+  createIntermediateGroups: true
+  groupSortPosition: top
+
+packages:
+  Clerk:
+    url: https://github.com/clerk/clerk-ios
+    exactVersion: "1.2.0"
+
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    GENERATE_INFOPLIST_FILE: YES
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+    CODE_SIGN_STYLE: Automatic
+    CODE_SIGNING_ALLOWED: NO   # simulator builds in CI need no signing
+
+targets:
+  Obelisk:
+    type: application
+    platform: iOS
+    sources:
+      - path: Obelisk
+    # NOTE: the HealthKit entitlement (com.apple.developer.healthkit) is added in
+    # Xcode's Signing & Capabilities for device/TestFlight builds. It's omitted
+    # here so unsigned simulator builds (local + CI) stay eligible — the framework
+    # links and authorization is exercised on-device.
+    dependencies:
+      - package: Clerk
+        product: ClerkKit
+      - sdk: HealthKit.framework
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: fit.obelisk.ios
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait
+        INFOPLIST_KEY_UIUserInterfaceStyle: Dark
+        INFOPLIST_KEY_NSHealthShareUsageDescription: "Obelisk reads your sleep, resting heart rate, and HRV to compute your daily readiness."
+
+  ObeliskTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: ObeliskTests
+    dependencies:
+      - target: Obelisk
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: fit.obelisk.ios.tests
+
+  # Integration tests that require a running backend. Kept OUT of the default
+  # Obelisk scheme so CI stays hermetic; run via the ObeliskE2E scheme.
+  ObeliskE2ETests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: ObeliskE2ETests
+    dependencies:
+      - target: Obelisk
+    # Explicit Info.plist so we can allow cleartext HTTP to the local backend
+    # (ATS otherwise blocks it, silently skipping the test).
+    info:
+      path: ObeliskE2ETests/Info.plist
+      properties:
+        NSAppTransportSecurity:
+          NSAllowsLocalNetworking: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: fit.obelisk.ios.e2e
+        GENERATE_INFOPLIST_FILE: NO
+
+schemes:
+  Obelisk:
+    build:
+      targets:
+        Obelisk: all
+        ObeliskTests: [test]
+    test:
+      targets:
+        - ObeliskTests
+  ObeliskE2E:
+    build:
+      targets:
+        Obelisk: all
+        ObeliskE2ETests: [test]
+    test:
+      targets:
+        - ObeliskE2ETests

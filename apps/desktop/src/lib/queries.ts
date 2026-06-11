@@ -9,6 +9,7 @@ export const queryKeys = {
   block: (id: string) => ['block', id] as const,
   plan: (id: string) => ['plan', id] as const,
   messages: (id: string) => ['messages', id] as const,
+  liftAnalytics: ['analytics', 'lifts'] as const,
 };
 
 export function useProfile() {
@@ -31,6 +32,14 @@ export function useUpsertProfile() {
 export function useBlocks() {
   const api = useApi();
   return useQuery({ queryKey: queryKeys.blocks, queryFn: () => api.listBlocks() });
+}
+
+export function useLiftAnalytics() {
+  const api = useApi();
+  return useQuery({
+    queryKey: queryKeys.liftAnalytics,
+    queryFn: () => api.getLiftAnalytics(),
+  });
 }
 
 export function useBlock(id: string | null) {

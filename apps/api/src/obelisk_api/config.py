@@ -35,6 +35,11 @@ class Settings(BaseSettings):
     clerk_issuer: str = ""
     clerk_audience: str | None = None
     clerk_secret_key: str = ""
+    # Dev-only auth escape hatch: when set (and environment != "production") a
+    # request bearing exactly this token authenticates as a synthetic dev user.
+    # Lets the iOS simulator / E2E hit a local backend without a live Clerk.
+    dev_auth_token: str = ""
+    dev_auth_sub: str = "dev_user"
 
     # --- Object storage ---
     obelisk_s3_bucket: str = "obelisk-artifacts"
@@ -44,6 +49,33 @@ class Settings(BaseSettings):
     # --- Observability ---
     sentry_dsn: str = ""
     environment: str = "development"
+
+    # --- Rate limiting (slowapi; PRD security checklist) ---
+    rate_limit_enabled: bool = True
+
+    # --- Subscriptions (PRD §2.6; all optional — features gate on presence) ---
+    stripe_secret_key: str = ""
+    stripe_webhook_secret: str = ""
+    stripe_price_monthly: str = ""
+    stripe_price_annual: str = ""
+    stripe_success_url: str = "https://app.obelisk.fit/settings?checkout=success"
+    stripe_cancel_url: str = "https://app.obelisk.fit/settings?checkout=cancel"
+    # Apple: when verification is off (no key) the StoreKit JWS is decoded but its
+    # signature chain is NOT checked — dev/test only, never production.
+    apple_bundle_id: str = "fit.obelisk.ios"
+    apple_storekit_verification: bool = False
+
+    # --- Push (APNs via aioapns; PRD §2.3) ---
+    apns_key_id: str = ""
+    apns_team_id: str = ""
+    apns_private_key: str = ""  # the .p8 contents
+    apns_topic: str = "fit.obelisk.ios"
+    apns_use_sandbox: bool = True
+    push_scheduler_enabled: bool = False
+
+    # --- Product analytics (PostHog; PRD §2.8) ---
+    posthog_api_key: str = ""
+    posthog_host: str = "https://us.i.posthog.com"
 
     # --- CORS (desktop dev server + Tauri origin) ---
     cors_origins: list[str] = [

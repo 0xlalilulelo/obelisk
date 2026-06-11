@@ -5,16 +5,22 @@
 module.exports = {
   theme: {
     extend: {
+      // Channels live in apps/desktop/src/index.css (:root + :root.light) so the
+      // theme toggle swaps the variable set; the <alpha-value> form keeps
+      // Tailwind opacity modifiers (bg-surface/60) working.
       colors: {
-        background: '#0A0A0B',
-        surface: '#141416',
-        'surface-elevated': '#1C1C1F',
-        'border-subtle': '#26272B',
-        foreground: '#F4F4F5',
-        'foreground-muted': '#A1A1AA',
-        primary: { DEFAULT: '#1F4E79', accent: '#A0CAFC' },
-        copper: '#FFB784',
-        error: '#FFB4AB',
+        background: 'rgb(var(--color-background) / <alpha-value>)',
+        surface: 'rgb(var(--color-surface) / <alpha-value>)',
+        'surface-elevated': 'rgb(var(--color-surface-elevated) / <alpha-value>)',
+        'border-subtle': 'rgb(var(--color-border-subtle) / <alpha-value>)',
+        foreground: 'rgb(var(--color-foreground) / <alpha-value>)',
+        'foreground-muted': 'rgb(var(--color-foreground-muted) / <alpha-value>)',
+        primary: {
+          DEFAULT: 'rgb(var(--color-primary) / <alpha-value>)',
+          accent: 'rgb(var(--color-primary-accent) / <alpha-value>)',
+        },
+        copper: 'rgb(var(--color-copper) / <alpha-value>)',
+        error: 'rgb(var(--color-error) / <alpha-value>)',
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],

@@ -31,4 +31,12 @@ describe('useAppStore', () => {
     expect(useAppStore.getState().newBlockOpen).toBe(true);
     expect(useAppStore.getState().commandPaletteOpen).toBe(true);
   });
+
+  it('toggles the theme between dark and light', () => {
+    useAppStore.setState({ theme: 'dark' });
+    useAppStore.getState().toggleTheme();
+    expect(useAppStore.getState().theme).toBe('light');
+    useAppStore.getState().toggleTheme();
+    expect(useAppStore.getState().theme).toBe('dark');
+  });
 });

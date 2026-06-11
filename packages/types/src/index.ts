@@ -118,6 +118,16 @@ export interface PlanResponse {
   summary: string;
 }
 
+/** Analytics: per-lift e1RM time series (GET /v1/athlete/analytics/lifts). */
+export interface LiftPoint {
+  date: string;
+  e1rm: number;
+}
+
+export interface AnalyticsLifts {
+  series: Record<string, LiftPoint[]>;
+}
+
 export interface ChatMessage {
   id: string;
   role: 'user' | 'assistant' | 'tool';

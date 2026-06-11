@@ -5,10 +5,11 @@ from __future__ import annotations
 import json
 import uuid
 from collections.abc import AsyncIterator
+from datetime import date
 from typing import Any
 
 from anthropic import Anthropic
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Depends, HTTPException, Query, Request, status
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 from sse_starlette.sse import EventSourceResponse
@@ -31,12 +32,19 @@ from obelisk_api.domain.schemas import (
     BlockOut,
     BlockSummaryOut,
     ChatIn,
+    LoggedSetOut,
     MessageOut,
     MessagePage,
     PlanEditOut,
     PlanOut,
+    PrescribedExerciseOut,
+    PrescribedSetOut,
+    SessionOut,
 )
-from obelisk_api.services import orchestrator, storage
+from obelisk_api.ratelimit import limiter
+from obelisk_api.services import analytics, orchestrator, storage
+from obelisk_api.services.logbook import prior_actuals
+from obelisk_api.services.session import expand_session
 from obelisk_api.tools.registry import _plan_summary
 
 router = APIRouter(prefix="/blocks", tags=["blocks"])
@@ -76,9 +84,15 @@ def create_block(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
             detail="Profile needs a bodyweight before the coach can plan.",
         )
-    return orchestrator.create_block(
+    block = orchestrator.create_block(
         db, profile, payload.name, payload.goal, client, payload.program_model
     )
+    analytics.capture(
+        str(user.id),
+        "block_created",
+        {"program_model": block.program_model, "goal_text_length": len(payload.goal)},
+    )
+    return block
 
 
 @router.get("", response_model=list[BlockSummaryOut])
@@ -115,6 +129,66 @@ def get_plan(
         return PlanOut(plan=None, summary="No plan yet.")
     plan = CyclePlan.model_validate(block.plan_json)
     return PlanOut(plan=block.plan_json, summary=_plan_summary(plan))
+
+
+@router.get("/{block_id}/sessions/{session_date}", response_model=SessionOut)
+@limiter.limit("120/minute")
+def get_session(
+    request: Request,
+    block_id: uuid.UUID,
+    session_date: date,
+    user: User = Depends(require_user),
+    db: Session = Depends(get_db),
+) -> SessionOut:
+    """The prescribed session for a calendar date, with each exercise's prior
+    actuals attached for one-tap pre-fill (PRD §2.1)."""
+    block = _owned_block(db, user, block_id)
+    if not block.plan_json:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Block has no plan yet")
+    if block.start_date is None:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Block has no start date")
+    plan = CyclePlan.model_validate(block.plan_json)
+    session = expand_session(plan, str(block.id), block.start_date, session_date)
+
+    exercises_out: list[PrescribedExerciseOut] = []
+    for ex in session.exercises:
+        prior = (
+            prior_actuals(db, block.athlete_id, ex.lift_key, ex.label, session_date)
+            if ex.sets
+            else []
+        )
+        exercises_out.append(
+            PrescribedExerciseOut(
+                label=ex.label,
+                kind=ex.kind,
+                lift_key=ex.lift_key,
+                note=ex.note,
+                rest_default_sec=ex.rest_default_sec,
+                sets=[
+                    PrescribedSetOut(
+                        set_index=s.set_index,
+                        pct=s.pct,
+                        reps=s.reps,
+                        amrap=s.amrap,
+                        weight_lb=s.weight_lb,
+                    )
+                    for s in ex.sets
+                ],
+                prior_sets=[LoggedSetOut(**p) for p in prior],
+            )
+        )
+
+    return SessionOut(
+        block_id=block.id,
+        date=session.date,
+        global_week=session.global_week,
+        week_in_wave=session.week_in_wave,
+        wave_num=session.wave_num,
+        day=session.day,
+        session_title=session.session_title,
+        is_rest_day=session.is_rest_day,
+        exercises=exercises_out,
+    )
 
 
 @router.get("/{block_id}/messages", response_model=MessagePage)
@@ -166,6 +240,15 @@ async def chat(
 ) -> EventSourceResponse:
     """Append a user message, run the agent loop, stream the response over SSE."""
     block = _owned_block(db, user, block_id)
+    _adapt_words = ("swap", "change", "adapt", "replace", "adjust", "lighter", "heavier")
+    analytics.capture(
+        str(user.id),
+        "chat_message_sent",
+        {
+            "is_adapt_request": any(w in payload.message.lower() for w in _adapt_words),
+            "tokens_in_estimate": len(payload.message) // 4,
+        },
+    )
 
     async def event_gen() -> AsyncIterator[dict[str, Any]]:
         yield {"event": "open", "data": json.dumps({"block_id": str(block_id)})}

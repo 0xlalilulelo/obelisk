@@ -1,0 +1,61 @@
+{
+  "identifier" : "OBELISK_PLUS",
+  "nonRenewingSubscriptions" : [],
+  "products" : [],
+  "settings" : {
+    "_applicationInternalID" : "1000000001"
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "20000001",
+      "localizations" : [],
+      "name" : "Obelisk Plus",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [],
+          "displayPrice" : "19.00",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "30000001",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Unlimited Blocks, HealthKit sync, unlimited Coach chat.",
+              "displayName" : "Obelisk Plus (Monthly)",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "obelisk.plus.monthly",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Plus Monthly",
+          "subscriptionGroupID" : "20000001",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [],
+          "displayPrice" : "179.00",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "30000002",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Unlimited Blocks, HealthKit sync, unlimited Coach chat — best value.",
+              "displayName" : "Obelisk Plus (Annual)",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "obelisk.plus.annual",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "Plus Annual",
+          "subscriptionGroupID" : "20000001",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 3,
+    "minor" : 0
+  }
+}
