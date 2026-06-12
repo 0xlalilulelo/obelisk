@@ -25,4 +25,6 @@ RUN uv sync --no-dev
 ENV OBELISK_BRIEF_PATH=/app/docs/advisor_brief.md
 EXPOSE 8000
 
-CMD ["uv", "run", "uvicorn", "obelisk_api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Bind the platform-provided $PORT when set (Railway healthchecks target it),
+# falling back to 8000 for local/compose/CI. Shell form so ${PORT} expands.
+CMD ["sh", "-c", "uv run uvicorn obelisk_api.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
