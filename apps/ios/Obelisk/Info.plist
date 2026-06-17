@@ -5,7 +5,7 @@
 	<key>CLERK_PUBLISHABLE_KEY</key>
 	<string>pk_test_YXBwYXJlbnQtd2Fob28tNTkuY2xlcmsuYWNjb3VudHMuZGV2JA</string>
 	<key>OBELISK_API_URL</key>
-	<string>https://...</string>
+	<string>https://obelisk-production-4dfb.up.railway.app</string>
 	<key>OBELISK_DEV_BLOCK_ID</key>
 	<string></string>
 	<key>OBELISK_DEV_TOKEN</key>
