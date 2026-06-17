@@ -104,9 +104,7 @@ def upgrade() -> None:
         "subscriptions",
         ["apple_original_transaction_id"],
     )
-    op.create_index(
-        "ix_subscriptions_stripe_customer_id", "subscriptions", ["stripe_customer_id"]
-    )
+    op.create_index("ix_subscriptions_stripe_customer_id", "subscriptions", ["stripe_customer_id"])
     op.create_index(
         "ix_subscriptions_stripe_subscription_id", "subscriptions", ["stripe_subscription_id"]
     )
